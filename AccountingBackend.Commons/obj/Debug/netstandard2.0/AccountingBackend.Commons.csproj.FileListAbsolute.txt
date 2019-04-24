@@ -1,0 +1,9 @@
+/var/www/html/AccountingBackend/AccountingBackend.Commons/bin/Debug/netstandard2.0/AccountingBackend.Commons.deps.json
+/var/www/html/AccountingBackend/AccountingBackend.Commons/bin/Debug/netstandard2.0/AccountingBackend.Commons.dll
+/var/www/html/AccountingBackend/AccountingBackend.Commons/bin/Debug/netstandard2.0/AccountingBackend.Commons.pdb
+/var/www/html/AccountingBackend/AccountingBackend.Commons/obj/Debug/netstandard2.0/AccountingBackend.Commons.csproj.CoreCompileInputs.cache
+/var/www/html/AccountingBackend/AccountingBackend.Commons/obj/Debug/netstandard2.0/AccountingBackend.Commons.AssemblyInfoInputs.cache
+/var/www/html/AccountingBackend/AccountingBackend.Commons/obj/Debug/netstandard2.0/AccountingBackend.Commons.AssemblyInfo.cs
+/var/www/html/AccountingBackend/AccountingBackend.Commons/obj/Debug/netstandard2.0/AccountingBackend.Commons.dll
+/var/www/html/AccountingBackend/AccountingBackend.Commons/obj/Debug/netstandard2.0/AccountingBackend.Commons.pdb
+/var/www/html/AccountingBackend/AccountingBackend.Commons/obj/Debug/netstandard2.0/AccountingBackend.Commons.csprojAssemblyReference.cache

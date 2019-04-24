@@ -1,0 +1,16 @@
+/var/www/html/AccountingBackend/AccountingBackend.Infrastructure/bin/Debug/netstandard2.0/AccountingBackend.Infrastructure.deps.json
+/var/www/html/AccountingBackend/AccountingBackend.Infrastructure/bin/Debug/netstandard2.0/AccountingBackend.Infrastructure.dll
+/var/www/html/AccountingBackend/AccountingBackend.Infrastructure/bin/Debug/netstandard2.0/AccountingBackend.Infrastructure.pdb
+/var/www/html/AccountingBackend/AccountingBackend.Infrastructure/bin/Debug/netstandard2.0/AccountingBackend.Application.dll
+/var/www/html/AccountingBackend/AccountingBackend.Infrastructure/bin/Debug/netstandard2.0/AccountingBackend.Domain.dll
+/var/www/html/AccountingBackend/AccountingBackend.Infrastructure/bin/Debug/netstandard2.0/AccountingBackend.Application.pdb
+/var/www/html/AccountingBackend/AccountingBackend.Infrastructure/bin/Debug/netstandard2.0/AccountingBackend.Domain.pdb
+/var/www/html/AccountingBackend/AccountingBackend.Infrastructure/obj/Debug/netstandard2.0/AccountingBackend.Infrastructure.csprojAssemblyReference.cache
+/var/www/html/AccountingBackend/AccountingBackend.Infrastructure/obj/Debug/netstandard2.0/AccountingBackend.Infrastructure.csproj.CoreCompileInputs.cache
+/var/www/html/AccountingBackend/AccountingBackend.Infrastructure/obj/Debug/netstandard2.0/AccountingBackend.Infrastructure.AssemblyInfoInputs.cache
+/var/www/html/AccountingBackend/AccountingBackend.Infrastructure/obj/Debug/netstandard2.0/AccountingBackend.Infrastructure.AssemblyInfo.cs
+/var/www/html/AccountingBackend/AccountingBackend.Infrastructure/obj/Debug/netstandard2.0/AccountingBackend.Infrastructure.csproj.CopyComplete
+/var/www/html/AccountingBackend/AccountingBackend.Infrastructure/obj/Debug/netstandard2.0/AccountingBackend.Infrastructure.dll
+/var/www/html/AccountingBackend/AccountingBackend.Infrastructure/obj/Debug/netstandard2.0/AccountingBackend.Infrastructure.pdb
+/var/www/html/AccountingBackend/AccountingBackend.Infrastructure/bin/Debug/netstandard2.0/AccountingBackend.Commons.dll
+/var/www/html/AccountingBackend/AccountingBackend.Infrastructure/bin/Debug/netstandard2.0/AccountingBackend.Commons.pdb

@@ -2709,6 +2709,15 @@
           }
         }
       },
+      "MySqlConnector/0.49.2": {
+        "type": "package",
+        "compile": {
+          "lib/netcoreapp2.1/MySqlConnector.dll": {}
+        },
+        "runtime": {
+          "lib/netcoreapp2.1/MySqlConnector.dll": {}
+        }
+      },
       "NETStandard.Library/2.0.3": {
         "type": "package",
         "dependencies": {
@@ -2744,6 +2753,33 @@
         },
         "runtime": {
           "lib/netstandard1.3/Newtonsoft.Json.Bson.dll": {}
+        }
+      },
+      "Pomelo.EntityFrameworkCore.MySql/2.2.0": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.EntityFrameworkCore.Relational": "2.2.0",
+          "MySqlConnector": "0.49.2",
+          "Pomelo.JsonObject": "2.2.0"
+        },
+        "compile": {
+          "lib/netstandard2.0/Pomelo.EntityFrameworkCore.MySql.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/Pomelo.EntityFrameworkCore.MySql.dll": {}
+        }
+      },
+      "Pomelo.JsonObject/2.2.0": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.CSharp": "4.5.0",
+          "Newtonsoft.Json": "11.0.2"
+        },
+        "compile": {
+          "lib/netstandard2.0/Pomelo.JsonObject.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/Pomelo.JsonObject.dll": {}
         }
       },
       "Remotion.Linq/2.2.0": {
@@ -4437,6 +4473,72 @@
         },
         "runtime": {
           "lib/netstandard1.3/System.Xml.XPath.XDocument.dll": {}
+        }
+      },
+      "AccountingBackend.Application/1.0.0": {
+        "type": "project",
+        "framework": ".NETStandard,Version=v2.0",
+        "dependencies": {
+          "AccountingBackend.Commons": "1.0.0",
+          "AccountingBackend.Domain": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/AccountingBackend.Application.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/AccountingBackend.Application.dll": {}
+        }
+      },
+      "AccountingBackend.Commons/1.0.0": {
+        "type": "project",
+        "framework": ".NETStandard,Version=v2.0",
+        "compile": {
+          "bin/placeholder/AccountingBackend.Commons.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/AccountingBackend.Commons.dll": {}
+        }
+      },
+      "AccountingBackend.Domain/1.0.0": {
+        "type": "project",
+        "framework": ".NETStandard,Version=v2.0",
+        "dependencies": {
+          "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "2.2.0"
+        },
+        "compile": {
+          "bin/placeholder/AccountingBackend.Domain.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/AccountingBackend.Domain.dll": {}
+        }
+      },
+      "AccountingBackend.Infrastructure/1.0.0": {
+        "type": "project",
+        "framework": ".NETStandard,Version=v2.0",
+        "dependencies": {
+          "AccountingBackend.Application": "1.0.0",
+          "AccountingBackend.Commons": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/AccountingBackend.Infrastructure.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/AccountingBackend.Infrastructure.dll": {}
+        }
+      },
+      "AccountingBackend.Persistance/1.0.0": {
+        "type": "project",
+        "framework": ".NETStandard,Version=v2.0",
+        "dependencies": {
+          "AccountingBackend.Application": "1.0.0",
+          "Microsoft.AspNetCore.Identity": "2.2.0",
+          "Pomelo.EntityFrameworkCore.MySql": "2.2.0"
+        },
+        "compile": {
+          "bin/placeholder/AccountingBackend.Persistance.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/AccountingBackend.Persistance.dll": {}
         }
       }
     }
@@ -7207,6 +7309,23 @@
         "version.txt"
       ]
     },
+    "MySqlConnector/0.49.2": {
+      "sha512": "2T3TB//uQatJVYggH/gcMRyUA+y9MDOBHZwL+Ygd8mboTvJ/pyfINcz+B/oGiHTaWxHa6xcf8j4BTiuxKaTy9A==",
+      "type": "package",
+      "path": "mysqlconnector/0.49.2",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net45/MySqlConnector.dll",
+        "lib/net461/MySqlConnector.dll",
+        "lib/net471/MySqlConnector.dll",
+        "lib/netcoreapp2.1/MySqlConnector.dll",
+        "lib/netstandard1.3/MySqlConnector.dll",
+        "lib/netstandard2.0/MySqlConnector.dll",
+        "mysqlconnector.0.49.2.nupkg.sha512",
+        "mysqlconnector.nuspec"
+      ]
+    },
     "NETStandard.Library/2.0.3": {
       "sha512": "st47PosZSHrjECdjeIzZQbzivYBJFv6P2nv4cj2ypdI204DO+vZ7l5raGMiX4eXMJ53RfOIg+/s4DHVZ54Nu2A==",
       "type": "package",
@@ -7378,6 +7497,30 @@
         "lib/netstandard1.3/Newtonsoft.Json.Bson.xml",
         "newtonsoft.json.bson.1.0.1.nupkg.sha512",
         "newtonsoft.json.bson.nuspec"
+      ]
+    },
+    "Pomelo.EntityFrameworkCore.MySql/2.2.0": {
+      "sha512": "wSZfJiDhN4DX4X8tYeUCuP9L/9P0w8Q155dHRDBSvi7XxUPFnZYsRk1o9QiJm/Z+2LmZ4ad9Q4mJJ4L0vo6BlA==",
+      "type": "package",
+      "path": "pomelo.entityframeworkcore.mysql/2.2.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/netstandard2.0/Pomelo.EntityFrameworkCore.MySql.dll",
+        "pomelo.entityframeworkcore.mysql.2.2.0.nupkg.sha512",
+        "pomelo.entityframeworkcore.mysql.nuspec"
+      ]
+    },
+    "Pomelo.JsonObject/2.2.0": {
+      "sha512": "kAH3WjIyzHvSjYEQ4h63WJLtpA9PfbgOdEIalL668KvDo3PIlT/2lSFMhXXGrYgGcD1bthszXXs7BASooRXZgA==",
+      "type": "package",
+      "path": "pomelo.jsonobject/2.2.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/netstandard2.0/Pomelo.JsonObject.dll",
+        "pomelo.jsonobject.2.2.0.nupkg.sha512",
+        "pomelo.jsonobject.nuspec"
       ]
     },
     "Remotion.Linq/2.2.0": {
@@ -12062,12 +12205,40 @@
         "system.xml.xpath.xdocument.4.3.0.nupkg.sha512",
         "system.xml.xpath.xdocument.nuspec"
       ]
+    },
+    "AccountingBackend.Application/1.0.0": {
+      "type": "project",
+      "path": "../AccountingBackend.Application/AccountingBackend.Application.csproj",
+      "msbuildProject": "../AccountingBackend.Application/AccountingBackend.Application.csproj"
+    },
+    "AccountingBackend.Commons/1.0.0": {
+      "type": "project",
+      "path": "../AccountingBackend.Commons/AccountingBackend.Commons.csproj",
+      "msbuildProject": "../AccountingBackend.Commons/AccountingBackend.Commons.csproj"
+    },
+    "AccountingBackend.Domain/1.0.0": {
+      "type": "project",
+      "path": "../AccountingBackend.Domain/AccountingBackend.Domain.csproj",
+      "msbuildProject": "../AccountingBackend.Domain/AccountingBackend.Domain.csproj"
+    },
+    "AccountingBackend.Infrastructure/1.0.0": {
+      "type": "project",
+      "path": "../AccountingBackend.Infrastructure/AccountingBackend.Infrastructure.csproj",
+      "msbuildProject": "../AccountingBackend.Infrastructure/AccountingBackend.Infrastructure.csproj"
+    },
+    "AccountingBackend.Persistance/1.0.0": {
+      "type": "project",
+      "path": "../AccountingBackend.Persistance/AccountingBackend.Persistance.csproj",
+      "msbuildProject": "../AccountingBackend.Persistance/AccountingBackend.Persistance.csproj"
     }
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v2.2": [
+      "AccountingBackend.Application >= 1.0.0",
+      "AccountingBackend.Commons >= 1.0.0",
+      "AccountingBackend.Infrastructure >= 1.0.0",
+      "AccountingBackend.Persistance >= 1.0.0",
       "Microsoft.AspNetCore.App >= 2.2.0",
-      "Microsoft.AspNetCore.Razor.Design >= 2.2.0",
       "Microsoft.NETCore.App >= 2.2.0"
     ]
   },
@@ -12098,7 +12269,20 @@
       },
       "frameworks": {
         "netcoreapp2.2": {
-          "projectReferences": {}
+          "projectReferences": {
+            "/var/www/html/AccountingBackend/AccountingBackend.Application/AccountingBackend.Application.csproj": {
+              "projectPath": "/var/www/html/AccountingBackend/AccountingBackend.Application/AccountingBackend.Application.csproj"
+            },
+            "/var/www/html/AccountingBackend/AccountingBackend.Commons/AccountingBackend.Commons.csproj": {
+              "projectPath": "/var/www/html/AccountingBackend/AccountingBackend.Commons/AccountingBackend.Commons.csproj"
+            },
+            "/var/www/html/AccountingBackend/AccountingBackend.Infrastructure/AccountingBackend.Infrastructure.csproj": {
+              "projectPath": "/var/www/html/AccountingBackend/AccountingBackend.Infrastructure/AccountingBackend.Infrastructure.csproj"
+            },
+            "/var/www/html/AccountingBackend/AccountingBackend.Persistance/AccountingBackend.Persistance.csproj": {
+              "projectPath": "/var/www/html/AccountingBackend/AccountingBackend.Persistance/AccountingBackend.Persistance.csproj"
+            }
+          }
         }
       },
       "warningProperties": {
@@ -12115,11 +12299,6 @@
             "target": "Package",
             "version": "[2.2.0, )",
             "autoReferenced": true
-          },
-          "Microsoft.AspNetCore.Razor.Design": {
-            "suppressParent": "All",
-            "target": "Package",
-            "version": "[2.2.0, )"
           },
           "Microsoft.NETCore.App": {
             "suppressParent": "All",

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace AccountingBackend.Persistance
+namespace AccountingBackend.Infrastructure
 {
     public class Class1
     {

@@ -7,7 +7,13 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
-    <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AccountingBackend.Commons\AccountingBackend.Commons.csproj" />
+    <ProjectReference Include="..\AccountingBackend.Infrastructure\AccountingBackend.Infrastructure.csproj" />
+    <ProjectReference Include="..\AccountingBackend.Persistance\AccountingBackend.Persistance.csproj" />
+    <ProjectReference Include="..\AccountingBackend.Application\AccountingBackend.Application.csproj" />
   </ItemGroup>
 
 </Project>
