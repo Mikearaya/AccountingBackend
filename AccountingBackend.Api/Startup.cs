@@ -3,14 +3,16 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: Apr 24, 2019 9:44 PM
+ * @Last Modified Time: Apr 24, 2019 10:59 PM
  * @Description: Modify Here, Please 
  */
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using System.Threading.Tasks;
+using AccountingBackend.Api.Configurations;
 using AccountingBackend.Api.Filters;
 using AccountingBackend.Application.Accounts.Commands.CreateAccount;
 using AccountingBackend.Application.Accounts.Queries.GetAccount;
@@ -28,6 +30,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
+
 namespace AccountingBackend.Api {
     /// <summary>
     /// System start up class
@@ -56,6 +60,29 @@ namespace AccountingBackend.Api {
         /// </summary>
         /// <param name="services"></param>
         public void ConfigureServices (IServiceCollection services) {
+
+            JwtSettings settings;
+            settings = GetJwtSettings ();
+
+            services.AddSingleton<JwtSettings> (settings);
+
+            services.AddAuthentication (options => {
+                options.DefaultAuthenticateScheme = "JwtBearer";
+                options.DefaultChallengeScheme = "JwtBearer";
+            }).AddJwtBearer ("JwtBearer", jwtBearerOptions => {
+                jwtBearerOptions.TokenValidationParameters =
+                new TokenValidationParameters {
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey (
+                Encoding.UTF8.GetBytes (settings.Key)),
+                ValidateIssuer = true,
+                ValidIssuer = settings.Issuer,
+                ValidateAudience = true,
+                ValidAudience = settings.Audience,
+                ValidateLifetime = true,
+                ClockSkew = TimeSpan.FromMinutes (settings.MinutesToExpiration)
+                    };
+            });
 
             services.AddIdentityCore<ApplicationUser> (options => { });
             new IdentityBuilder (typeof (ApplicationUser), typeof (IdentityRole), services)
@@ -108,7 +135,20 @@ namespace AccountingBackend.Api {
             app.UseAuthentication ();
 
             app.UseHttpsRedirection ();
+
+            app.UseAuthentication ();
             app.UseMvc ();
+        }
+
+        public JwtSettings GetJwtSettings () {
+            JwtSettings settings = new JwtSettings ();
+
+            settings.Key = Configuration["JwtSettings:key"];
+            settings.Audience = Configuration["JwtSettings:audience"];
+            settings.Issuer = Configuration["JwtSettings:issuer"];
+            settings.MinutesToExpiration = Convert.ToInt32 (Configuration["JwtSettings:minutesToExpiration"]);
+
+            return settings;
         }
     }
 }
