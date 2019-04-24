@@ -42,6 +42,25 @@ namespace AccountingBackend.Api {
                 .AddRoleManager<RoleManager<IdentityRole>> ()
                 .AddSignInManager<SignInManager<ApplicationUser>> ()
                 .AddEntityFrameworkStores<AccountingDatabaseService> ();
+
+            // register swagger service
+            services.AddSwaggerDocument (config => {
+                config.PostProcess = document => {
+                    document.Info.Version = "v1";
+                    document.Info.Title = "Accounting API";
+                    document.Info.Description = "API responsible for accounting system";
+                    document.Info.TermsOfService = "None";
+                    document.Info.Contact = new NSwag.SwaggerContact {
+                        Name = "Mikael Araya",
+                        Email = "Mikaelaraya12@gmail.com",
+                        Url = string.Empty
+                    };
+                    document.Info.License = new NSwag.SwaggerLicense {
+                        Name = "Use under LICX",
+                        Url = "https://appdiv.com/license"
+                    };
+                };
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -53,6 +72,8 @@ namespace AccountingBackend.Api {
                 app.UseHsts ();
             }
 
+            app.UseSwagger ();
+            app.UseSwaggerUi3 ();
             app.UseAuthentication ();
 
             app.UseHttpsRedirection ();
