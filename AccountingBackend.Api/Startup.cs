@@ -3,7 +3,7 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: Apr 24, 2019 7:00 PM
+ * @Last Modified Time: Apr 24, 2019 9:44 PM
  * @Description: Modify Here, Please 
  */
 using System;
@@ -29,7 +29,15 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 namespace AccountingBackend.Api {
+    /// <summary>
+    /// System start up class
+    /// </summary>
     public class Startup {
+
+        /// <summary>
+        /// statup class constructor
+        /// </summary>
+        /// <param name="configuration"></param>
         public Startup (IConfiguration configuration) {
             Configuration = configuration;
 
@@ -38,13 +46,15 @@ namespace AccountingBackend.Api {
             }
         }
         /// <summary>
-        /// 
+        /// configuration object
         /// </summary>
         /// <value></value>
-
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
+        /// <summary>
+        /// This method gets called by the runtime. Use this method to add services to the container.
+        /// </summary>
+        /// <param name="services"></param>
         public void ConfigureServices (IServiceCollection services) {
 
             services.AddIdentityCore<ApplicationUser> (options => { });
@@ -53,7 +63,6 @@ namespace AccountingBackend.Api {
                 .AddSignInManager<SignInManager<ApplicationUser>> ()
                 .AddEntityFrameworkStores<AccountingDatabaseService> ();
 
-            // register swagger service
             services.AddSwaggerDocument (config => {
                 config.PostProcess = document => {
                     document.Info.Version = "v1";
@@ -81,7 +90,11 @@ namespace AccountingBackend.Api {
 
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        /// <summary>
+        /// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        /// </summary>
+        /// <param name="app"></param>
+        /// <param name="env"></param>
         public void Configure (IApplicationBuilder app, IHostingEnvironment env) {
             if (env.IsDevelopment ()) {
                 app.UseDeveloperExceptionPage ();
