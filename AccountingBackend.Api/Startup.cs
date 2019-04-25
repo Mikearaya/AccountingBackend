@@ -17,7 +17,7 @@ using AccountingBackend.Api.Filters;
 using AccountingBackend.Application.Accounts.Commands.CreateAccount;
 using AccountingBackend.Application.Accounts.Queries.GetAccount;
 using AccountingBackend.Application.Infrastructure;
-using AccountingBackend.Domain.ApplicationUsers;
+using AccountingBackend.Domain.Identity;
 using AccountingBackend.Persistance;
 using FluentValidation.AspNetCore;
 using MediatR;
@@ -140,6 +140,10 @@ namespace AccountingBackend.Api {
             app.UseMvc ();
         }
 
+        /// <summary>
+        /// function that reads configuration file from app.js
+        /// </summary>
+        /// <returns>jetsettings</returns>
         public JwtSettings GetJwtSettings () {
             JwtSettings settings = new JwtSettings ();
 
