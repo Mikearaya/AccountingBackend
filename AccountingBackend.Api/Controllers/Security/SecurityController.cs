@@ -17,7 +17,7 @@ using AccountingBackend.Api.Configurations;
 using AccountingBackend.Application.Exceptions;
 using AccountingBackend.Application.Interfaces;
 using AccountingBackend.Application.Models;
-using AccountingBackend.Domain.Identity;
+using BackendSecurity.Domain.Identity;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -32,7 +32,7 @@ namespace AccountingBackend.Api.Controllers.Security {
     public class SecurityController : Controller {
         private readonly JwtSettings _settings;
         private readonly IMediator _Mediator;
-        private readonly IAccountingSecurityDatabase _database;
+        private readonly ISecurityDatabaseService _database;
 
         /// <summary>
         /// constructor for security controller
@@ -40,7 +40,7 @@ namespace AccountingBackend.Api.Controllers.Security {
         /// <param name="settings"></param>
         /// <param name="mediator"></param>
         /// <param name="database"></param>
-        public SecurityController (JwtSettings settings, IMediator mediator, IAccountingSecurityDatabase database) {
+        public SecurityController (JwtSettings settings, IMediator mediator, ISecurityDatabaseService database) {
             _settings = settings;
             _Mediator = mediator;
             _database = database;

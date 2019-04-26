@@ -7,7 +7,7 @@
  * @Description: Modify Here, Please 
  */
 using System.Collections.Generic;
-using AccountingBackend.Domain.Identity;
+using BackendSecurity.Domain.Identity;
 
 namespace AccountingBackend.Application.Models {
     public class AppUserAuth {

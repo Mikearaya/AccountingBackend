@@ -8,7 +8,7 @@
  */
 using System;
 using System.Linq.Expressions;
-using AccountingBackend.Domain.Identity;
+using BackendSecurity.Domain.Identity;
 
 namespace AccountingBackend.Application.Users.Models {
     public class UserViewModel {

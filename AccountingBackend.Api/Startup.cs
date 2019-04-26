@@ -3,7 +3,7 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: Apr 26, 2019 12:35 PM
+ * @Last Modified Time: Apr 26, 2019 9:28 PM
  * @Description: Modify Here, Please 
  */
 using System;
@@ -19,8 +19,9 @@ using AccountingBackend.Application.Accounts.Queries.GetAccount;
 using AccountingBackend.Application.Infrastructure;
 using AccountingBackend.Application.Interfaces;
 using AccountingBackend.Application.Users.Commands.CreateUser;
-using AccountingBackend.Domain.Identity;
 using AccountingBackend.Persistance;
+using BackendSecurity.Domain.Identity;
+using BackendSecurity.Persistance;
 using FluentValidation.AspNetCore;
 using MediatR;
 using MediatR.Pipeline;
@@ -50,6 +51,10 @@ namespace AccountingBackend.Api {
         public Startup (IConfiguration configuration) {
             Configuration = configuration;
 
+            using (var context = new SecurityDatabaseService ()) {
+                context.Database.EnsureCreated ();
+            }
+
             using (var context = new AccountingDatabaseService ()) {
                 context.Database.EnsureCreated ();
             }
@@ -70,8 +75,12 @@ namespace AccountingBackend.Api {
             settings = GetJwtSettings ();
 
             services.AddSingleton<JwtSettings> (settings);
-            services.AddScoped<IAccountingSecurityDatabase, AccountingDatabaseService> ();
+            services.AddScoped<ISecurityDatabaseService, SecurityDatabaseService> ();
+            services.AddDbContext<SecurityDatabaseService> ();
+
+            services.AddScoped<IAccountingDatabaseService, AccountingDatabaseService> ();
             services.AddDbContext<AccountingDatabaseService> ();
+
             services.AddAuthentication (options => {
                 options.DefaultAuthenticateScheme = "JwtBearer";
                 options.DefaultChallengeScheme = "JwtBearer";
@@ -94,7 +103,7 @@ namespace AccountingBackend.Api {
             new IdentityBuilder (typeof (ApplicationUser), typeof (IdentityRole), services)
                 .AddRoleManager<RoleManager<IdentityRole>> ()
                 .AddSignInManager<SignInManager<ApplicationUser>> ()
-                .AddEntityFrameworkStores<AccountingDatabaseService> ();
+                .AddEntityFrameworkStores<SecurityDatabaseService> ();
 
             services.AddSwaggerDocument (config => {
                 config.PostProcess = document => {

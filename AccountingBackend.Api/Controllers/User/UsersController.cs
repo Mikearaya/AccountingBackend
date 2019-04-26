@@ -23,7 +23,7 @@ using AccountingBackend.Application.Users.Models;
 using AccountingBackend.Application.Users.Queries.GetUser;
 using AccountingBackend.Application.Users.Queries.GetUserList;
 using AccountingBackend.API.Commons;
-using AccountingBackend.Domain.Identity;
+using BackendSecurity.Domain.Identity;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -38,7 +38,6 @@ namespace AccountingBackend.API.Controllers.User {
     /// Manages system user data
     /// </summary>
 
-    [ApiController]
     [ApiConventionType (typeof (DefaultApiConventions))]
     [Route ("users")]
     public class UsersController : Controller {

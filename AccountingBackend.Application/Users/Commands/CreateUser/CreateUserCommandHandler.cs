@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 using AccountingBackend.Application.Exceptions;
 using AccountingBackend.Application.Interfaces;
 using AccountingBackend.Application.Users.Models;
-using AccountingBackend.Domain.Identity;
+using BackendSecurity.Domain.Identity;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -20,11 +20,11 @@ using Microsoft.EntityFrameworkCore;
 namespace AccountingBackend.Application.Users.Commands.CreateUser {
     public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, string> {
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly IAccountingSecurityDatabase _database;
+        private readonly ISecurityDatabaseService _database;
 
         public CreateUserCommandHandler (
             UserManager<ApplicationUser> userManager,
-            IAccountingSecurityDatabase database
+            ISecurityDatabaseService database
         ) {
             _userManager = userManager;
             _database = database;

@@ -7,7 +7,7 @@
  * @Description: Modify Here, Please 
  */
 using System.ComponentModel.DataAnnotations;
-using AccountingBackend.Domain.Identity;
+using BackendSecurity.Domain.Identity;
 using MediatR;
 
 namespace AccountingBackend.Application.Models {

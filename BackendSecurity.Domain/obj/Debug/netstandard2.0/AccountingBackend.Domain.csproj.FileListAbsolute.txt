@@ -1,0 +1,9 @@
+/var/www/html/AccountingBackend/AccountingBackend.Domain/bin/Debug/netstandard2.0/AccountingBackend.Domain.deps.json
+/var/www/html/AccountingBackend/AccountingBackend.Domain/bin/Debug/netstandard2.0/AccountingBackend.Domain.dll
+/var/www/html/AccountingBackend/AccountingBackend.Domain/bin/Debug/netstandard2.0/AccountingBackend.Domain.pdb
+/var/www/html/AccountingBackend/AccountingBackend.Domain/obj/Debug/netstandard2.0/AccountingBackend.Domain.csproj.CoreCompileInputs.cache
+/var/www/html/AccountingBackend/AccountingBackend.Domain/obj/Debug/netstandard2.0/AccountingBackend.Domain.AssemblyInfoInputs.cache
+/var/www/html/AccountingBackend/AccountingBackend.Domain/obj/Debug/netstandard2.0/AccountingBackend.Domain.AssemblyInfo.cs
+/var/www/html/AccountingBackend/AccountingBackend.Domain/obj/Debug/netstandard2.0/AccountingBackend.Domain.dll
+/var/www/html/AccountingBackend/AccountingBackend.Domain/obj/Debug/netstandard2.0/AccountingBackend.Domain.pdb
+/var/www/html/AccountingBackend/AccountingBackend.Domain/obj/Debug/netstandard2.0/AccountingBackend.Domain.csprojAssemblyReference.cache
