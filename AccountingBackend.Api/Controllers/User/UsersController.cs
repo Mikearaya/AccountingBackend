@@ -37,6 +37,9 @@ namespace AccountingBackend.API.Controllers.User {
     /// <summary>
     /// Manages system user data
     /// </summary>
+
+    [ApiController]
+    [ApiConventionType (typeof (DefaultApiConventions))]
     [Route ("users")]
     public class UsersController : Controller {
         private readonly IMediator _Mediator;
@@ -125,7 +128,7 @@ namespace AccountingBackend.API.Controllers.User {
         /// updates single user data base on the id passed on the parameter
         /// </summary>
         /// <param name="updatedUser"></param>
-        /// /// <param name="id"></param>
+        /// <param name="id"></param>
         /// <returns>void</returns>
         [HttpPut ("{id}")]
         [DisplayName ("Update User")]
@@ -136,6 +139,7 @@ namespace AccountingBackend.API.Controllers.User {
         [ProducesResponseType (404)]
         [ProducesResponseType (422)]
         [ProducesResponseType (500)]
+
         public async Task<ActionResult> UpdateUser (string id, [FromBody] UpdateUserCommand updatedUser) {
             try {
 
@@ -193,7 +197,7 @@ namespace AccountingBackend.API.Controllers.User {
         /// <returns>void</returns>
         [HttpDelete ("{id}")]
         [DisplayName ("Delete Users")]
-        [ProducesResponseType (200)]
+        [ProducesResponseType (204)]
         [ProducesResponseType (400)]
         [ProducesResponseType (401)]
         [ProducesResponseType (403)]

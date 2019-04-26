@@ -54,6 +54,12 @@ namespace AccountingBackend.Api.Controllers.Security {
         /// <param name="user"></param>
         /// <returns></returns>
         [HttpPost ("login")]
+        [ProducesResponseType (200)]
+        [ProducesResponseType (400)]
+        [ProducesResponseType (401)]
+        [ProducesResponseType (403)]
+        [ProducesResponseType (422)]
+        [ProducesResponseType (500)]
         public async Task<ActionResult<AppUserAuth>> LogIn ([FromBody] AuthenticationQuery user) {
 
             try {

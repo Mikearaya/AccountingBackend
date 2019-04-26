@@ -35,6 +35,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
+[assembly : ApiController]
+[assembly : ApiConventionType (typeof (DefaultApiConventions))]
 namespace AccountingBackend.Api {
     /// <summary>
     /// System start up class
