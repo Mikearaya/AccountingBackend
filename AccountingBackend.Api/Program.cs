@@ -31,7 +31,7 @@ namespace AccountingBackend.Api {
         }
 
         /// <summary>
-        /// initialize app for running
+        /// initializes app for running
         /// </summary>
         /// <param name="args"></param>
         /// <returns></returns>

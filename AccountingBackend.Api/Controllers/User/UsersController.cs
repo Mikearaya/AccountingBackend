@@ -33,17 +33,32 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
 namespace AccountingBackend.API.Controllers.User {
+
+    /// <summary>
+    /// Manages system user data
+    /// </summary>
     [Route ("users")]
     public class UsersController : Controller {
         private readonly IMediator _Mediator;
         private readonly IConfiguration _configuration;
 
+        /// <summary>
+        /// constructor for user manager 
+        /// </summary>
+        /// <param name="mediator"></param>
+        /// <param name="configuration"></param>
         public UsersController (IMediator mediator,
             IConfiguration configuration) {
             _Mediator = mediator;
             _configuration = configuration;
         }
 
+        /// <summary>
+        /// gets a single instance of user data based on  
+        /// id value passed in the parameter
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>UserViewModel</returns>
         [HttpGet ("{id}")]
         [DisplayName ("View User Detail")]
         [ProducesResponseType (200)]
@@ -52,13 +67,17 @@ namespace AccountingBackend.API.Controllers.User {
         [ProducesResponseType (403)]
         [ProducesResponseType (404)]
         [ProducesResponseType (500)]
-        public async Task<ActionResult<ApplicationUser>> GetUserById (string id) {
+        public async Task<ActionResult<UserViewModel>> GetUserById (string id) {
 
             var user = await _Mediator.Send (new GetUserViewByIdQuery () { Id = id });
 
             return StatusCode (200, user);
         }
 
+        /// <summary>
+        /// returns list of userviewmodel instances available in the system 
+        /// </summary>
+        /// <returns>UserViewModel</returns>
         [HttpGet]
         [DisplayName ("View Users")]
         [ProducesResponseType (200)]
@@ -67,12 +86,17 @@ namespace AccountingBackend.API.Controllers.User {
         [ProducesResponseType (403)]
         [ProducesResponseType (404)]
         [ProducesResponseType (500)]
-        public async Task<IActionResult> GetAllUsers () {
+        public async Task<ActionResult<IEnumerable<UserViewModel>>> GetAllUsers () {
 
             var user = await _Mediator.Send (new GetUsersListViewQuery ());
             return StatusCode (200, user);
         }
 
+        /// <summary>
+        /// Creates a new user in the system
+        /// </summary>
+        /// <param name="newUser"></param>
+        /// <returns>UserViewModel</returns>
         [HttpPost]
         [DisplayName ("Create User")]
         [ProducesResponseType (201)]
@@ -81,7 +105,7 @@ namespace AccountingBackend.API.Controllers.User {
         [ProducesResponseType (403)]
         [ProducesResponseType (422)]
         [ProducesResponseType (500)]
-        public async Task<IActionResult> CreateUser ([FromBody] CreateUserCommand newUser) {
+        public async Task<ActionResult<UserViewModel>> CreateUser ([FromBody] CreateUserCommand newUser) {
 
             if (newUser == null) {
                 return StatusCode (400);
@@ -93,9 +117,16 @@ namespace AccountingBackend.API.Controllers.User {
 
             var result = await _Mediator.Send (newUser);
 
-            return StatusCode (201, result);
+            var user = _Mediator.Send (new GetUserViewByIdQuery () { Id = result });
+            return StatusCode (201, user);
         }
 
+        /// <summary>
+        /// updates single user data base on the id passed on the parameter
+        /// </summary>
+        /// <param name="updatedUser"></param>
+        /// /// <param name="id"></param>
+        /// <returns>void</returns>
         [HttpPut ("{id}")]
         [DisplayName ("Update User")]
         [ProducesResponseType (204)]
@@ -105,7 +136,7 @@ namespace AccountingBackend.API.Controllers.User {
         [ProducesResponseType (404)]
         [ProducesResponseType (422)]
         [ProducesResponseType (500)]
-        public async Task<IActionResult> UpdateUser ([FromBody] UpdateUserCommand updatedUser) {
+        public async Task<ActionResult> UpdateUser (string id, [FromBody] UpdateUserCommand updatedUser) {
             try {
 
                 if (updatedUser == null) {
@@ -123,6 +154,12 @@ namespace AccountingBackend.API.Controllers.User {
             }
         }
 
+        /// <summary>
+        /// updates a single user password based on the id passed on the parameter
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="updatedUserPassword"></param>
+        /// <returns>void</returns>
         [HttpPut ("{id}/password")]
         [DisplayName ("Change account password")]
         [ProducesResponseType (204)]
@@ -149,6 +186,11 @@ namespace AccountingBackend.API.Controllers.User {
             }
         }
 
+        /// <summary>
+        /// deletes single user instance based on the id passed in the url
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>void</returns>
         [HttpDelete ("{id}")]
         [DisplayName ("Delete Users")]
         [ProducesResponseType (200)]
