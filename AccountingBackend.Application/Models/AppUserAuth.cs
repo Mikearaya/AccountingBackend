@@ -6,7 +6,10 @@
  * @Last Modified Time: Apr 25, 2019 2:34 PM
  * @Description: Modify Here, Please 
  */
-namespace AccountingBackend.Api.Models {
+using System.Collections.Generic;
+using AccountingBackend.Domain.Identity;
+
+namespace AccountingBackend.Application.Models {
     public class AppUserAuth {
 
         public AppUserAuth () : base () {
@@ -16,11 +19,7 @@ namespace AccountingBackend.Api.Models {
         public string UserName { get; set; }
         public string BearerToken { get; set; }
         public bool IsAuthenticated { get; set; }
-        public bool CanAccessAccounts { get; set; }
-
-        public bool CanAddAccount { get; set; }
-        public bool CanEditAccount { get; set; }
-        public bool CanDeleteAccount { get; set; }
+        public List<AspNetUserClaims> Claims { get; set; }
 
     }
 }

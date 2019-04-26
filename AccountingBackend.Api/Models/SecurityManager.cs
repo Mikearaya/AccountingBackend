@@ -3,7 +3,7 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: Apr 25, 2019 2:45 PM
+ * @Last Modified Time: Apr 26, 2019 10:39 AM
  * @Description: Modify Here, Please 
  */
 using System;
@@ -13,6 +13,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using AccountingBackend.Api.Configurations;
+using AccountingBackend.Application.Models;
 using AccountingBackend.Domain.Identity;
 using AccountingBackend.Persistance;
 using Microsoft.IdentityModel.Tokens;
@@ -30,6 +31,16 @@ namespace AccountingBackend.Api.Models {
             AppUserAuth ret = new AppUserAuth ();
             ApplicationUser authUser = null;
 
+            //TODO: chnge to asp net core authentication
+            using (var db = new AccountingDatabaseService ()) {
+                authUser = db.Users.Where (
+                    u => u.UserName.ToLower () == user.UserName.ToLower ()).FirstOrDefault ();
+            }
+
+            if (authUser != null) {
+                ret = BuildUserAuthObject (authUser);
+            }
+
             return ret;
 
         }
@@ -43,10 +54,10 @@ namespace AccountingBackend.Api.Models {
             jwtClaims.Add (new Claim (JwtRegisteredClaimNames.Jti, Guid.NewGuid ().ToString ()));
 
             jwtClaims.Add (new Claim ("isAuthenticated", authUser.IsAuthenticated.ToString ().ToLower ()));
-            jwtClaims.Add (new Claim ("canAccessAccounts", authUser.CanAccessAccounts.ToString ().ToLower ()));
-            jwtClaims.Add (new Claim ("canAddAccount", authUser.CanAddAccount.ToString ().ToLower ()));
-            jwtClaims.Add (new Claim ("canEditAccount", authUser.CanEditAccount.ToString ().ToLower ()));
-            jwtClaims.Add (new Claim ("canDeleteAccount", authUser.CanDeleteAccount.ToString ().ToLower ()));
+
+            foreach (var claim in authUser.Claims) {
+                jwtClaims.Add (new Claim (claim.ClaimType, claim.ClaimValue));
+            }
 
             var token = new JwtSecurityToken (
                 issuer: _settings.Issuer,
@@ -70,17 +81,7 @@ namespace AccountingBackend.Api.Models {
             ret.IsAuthenticated = true;
             ret.BearerToken = new Guid ().ToString ();
 
-            claims = GetUserClaims (authUser);
-
-            foreach (AspNetUserClaims claim in claims) {
-
-                try {
-                    typeof (AppUserAuth)
-                    .GetProperty (claim.ClaimType)
-                        .SetValue (ret, Convert.ToBoolean (claim.ClaimValue));
-                } catch { }
-
-            }
+            ret.Claims = GetUserClaims (authUser);
 
             return ret;
         }

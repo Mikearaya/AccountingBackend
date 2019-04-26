@@ -3,7 +3,7 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: Apr 24, 2019 5:06 PM
+ * @Last Modified Time: Apr 26, 2019 10:53 AM
  * @Description: Modify Here, Please 
  */
 using System.Collections.Generic;
@@ -12,7 +12,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using FluentValidation;
 using MediatR;
-using ValidationException = Northwind.Application.Exceptions.ValidationException;
+using ValidationException = AccountingBackend.Application.Exceptions.ValidationException;
 
 namespace AccountingBackend.Application.Infrastructure {
     public class RequestValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>

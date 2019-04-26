@@ -3,7 +3,7 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: Apr 24, 2019 5:31 PM
+ * @Last Modified Time: Apr 26, 2019 10:47 AM
  * @Description: Modify Here, Please 
  */
 using System;
@@ -11,7 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using FluentValidation.Results;
 
-namespace Northwind.Application.Exceptions {
+namespace AccountingBackend.Application.Exceptions {
     public class ValidationException : Exception {
         public ValidationException () : base ("One or more validation failures have occurred.") {
             Failures = new Dictionary<string, string[]> ();

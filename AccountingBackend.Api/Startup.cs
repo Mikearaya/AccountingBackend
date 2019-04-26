@@ -3,7 +3,7 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: Apr 24, 2019 10:59 PM
+ * @Last Modified Time: Apr 26, 2019 12:35 PM
  * @Description: Modify Here, Please 
  */
 using System;
@@ -17,10 +17,13 @@ using AccountingBackend.Api.Filters;
 using AccountingBackend.Application.Accounts.Commands.CreateAccount;
 using AccountingBackend.Application.Accounts.Queries.GetAccount;
 using AccountingBackend.Application.Infrastructure;
+using AccountingBackend.Application.Interfaces;
+using AccountingBackend.Application.Users.Commands.CreateUser;
 using AccountingBackend.Domain.Identity;
 using AccountingBackend.Persistance;
 using FluentValidation.AspNetCore;
 using MediatR;
+using MediatR.Pipeline;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -65,7 +68,8 @@ namespace AccountingBackend.Api {
             settings = GetJwtSettings ();
 
             services.AddSingleton<JwtSettings> (settings);
-
+            services.AddScoped<IAccountingSecurityDatabase, AccountingDatabaseService> ();
+            services.AddDbContext<AccountingDatabaseService> ();
             services.AddAuthentication (options => {
                 options.DefaultAuthenticateScheme = "JwtBearer";
                 options.DefaultChallengeScheme = "JwtBearer";
@@ -107,13 +111,38 @@ namespace AccountingBackend.Api {
                     };
                 };
             });
-            services.AddMediatR (typeof (GetAccountQueryHandler).GetTypeInfo ().Assembly);
-            services.AddTransient (typeof (IPipelineBehavior<,>), typeof (RequestPerformanceBehaviour<,>));
-            services.AddTransient (typeof (IPipelineBehavior<,>), typeof (RequestValidationBehavior<,>));
+            services.AddMediatR (typeof (CreateUserCommandHandler).GetTypeInfo ().Assembly);
 
+            services.AddTransient (typeof (IPipelineBehavior<,>), typeof (RequestPreProcessorBehavior<,>));
+            services.AddTransient (typeof (IPipelineBehavior<,>), typeof (RequestPerformanceBehaviour<,>));
+            // services.AddTransient (typeof (IPipelineBehavior<,>), typeof (RequestValidationBehavior<,>));
+
+            services.AddCors (options => {
+                options.AddPolicy ("AllowAllOrigins",
+                    builder => builder.AllowAnyOrigin ().AllowAnyMethod ().AllowAnyHeader ());
+            });
             services.AddMvc (options => options.Filters.Add (typeof (CustomExceptionFilterAttribute)))
                 .SetCompatibilityVersion (CompatibilityVersion.Version_2_2)
                 .AddFluentValidation (fv => fv.RegisterValidatorsFromAssemblyContaining<CreateAccountCommandValidator> ());
+
+            services.Configure<IdentityOptions> (options => {
+                // Default Password settings.
+                options.Password.RequireDigit = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequiredLength = 1;
+                options.Password.RequiredUniqueChars = 0;
+                // Lockout settings.
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes (5);
+                options.Lockout.MaxFailedAccessAttempts = 5;
+                options.Lockout.AllowedForNewUsers = true;
+
+                // User settings.
+                options.User.AllowedUserNameCharacters =
+                    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+                options.User.RequireUniqueEmail = false;
+            });
 
         }
 
@@ -127,17 +156,17 @@ namespace AccountingBackend.Api {
                 app.UseDeveloperExceptionPage ();
             } else {
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts ();
+                //        app.UseHsts ();
             }
+
+            app.UseAuthentication ();
+            app.UseCors ("AllowAllOrigins");
+            //  app.UseHttpsRedirection ();
+
+            app.UseMvc ();
 
             app.UseSwagger ();
             app.UseSwaggerUi3 ();
-            app.UseAuthentication ();
-
-            app.UseHttpsRedirection ();
-
-            app.UseAuthentication ();
-            app.UseMvc ();
         }
 
         /// <summary>

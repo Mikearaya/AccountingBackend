@@ -3,11 +3,12 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: Apr 25, 2019 9:35 AM
+ * @Last Modified Time: Apr 26, 2019 10:42 AM
  * @Description: Modify Here, Please 
  */
 using AccountingBackend.Api.Configurations;
 using AccountingBackend.Api.Models;
+using AccountingBackend.Application.Models;
 using AccountingBackend.Domain.Identity;
 using Microsoft.AspNetCore.Mvc;
 

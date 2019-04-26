@@ -3,10 +3,11 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: Apr 25, 2019 3:31 PM
+ * @Last Modified Time: Apr 26, 2019 11:08 AM
  * @Description: Modify Here, Please 
  */
 using System;
+using System.Threading.Tasks;
 using AccountingBackend.Application.Interfaces;
 using AccountingBackend.Domain.Identity;
 using AccountingBackend.Persistance.Identity;
@@ -42,5 +43,10 @@ namespace AccountingBackend.Persistance {
         public void Save () {
             this.SaveChanges ();
         }
+
+        public Task SaveAsync () {
+            return this.SaveChangesAsync ();
+        }
+
     }
 }
