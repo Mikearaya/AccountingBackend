@@ -11,7 +11,7 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Identity;
 
 namespace BackendSecurity.Domain.Identity {
-    public partial class AspNetUserClaims : IdentityUserClaim<string> {
+    public class AspNetUserClaims : IdentityUserClaim<string> {
 
         public ApplicationUser User { get; set; }
     }

@@ -11,7 +11,7 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Identity;
 
 namespace BackendSecurity.Domain.Identity {
-    public partial class AspNetUserRoles : IdentityUserRole<string> {
+    public class AspNetUserRoles : IdentityUserRole<string> {
 
         public ApplicationRole Role { get; set; }
         public ApplicationUser User { get; set; }

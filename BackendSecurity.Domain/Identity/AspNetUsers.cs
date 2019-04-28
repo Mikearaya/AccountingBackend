@@ -11,7 +11,7 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Identity;
 
 namespace BackendSecurity.Domain.Identity {
-    public partial class ApplicationUser : IdentityUser<string> {
+    public class ApplicationUser : IdentityUser<string> {
         public ApplicationUser () {
             AspNetUserClaims = new HashSet<AspNetUserClaims> ();
             AspNetUserLogins = new HashSet<AspNetUserLogins> ();

@@ -12,6 +12,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using AccountingBackend.Api.Commons;
 using AccountingBackend.Api.Configurations;
 using AccountingBackend.Api.Filters;
 using AccountingBackend.Application.Accounts.Commands.CreateAccount;
@@ -37,7 +38,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
 [assembly : ApiController]
-[assembly : ApiConventionType (typeof (DefaultApiConventions))]
+[assembly : ApiConventionType (typeof (CustomApiConventions))]
 namespace AccountingBackend.Api {
     /// <summary>
     /// System start up class

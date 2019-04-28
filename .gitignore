@@ -24,5 +24,9 @@
 **/AccountingBackend.Infrastructure.Test/bin/
 **/AccountingBackend.Commons.Test/bin/
 **/AccountingBackend.Domain.Test/bin/
+**/BackendSecurity.Domain/bin/
+**/BackendSecurity.Domain/obj/
+**/BackendSecurity.Persistance/bin/
+**/BackendSecurity.Persistance/obj/
 .vscode/
 

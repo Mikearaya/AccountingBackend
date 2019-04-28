@@ -3,7 +3,7 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: Apr 26, 2019 3:35 PM
+ * @Last Modified Time: Apr 28, 2019 2:36 PM
  * @Description: Modify Here, Please 
  */
 using System;
@@ -56,9 +56,7 @@ namespace AccountingBackend.Api.Controllers.Security {
         [HttpPost ("login")]
         [ProducesResponseType (200)]
         [ProducesResponseType (400)]
-        [ProducesResponseType (401)]
-        [ProducesResponseType (403)]
-        [ProducesResponseType (422)]
+        [ProducesResponseType (404)]
         [ProducesResponseType (500)]
         public async Task<ActionResult<AppUserAuth>> LogIn ([FromBody] AuthenticationQuery user) {
 
@@ -67,7 +65,7 @@ namespace AccountingBackend.Api.Controllers.Security {
 
                 return StatusCode (200, x);
             } catch (NotFoundException e) {
-                return StatusCode (422, e.Message);
+                return StatusCode (404, e.Message);
             }
 
         }

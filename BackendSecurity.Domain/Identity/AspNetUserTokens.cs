@@ -11,7 +11,7 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Identity;
 
 namespace BackendSecurity.Domain.Identity {
-    public partial class AspNetUserTokens : IdentityUserToken<string> {
+    public class AspNetUserTokens : IdentityUserToken<string> {
         public ApplicationUser User { get; set; }
     }
 }

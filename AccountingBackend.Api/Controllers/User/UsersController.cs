@@ -37,8 +37,6 @@ namespace AccountingBackend.API.Controllers.User {
     /// <summary>
     /// Manages system user data
     /// </summary>
-
-    [ApiConventionType (typeof (DefaultApiConventions))]
     [Route ("users")]
     public class UsersController : Controller {
         private readonly IMediator _Mediator;
@@ -69,7 +67,7 @@ namespace AccountingBackend.API.Controllers.User {
         [ProducesResponseType (403)]
         [ProducesResponseType (404)]
         [ProducesResponseType (500)]
-        public async Task<ActionResult<UserViewModel>> GetUserById (string id) {
+        public async Task<ActionResult<UserViewModel>> FindUserById (string id) {
 
             var user = await _Mediator.Send (new GetUserViewByIdQuery () { Id = id });
 
@@ -82,12 +80,6 @@ namespace AccountingBackend.API.Controllers.User {
         /// <returns>UserViewModel</returns>
         [HttpGet]
         [DisplayName ("View Users")]
-        [ProducesResponseType (200)]
-        [ProducesResponseType (400)]
-        [ProducesResponseType (401)]
-        [ProducesResponseType (403)]
-        [ProducesResponseType (404)]
-        [ProducesResponseType (500)]
         public async Task<ActionResult<IEnumerable<UserViewModel>>> GetAllUsers () {
 
             var user = await _Mediator.Send (new GetUsersListViewQuery ());
@@ -101,12 +93,6 @@ namespace AccountingBackend.API.Controllers.User {
         /// <returns>UserViewModel</returns>
         [HttpPost]
         [DisplayName ("Create User")]
-        [ProducesResponseType (201)]
-        [ProducesResponseType (400)]
-        [ProducesResponseType (401)]
-        [ProducesResponseType (403)]
-        [ProducesResponseType (422)]
-        [ProducesResponseType (500)]
         public async Task<ActionResult<UserViewModel>> CreateUser ([FromBody] CreateUserCommand newUser) {
 
             if (newUser == null) {
@@ -131,14 +117,6 @@ namespace AccountingBackend.API.Controllers.User {
         /// <returns>void</returns>
         [HttpPut ("{id}")]
         [DisplayName ("Update User")]
-        [ProducesResponseType (204)]
-        [ProducesResponseType (400)]
-        [ProducesResponseType (401)]
-        [ProducesResponseType (403)]
-        [ProducesResponseType (404)]
-        [ProducesResponseType (422)]
-        [ProducesResponseType (500)]
-
         public async Task<ActionResult> UpdateUser (string id, [FromBody] UpdateUserCommand updatedUser) {
             try {
 
@@ -165,13 +143,6 @@ namespace AccountingBackend.API.Controllers.User {
         /// <returns>void</returns>
         [HttpPut ("{id}/password")]
         [DisplayName ("Change account password")]
-        [ProducesResponseType (204)]
-        [ProducesResponseType (400)]
-        [ProducesResponseType (401)]
-        [ProducesResponseType (403)]
-        [ProducesResponseType (404)]
-        [ProducesResponseType (422)]
-        [ProducesResponseType (500)]
         public async Task<IActionResult> UpdateUserPassword (string id, [FromBody] UpdateUserPasswordCommand updatedUserPassword) {
             try {
 
