@@ -1,0 +1,17 @@
+/var/www/html/AccountingBackend/BackendSecurity.Domain.Test/bin/Debug/netcoreapp2.2/xunit.runner.visualstudio.dotnetcore.testadapter.dll
+/var/www/html/AccountingBackend/BackendSecurity.Domain.Test/bin/Debug/netcoreapp2.2/xunit.runner.reporters.netcoreapp10.dll
+/var/www/html/AccountingBackend/BackendSecurity.Domain.Test/bin/Debug/netcoreapp2.2/xunit.runner.utility.netcoreapp10.dll
+/var/www/html/AccountingBackend/BackendSecurity.Domain.Test/bin/Debug/netcoreapp2.2/BackendSecurity.Domain.Test.deps.json
+/var/www/html/AccountingBackend/BackendSecurity.Domain.Test/bin/Debug/netcoreapp2.2/BackendSecurity.Domain.Test.runtimeconfig.json
+/var/www/html/AccountingBackend/BackendSecurity.Domain.Test/bin/Debug/netcoreapp2.2/BackendSecurity.Domain.Test.runtimeconfig.dev.json
+/var/www/html/AccountingBackend/BackendSecurity.Domain.Test/bin/Debug/netcoreapp2.2/BackendSecurity.Domain.Test.dll
+/var/www/html/AccountingBackend/BackendSecurity.Domain.Test/bin/Debug/netcoreapp2.2/BackendSecurity.Domain.Test.pdb
+/var/www/html/AccountingBackend/BackendSecurity.Domain.Test/bin/Debug/netcoreapp2.2/BackendSecurity.Domain.dll
+/var/www/html/AccountingBackend/BackendSecurity.Domain.Test/bin/Debug/netcoreapp2.2/BackendSecurity.Domain.pdb
+/var/www/html/AccountingBackend/BackendSecurity.Domain.Test/obj/Debug/netcoreapp2.2/BackendSecurity.Domain.Test.csprojAssemblyReference.cache
+/var/www/html/AccountingBackend/BackendSecurity.Domain.Test/obj/Debug/netcoreapp2.2/BackendSecurity.Domain.Test.csproj.CoreCompileInputs.cache
+/var/www/html/AccountingBackend/BackendSecurity.Domain.Test/obj/Debug/netcoreapp2.2/BackendSecurity.Domain.Test.AssemblyInfoInputs.cache
+/var/www/html/AccountingBackend/BackendSecurity.Domain.Test/obj/Debug/netcoreapp2.2/BackendSecurity.Domain.Test.AssemblyInfo.cs
+/var/www/html/AccountingBackend/BackendSecurity.Domain.Test/obj/Debug/netcoreapp2.2/BackendSecurity.Domain.Test.csproj.CopyComplete
+/var/www/html/AccountingBackend/BackendSecurity.Domain.Test/obj/Debug/netcoreapp2.2/BackendSecurity.Domain.Test.dll
+/var/www/html/AccountingBackend/BackendSecurity.Domain.Test/obj/Debug/netcoreapp2.2/BackendSecurity.Domain.Test.pdb

@@ -3,7 +3,7 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: Apr 26, 2019 12:34 PM
+ * @Last Modified Time: Apr 28, 2019 3:34 PM
  * @Description: Modify Here, Please 
  */
 
@@ -32,7 +32,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
-namespace AccountingBackend.API.Controllers.User {
+namespace AccountingBackend.API.Controllers.Users {
 
     /// <summary>
     /// Manages system user data
@@ -40,17 +40,12 @@ namespace AccountingBackend.API.Controllers.User {
     [Route ("users")]
     public class UsersController : Controller {
         private readonly IMediator _Mediator;
-        private readonly IConfiguration _configuration;
-
         /// <summary>
         /// constructor for user manager 
         /// </summary>
         /// <param name="mediator"></param>
-        /// <param name="configuration"></param>
-        public UsersController (IMediator mediator,
-            IConfiguration configuration) {
+        public UsersController (IMediator mediator) {
             _Mediator = mediator;
-            _configuration = configuration;
         }
 
         /// <summary>

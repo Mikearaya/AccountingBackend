@@ -1,7 +1,7 @@
 using System;
 using Xunit;
 
-namespace AccountingBackend.Api.Test
+namespace BackendSecurity.Persistance.Test
 {
     public class UnitTest1
     {
