@@ -13,36 +13,40 @@ using Xunit;
 namespace BackendSecurity.Domain.Test.Identity {
     public class AspNetUserTokenShould {
 
+        private readonly AspNetUserTokens _userTokens;
+
+        public AspNetUserTokenShould () {
+            _userTokens = new AspNetUserTokens ();
+        }
+
         [Fact]
         public void BeInstantiated () {
             // Arrange
-            AspNetUserTokens userTokens = new AspNetUserTokens ();
 
             // Act
 
             // Assert
-            Assert.NotNull (userTokens);
+            Assert.NotNull (_userTokens);
         }
 
         [Fact]
         public void BeDerivedFromIdentityUserTokenType () {
             // Arrange
-            AspNetUserTokens userToken = new AspNetUserTokens ();
+
             // Act
 
             // Assert
-            Assert.IsAssignableFrom<IdentityUserToken<string>> (userToken);
+            Assert.IsAssignableFrom<IdentityUserToken<string>> (_userTokens);
         }
 
         [Fact]
         public void HaveNullApplicationUser () {
             //Given
-            AspNetUserTokens userTokens = new AspNetUserTokens ();
 
             //When
 
             //Then
-            Assert.Null (userTokens.User);
+            Assert.Null (_userTokens.User);
         }
 
     }

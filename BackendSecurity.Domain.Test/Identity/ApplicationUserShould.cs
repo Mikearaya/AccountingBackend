@@ -13,48 +13,53 @@ using Xunit;
 namespace BackendSecurity.Domain.Test.Identity {
     public class ApplicationUserShould {
 
+        private readonly ApplicationUser _appUser;
+
+        public ApplicationUserShould () {
+            _appUser = new ApplicationUser ();
+        }
+
         [Fact]
         public void BeInstantiated () {
             // Arrange
-            ApplicationUser appUser = new ApplicationUser ();
+
             // Act
 
             // Assert
-            Assert.NotNull (appUser);
+            Assert.NotNull (_appUser);
         }
 
         [Fact]
         public void NotHaveNullUserName () {
             // Arrange
-            ApplicationUser appUser = new ApplicationUser ();
+
             // Act
-            appUser.UserName = "Mikael Araya";
+            _appUser.UserName = "Mikael Araya";
 
             // Assert
-            appUser.UserName.Equals ("Mikael Araya");
+            _appUser.UserName.Equals ("Mikael Araya");
 
         }
 
         [Fact]
         public void IsDerivedFromIdentityUserType () {
             // Arrange
-            ApplicationUser appUser = new ApplicationUser ();
 
             // Act
 
             // Assert
-            Assert.IsAssignableFrom<IdentityUser<string>> (appUser);
+            Assert.IsAssignableFrom<IdentityUser<string>> (_appUser);
 
         }
 
         [Fact]
         public void NotHaveNullEmail () {
             // Arrange
-            ApplicationUser appUser = new ApplicationUser ();
+
             // Act
-            appUser.Email = "mikaelaraya12@gmail.com";
+            _appUser.Email = "mikaelaraya12@gmail.com";
             // Assert
-            Assert.NotNull (appUser);
+            Assert.NotNull (_appUser);
         }
 
         [Fact]
@@ -70,21 +75,21 @@ namespace BackendSecurity.Domain.Test.Identity {
         [Fact]
         public void HaveUserLoginsInitialized () {
             // Arrange
-            ApplicationUser appUser = new ApplicationUser ();
+
             // Act
 
             // Assert
-            Assert.NotNull (appUser.AspNetUserLogins);
+            Assert.NotNull (_appUser.AspNetUserLogins);
         }
 
         [Fact]
         public void HaveUserTokenInitialized () {
             // Arrange
-            ApplicationUser appUser = new ApplicationUser ();
+
             // Act
 
             // Assert
-            Assert.NotNull (appUser.AspNetUserTokens);
+            Assert.NotNull (_appUser.AspNetUserTokens);
         }
 
     }

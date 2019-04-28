@@ -12,45 +12,50 @@ using Xunit;
 
 namespace BackendSecurity.Domain.Test.Identity {
     public class AspNetUserRoleShould {
+        private readonly AspNetUserRoles _userRole;
+
+        public AspNetUserRoleShould () {
+            _userRole = new AspNetUserRoles ();
+        }
 
         [Fact]
         public void BeInstantiated () {
             // Arrange
-            AspNetUserRoles userRole = new AspNetUserRoles ();
+
             // Act
 
             // Assert
-            Assert.NotNull (userRole);
+            Assert.NotNull (_userRole);
         }
 
         [Fact]
         public void BeDerivedFromIdentityUserRoleType () {
             // Arrange
-            AspNetUserRoles userRoles = new AspNetUserRoles ();
+
             // Act
 
             // Assert
-            Assert.IsAssignableFrom<IdentityUserRole<string>> (userRoles);
+            Assert.IsAssignableFrom<IdentityUserRole<string>> (_userRole);
         }
 
         [Fact]
         public void HaveNullApplicationUser () {
             // Arrange
-            AspNetUserRoles userRole = new AspNetUserRoles ();
+
             // Act
 
             // Assert
-            Assert.Null (userRole.User);
+            Assert.Null (_userRole.User);
         }
 
         [Fact]
         public void HaveNullApplicationRole () {
             //Given
-            AspNetUserRoles userRole = new AspNetUserRoles ();
+
             //When
 
             //Then
-            Assert.Null (userRole.Role);
+            Assert.Null (_userRole.Role);
         }
 
     }

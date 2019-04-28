@@ -13,34 +13,39 @@ using Xunit;
 namespace BackendSecurity.Domain.Test.Identity {
     public class AspNetRoleClaimsShould {
 
+        private readonly AspNetRoleClaims _roleClaim;
+        public AspNetRoleClaimsShould () {
+            _roleClaim = new AspNetRoleClaims ();
+        }
+
         [Fact]
         public void BeInstantiated () {
             // Arrange
-            AspNetRoleClaims roleClaim = new AspNetRoleClaims ();
+
             // Act
 
             // Assert
-            Assert.NotNull (roleClaim);
+            Assert.NotNull (_roleClaim);
         }
 
         [Fact]
         public void IsDerivedFromIdentityRoleClaimType () {
             // Arrange
-            AspNetRoleClaims roleClaim = new AspNetRoleClaims ();
+
             // Act
 
             // Assert
-            Assert.IsAssignableFrom<IdentityRoleClaim<string>> (roleClaim);
+            Assert.IsAssignableFrom<IdentityRoleClaim<string>> (_roleClaim);
         }
 
         [Fact]
         public void HaveNullRole () {
             // Arrange
-            AspNetRoleClaims roleClaim = new AspNetRoleClaims ();
+
             // Act
 
             // Assert
-            Assert.Null (roleClaim.Role);
+            Assert.Null (_roleClaim.Role);
         }
 
     }

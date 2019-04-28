@@ -13,35 +13,41 @@ using Xunit;
 namespace BackendSecurity.Domain.Test.Identity {
     public class ApplicationRoleShould {
 
+        private readonly ApplicationRole _roles;
+
+        public ApplicationRoleShould () {
+            _roles = new ApplicationRole ();
+
+        }
+
         [Fact]
         public void BeInitialized () {
             // Arrange
-            ApplicationRole roles = new ApplicationRole ();
 
             // Act
 
             // Assert
-            Assert.NotNull (roles);
+            Assert.NotNull (_roles);
         }
 
         [Fact]
         public void IsIdentityRoleType () {
             // Arrange
-            ApplicationRole role = new ApplicationRole ();
+
             // Act
 
             // Assert
-            Assert.IsAssignableFrom<IdentityRole<string>> (role);
+            Assert.IsAssignableFrom<IdentityRole<string>> (_roles);
         }
 
         [Fact]
         public void HaveInitializedRoleClaims () {
             // Arrange
-            ApplicationRole role = new ApplicationRole ();
+
             // Act
 
             // Assert
-            Assert.NotNull (role.AspNetRoleClaims);
+            Assert.NotNull (_roles.AspNetRoleClaims);
         }
 
         [Fact]
@@ -51,7 +57,7 @@ namespace BackendSecurity.Domain.Test.Identity {
             // Act
 
             // Assert
-            Assert.NotNull (role.AspNetUserRoles);
+            Assert.NotNull (_roles.AspNetUserRoles);
         }
     }
 }

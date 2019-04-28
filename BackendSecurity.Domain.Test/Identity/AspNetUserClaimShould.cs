@@ -13,34 +13,39 @@ using Xunit;
 namespace BackendSecurity.Domain.Test.Identity {
     public class AspNetUserClaimShould {
 
+        private readonly AspNetUserClaims _userClaims;
+        public AspNetUserClaimShould () {
+            _userClaims = new AspNetUserClaims ();
+        }
+
         [Fact]
         public void BeInstantiated () {
             // Arrange
-            AspNetUserClaims userClaim = new AspNetUserClaims ();
+
             // Act
 
             // Assert
-            Assert.NotNull (userClaim);
+            Assert.NotNull (_userClaims);
         }
 
         [Fact]
         public void BeDerivedFromIdentityUserClaimsType () {
             // Arrange
-            AspNetUserClaims userClaim = new AspNetUserClaims ();
+
             // Act
 
             // Assert
-            Assert.IsAssignableFrom<IdentityUserClaim<string>> (userClaim);
+            Assert.IsAssignableFrom<IdentityUserClaim<string>> (_userClaims);
         }
 
         [Fact]
         public void HaveNullApplicationUser () {
             //Given
-            AspNetUserClaims userClaim = new AspNetUserClaims ();
+
             //When
 
             //Then
-            Assert.Null (userClaim.User);
+            Assert.Null (_userClaims.User);
         }
 
     }

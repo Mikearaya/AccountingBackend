@@ -13,36 +13,41 @@ using Xunit;
 namespace BackendSecurity.Domain.Test.Identity {
     public class AspNetUserLoginsShould {
 
+        private readonly AspNetUserLogins _userLogin;
+
+        public AspNetUserLoginsShould () {
+            _userLogin = new AspNetUserLogins ();
+
+        }
+
         [Fact]
         public void BeInstantiated () {
             // Arrange
-            AspNetUserLogins userLogin = new AspNetUserLogins ();
+
             // Act
 
             // Assert
-            Assert.NotNull (userLogin);
+            Assert.NotNull (_userLogin);
         }
 
         [Fact]
         public void BeDerivedFromIdentityUserLoginsType () {
             // Arrange
-            AspNetUserLogins userLogin = new AspNetUserLogins ();
 
             // Act
 
             // Assert
-            Assert.IsAssignableFrom<IdentityUserLogin<string>> (userLogin);
+            Assert.IsAssignableFrom<IdentityUserLogin<string>> (_userLogin);
         }
 
         [Fact]
         public void HaveNullApplicationUser () {
             //Given
-            AspNetUserLogins userLogin = new AspNetUserLogins ();
 
             //When
 
             //Then
-            Assert.Null (userLogin.User);
+            Assert.Null (_userLogin.User);
         }
     }
 }
