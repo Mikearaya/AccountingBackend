@@ -3,7 +3,7 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: Apr 26, 2019 12:23 PM
+ * @Last Modified Time: Apr 29, 2019 10:24 AM
  * @Description: Modify Here, Please 
  */
 using System;
@@ -20,14 +20,11 @@ using Microsoft.EntityFrameworkCore;
 namespace AccountingBackend.Application.Users.Commands.CreateUser {
     public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, string> {
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly ISecurityDatabaseService _database;
 
         public CreateUserCommandHandler (
-            UserManager<ApplicationUser> userManager,
-            ISecurityDatabaseService database
+            UserManager<ApplicationUser> userManager
         ) {
             _userManager = userManager;
-            _database = database;
         }
 
         public async Task<string> Handle (CreateUserCommand request, CancellationToken cancellationToken) {
@@ -39,10 +36,8 @@ namespace AccountingBackend.Application.Users.Commands.CreateUser {
             };
             var result = await _userManager.CreateAsync (userModel, "000000");
 
-            await _database.SaveAsync ();
-
             return userModel.Id;
-            throw new Exception (result.Errors.ToString ());
+
         }
     }
 }

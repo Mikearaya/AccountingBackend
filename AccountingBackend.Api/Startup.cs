@@ -59,6 +59,7 @@ namespace AccountingBackend.Api {
             using (var context = new AccountingDatabaseService ()) {
                 context.Database.EnsureCreated ();
             }
+
         }
         /// <summary>
         /// configuration object
