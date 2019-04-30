@@ -3,7 +3,7 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: Apr 30, 2019 10:39 AM
+ * @Last Modified Time: Apr 30, 2019 1:17 PM
  * @Description: Modify Here, Please 
  */
 using System.Threading;
@@ -28,7 +28,7 @@ namespace AccountingBackend.Application.AccountCategories.Commands.UpdateAccount
             }
 
             catagory.Name = request.CategoryName;
-            catagory.Type = request.AccountType;
+            catagory.Type = request.AccountType.ToString ();
 
             _database.AccountCatagory.Update (catagory);
 

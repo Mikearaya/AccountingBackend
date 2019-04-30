@@ -3,7 +3,7 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: Apr 30, 2019 8:39 AM
+ * @Last Modified Time: Apr 30, 2019 1:18 PM
  * @Description: Modify Here, Please 
  */
 using System.Threading;
@@ -23,7 +23,7 @@ namespace AccountingBackend.Application.AccountCategories.Commands.CreateAccount
         public async Task<int> Handle (CreateAccountCategoryCommand request, CancellationToken cancellationToken) {
             AccountCatagory category = new AccountCatagory () {
                 Name = request.CategoryName,
-                Type = request.AccountType
+                Type = request.AccountType.ToString ()
             };
 
             _database.AccountCatagory.Add (category);

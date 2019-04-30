@@ -3,11 +3,12 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: Apr 30, 2019 10:31 AM
+ * @Last Modified Time: Apr 30, 2019 1:20 PM
  * @Description: Modify Here, Please 
  */
 using System.Threading;
 using AccountingBackend.Application.AccountCategories.Commands.CreateAccountCategory;
+using AccountingBackend.Application.AccountCategories.Models;
 using AccountingBackend.Application.Interfaces;
 using AccountingBackend.Domain;
 using MediatR;
@@ -35,7 +36,7 @@ namespace AccountingBackend.Application.Test.AccountCategories.Commands {
             CreateAccountCategoryCommandHandler handler = new CreateAccountCategoryCommandHandler (Mockdatabase.Object);
             //When
             var result = await handler.Handle (new CreateAccountCategoryCommand () {
-                AccountType = "Asset",
+                AccountType = AccountTypes.Asset,
                     CategoryName = "Cash"
             }, CancellationToken.None);
             //Then
