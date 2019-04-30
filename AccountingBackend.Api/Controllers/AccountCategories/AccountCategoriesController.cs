@@ -9,6 +9,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AccountingBackend.Application.AccountCategories.Commands.CreateAccountCategory;
+using AccountingBackend.Application.AccountCategories.Commands.DeleteAccountCategory;
 using AccountingBackend.Application.AccountCategories.Commands.UpdateAccountCategory;
 using AccountingBackend.Application.AccountCategories.Models;
 using AccountingBackend.Application.AccountCategories.Queries.GetAccountCategory;
@@ -112,6 +113,25 @@ namespace AccountingBackend.Api.Controllers.AccountCategories {
 
             }
 
+        }
+
+        /// <summary>
+        /// deletes a single account category based on the id passed in the url
+        /// or returns not found if account category is not found
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+
+        [HttpDelete ("{id}")]
+        public async Task<ActionResult> DeleteAccountCategory (int id) {
+
+            try {
+
+                var result = await _Mediator.Send (new DeleteAccountCategoryCommand () { Id = id });
+                return NoContent ();
+            } catch (NotFoundException e) {
+                return NotFound (e.Message);
+            }
         }
 
     }
