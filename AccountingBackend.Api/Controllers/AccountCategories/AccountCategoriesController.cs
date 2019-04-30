@@ -9,6 +9,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AccountingBackend.Application.AccountCategories.Commands.CreateAccountCategory;
+using AccountingBackend.Application.AccountCategories.Commands.UpdateAccountCategory;
 using AccountingBackend.Application.AccountCategories.Models;
 using AccountingBackend.Application.AccountCategories.Queries.GetAccountCategory;
 using AccountingBackend.Application.AccountCategories.Queries.GetAccountCategoryList;
@@ -84,6 +85,31 @@ namespace AccountingBackend.Api.Controllers.AccountCategories {
 
             } catch (NotFoundException e) {
                 return NotFound (e.Message);
+            }
+
+        }
+
+        /// <summary>
+        /// Updates a given account category based on the id provided
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="model"></param>
+        /// <returns></returns>
+
+        [HttpPut ("{id}")]
+        public async Task<ActionResult> UpdateAccountCategory (int id, [FromBody] UpdateAccountCategoryCommand model) {
+
+            try {
+
+                if (!ModelState.IsValid) {
+                    return new InvalidInputResponse (ModelState);
+                }
+
+                var result = await _Mediator.Send (model);
+                return NoContent ();
+            } catch (NotFoundException e) {
+                return NotFound (e.Message);
+
             }
 
         }
