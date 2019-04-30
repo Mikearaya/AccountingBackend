@@ -8,10 +8,12 @@
  */
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using AccountingBackend.Application.AccountCategories.Commands.CreateAccountCategory;
 using AccountingBackend.Application.AccountCategories.Models;
 using AccountingBackend.Application.AccountCategories.Queries.GetAccountCategory;
 using AccountingBackend.Application.AccountCategories.Queries.GetAccountCategoryList;
 using AccountingBackend.Application.Exceptions;
+using AccountingBackend.API.Commons;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -61,5 +63,30 @@ namespace AccountingBackend.Api.Controllers.AccountCategories {
             return Ok (result);
 
         }
+
+        /// <summary>
+        /// creates new account category passed through its parameter
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns>AccountCategoryView</returns>
+        [HttpPost]
+        public async Task<ActionResult<AccountCategoryView>> CreateAccountCategory ([FromBody] CreateAccountCategoryCommand model) {
+
+            try {
+                var result = await _Mediator.Send (model);
+
+                if (result != 0) {
+                    var newCategory = await _Mediator.Send (new GetAccountCategoryQuery () { Id = result });
+                    return StatusCode (201, newCategory);
+                }
+
+                return new InvalidInputResponse (ModelState);
+
+            } catch (NotFoundException e) {
+                return NotFound (e.Message);
+            }
+
+        }
+
     }
 }
