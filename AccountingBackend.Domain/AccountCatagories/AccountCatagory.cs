@@ -1,9 +1,9 @@
 ﻿/*
- * @CreateTime: Apr 29, 2019 4:36 PM
+ * @CreateTime: Apr 30, 2019 6:22 AM
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: Apr 29, 2019 4:36 PM
+ * @Last Modified Time: Apr 30, 2019 6:22 AM
  * @Description: Modify Here, Please 
  */
 using System;
@@ -20,7 +20,9 @@ namespace AccountingBackend.Domain {
         public string Name { get; set; }
         public DateTime? DateAdded { get; set; }
         public DateTime? DateUpdated { get; set; }
+        public string Type { get; set; }
 
+        public virtual AccountType TypeNavigation { get; set; }
         public virtual ICollection<Account> Account { get; set; }
     }
 }

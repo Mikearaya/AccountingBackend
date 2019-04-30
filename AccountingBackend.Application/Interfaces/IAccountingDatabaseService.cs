@@ -7,9 +7,15 @@
  * @Description: Modify Here, Please 
  */
 using System.Threading.Tasks;
+using AccountingBackend.Domain;
+using Microsoft.EntityFrameworkCore;
 
 namespace AccountingBackend.Application.Interfaces {
     public interface IAccountingDatabaseService {
+
+        DbSet<Account> Account { get; set; }
+        DbSet<AccountCatagory> AccountCatagory { get; set; }
+        DbSet<AccountType> AccountType { get; set; }
 
         void Save ();
         Task SaveAsync ();
