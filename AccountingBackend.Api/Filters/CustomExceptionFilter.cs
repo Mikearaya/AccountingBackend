@@ -27,7 +27,7 @@ namespace AccountingBackend.Api.Filters {
         public override void OnException (ExceptionContext context) {
             if (context.Exception is ValidationException) {
                 context.HttpContext.Response.ContentType = "application/json";
-                context.HttpContext.Response.StatusCode = (int) HttpStatusCode.BadRequest;
+                context.HttpContext.Response.StatusCode = (int) HttpStatusCode.UnprocessableEntity;
                 context.Result = new JsonResult (
                     ((ValidationException) context.Exception).Failures);
 

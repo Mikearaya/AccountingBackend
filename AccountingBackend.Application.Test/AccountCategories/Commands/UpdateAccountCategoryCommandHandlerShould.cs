@@ -8,6 +8,7 @@
  */
 using System;
 using System.Threading;
+using System.Threading.Tasks;
 using AccountingBackend.Application.AccountCategories.Commands.UpdateAccountCategory;
 using AccountingBackend.Application.AccountCategories.Models;
 using AccountingBackend.Application.Exceptions;
@@ -19,32 +20,50 @@ using Xunit;
 namespace AccountingBackend.Application.Test.AccountCategories.Commands {
     public class UpdateAccountCategoryCommandHandlerShould {
 
-        Mock<IAccountingDatabaseService> Mockdatabase;
+        private readonly Mock<IAccountingDatabaseService> Mockdatabase;
+        private readonly AccountCatagory accountCatagory;
+
+        private readonly UpdateAccountCategoryCommand updateRequest;
+
         public UpdateAccountCategoryCommandHandlerShould () {
+            accountCatagory = new AccountCatagory () {
+                Id = 1,
+                Type = "Asset",
+                Name = "Cash",
+                DateAdded = DateTime.Now,
+                DateUpdated = DateTime.Now
+            };
+
+            updateRequest = new UpdateAccountCategoryCommand () {
+                Id = 1,
+                AccountType = AccountTypes.Asset,
+                CategoryName = "Petty Cash"
+            };
+
             Mockdatabase = new Mock<IAccountingDatabaseService> ();
+            Mockdatabase.Setup (d => d.SaveAsync ()).Returns (Task.CompletedTask);
 
         }
 
         [Fact]
         public async void NotThrowNotFoundException () {
             //Given
-            Mockdatabase.Setup (c => c.AccountCatagory.FindAsync (1)).ReturnsAsync (new AccountCatagory () {
+            AccountCatagory updatedAccountCatagory = new AccountCatagory () {
                 Id = 1,
-                    Type = "Asset",
-                    Name = "Cash",
-                    DateAdded = DateTime.Now,
-                    DateUpdated = DateTime.Now
-            });
+                Type = "Asset",
+                Name = "Petty Cash",
+                DateAdded = DateTime.Now,
+                DateUpdated = DateTime.Now
+            };
+            Mockdatabase.Setup (c => c.AccountCatagory.FindAsync (1)).ReturnsAsync (accountCatagory);
+            Mockdatabase.Setup (c => c.AccountCatagory.Update (updatedAccountCatagory));
+
             UpdateAccountCategoryCommandHandler handler = new UpdateAccountCategoryCommandHandler (Mockdatabase.Object);
             //When
-            var result = await handler.Handle (new UpdateAccountCategoryCommand () {
-                Id = 1,
-                    AccountType = AccountTypes.Asset,
-                    CategoryName = "Cash"
-            }, CancellationToken.None);
+            var result = await handler.Handle (updateRequest, CancellationToken.None);
 
             //Then
-            Assert.NotNull (result);
+            Assert.Equal (MediatR.Unit.Value, result);
         }
 
         /// <summary>
@@ -54,22 +73,12 @@ namespace AccountingBackend.Application.Test.AccountCategories.Commands {
         [Fact]
         public async void ThrowNotFoundException () {
             //Given
-            Mockdatabase.Setup (c => c.AccountCatagory.FindAsync (1)).ReturnsAsync (new AccountCatagory () {
-                Id = 1,
-                    Type = "Asset",
-                    Name = "Cash",
-                    DateAdded = DateTime.Now,
-                    DateUpdated = DateTime.Now
-            });
+            Mockdatabase.Setup (c => c.AccountCatagory.FindAsync (2)).ReturnsAsync (accountCatagory);
             UpdateAccountCategoryCommandHandler handler = new UpdateAccountCategoryCommandHandler (Mockdatabase.Object);
             //When
 
             //Then
-            await Assert.ThrowsAsync<NotFoundException> (() => handler.Handle (new UpdateAccountCategoryCommand () {
-                Id = 2,
-                    AccountType = AccountTypes.Asset,
-                    CategoryName = "Cash"
-            }, CancellationToken.None));
+            await Assert.ThrowsAsync<NotFoundException> (() => handler.Handle (updateRequest, CancellationToken.None));
 
         }
 

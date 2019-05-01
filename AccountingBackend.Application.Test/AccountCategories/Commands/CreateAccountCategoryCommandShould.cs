@@ -7,6 +7,7 @@
  * @Description: Modify Here, Please 
  */
 using System.Threading;
+using System.Threading.Tasks;
 using AccountingBackend.Application.AccountCategories.Commands.CreateAccountCategory;
 using AccountingBackend.Application.AccountCategories.Models;
 using AccountingBackend.Application.Interfaces;
@@ -33,6 +34,7 @@ namespace AccountingBackend.Application.Test.AccountCategories.Commands {
         [Fact]
         public async void CreateAccount () {
             //Given
+            Mockdatabase.Setup (d => d.SaveAsync ()).Returns (Task.CompletedTask);
             CreateAccountCategoryCommandHandler handler = new CreateAccountCategoryCommandHandler (Mockdatabase.Object);
             //When
             var result = await handler.Handle (new CreateAccountCategoryCommand () {

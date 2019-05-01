@@ -7,6 +7,7 @@
  * @Description: Modify Here, Please 
  */
 using System.Threading;
+using System.Threading.Tasks;
 using AccountingBackend.Application.AccountCategories.Commands.DeleteAccountCategory;
 using AccountingBackend.Application.Exceptions;
 using AccountingBackend.Application.Interfaces;
@@ -17,45 +18,40 @@ using Xunit;
 namespace AccountingBackend.Application.Test.AccountCategories.Commands {
     public class DeleteAccountCategoryCommandShould {
         private readonly Mock<IAccountingDatabaseService> Mockdatabase;
-
+        private readonly AccountCatagory accountCategory;
         public DeleteAccountCategoryCommandShould () {
-            Mockdatabase = new Mock<IAccountingDatabaseService> ();
-            Mockdatabase.Setup (c => c.AccountCatagory.Remove (new AccountCatagory () {
+
+            accountCategory = new AccountCatagory () {
                 Id = 1,
-                    Type = "Asset",
-                    Name = "Cash"
-            }));
+                Type = "Asset",
+                Name = "Cash"
+            };
+
+            Mockdatabase = new Mock<IAccountingDatabaseService> ();
+
+            Mockdatabase.Setup (d => d.SaveAsync ()).Returns (Task.CompletedTask);
         }
 
         [Fact]
         public async void DeleteAccountSuccessfully () {
             //Given
 
-            Mockdatabase.Setup (c => c.AccountCatagory.FindAsync (1)).ReturnsAsync ((new AccountCatagory () {
-                Id = 1,
-                    Type = "Asset",
-                    Name = "Cash"
-            }));
-
+            Mockdatabase.Setup (c => c.AccountCatagory.FindAsync (1)).ReturnsAsync ((accountCategory));
+            Mockdatabase.Setup (c => c.AccountCatagory.Remove (accountCategory));
             DeleteAccountCategoryCommandHandler handler = new DeleteAccountCategoryCommandHandler (Mockdatabase.Object);
 
             //When
             var result = await handler.Handle (new DeleteAccountCategoryCommand () { Id = 1 }, CancellationToken.None);
 
             //Then
-            Assert.NotNull (result);
+            Assert.Equal (MediatR.Unit.Value, result);
         }
 
         [Fact]
         public async void ThrowsNotFoundException () {
             // Arrange
-
-            Mockdatabase.Setup (c => c.AccountCatagory.FindAsync (1)).ReturnsAsync ((new AccountCatagory () {
-                Id = 1,
-                    Type = "Asset",
-                    Name = "Cash"
-            }));
-
+            Mockdatabase.Setup (c => c.AccountCatagory.FindAsync (1)).ReturnsAsync ((accountCategory));
+            Mockdatabase.Setup (c => c.AccountCatagory.Remove (accountCategory));
             DeleteAccountCategoryCommandHandler handler = new DeleteAccountCategoryCommandHandler (Mockdatabase.Object);
             // Act
             await Assert.ThrowsAsync<NotFoundException> (() => handler.Handle (new DeleteAccountCategoryCommand () { Id = 2 }, CancellationToken.None));

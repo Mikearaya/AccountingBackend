@@ -77,12 +77,8 @@ namespace AccountingBackend.Api.Controllers.AccountCategories {
             try {
                 var result = await _Mediator.Send (model);
 
-                if (result != 0) {
-                    var newCategory = await _Mediator.Send (new GetAccountCategoryQuery () { Id = result });
-                    return StatusCode (201, newCategory);
-                }
-
-                return new InvalidInputResponse (ModelState);
+                var newCategory = await _Mediator.Send (new GetAccountCategoryQuery () { Id = result });
+                return StatusCode (201, newCategory);
 
             } catch (NotFoundException e) {
                 return NotFound (e.Message);
@@ -101,11 +97,6 @@ namespace AccountingBackend.Api.Controllers.AccountCategories {
         public async Task<ActionResult> UpdateAccountCategory (int id, [FromBody] UpdateAccountCategoryCommand model) {
 
             try {
-
-                if (!ModelState.IsValid) {
-                    return new InvalidInputResponse (ModelState);
-                }
-
                 var result = await _Mediator.Send (model);
                 return NoContent ();
             } catch (NotFoundException e) {
