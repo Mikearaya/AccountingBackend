@@ -23,6 +23,7 @@ namespace AccountingBackend.Domain {
         public DateTime? DateUpdated { get; set; }
         public float? OpeningBalance { get; set; }
         public sbyte? Active { get; set; }
+        public string Year { get; set; }
 
         public virtual AccountCatagory Catagory { get; set; }
         public virtual Account ParentAccountNavigation { get; set; }

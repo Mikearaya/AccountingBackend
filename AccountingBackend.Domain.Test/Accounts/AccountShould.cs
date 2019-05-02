@@ -3,7 +3,7 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: Apr 29, 2019 5:34 PM
+ * @Last Modified Time: May 2, 2019 3:21 PM
  * @Description: Modify Here, Please 
  */
 using Xunit;
@@ -66,6 +66,17 @@ namespace AccountingBackend.Domain.Test.Accounts {
 
             // Assert
             Assert.Equal ("100", account.ParentAccount);
+        }
+
+        [Fact]
+        public void HaveInitializedYear () {
+            // Arrange
+
+            // Act
+            account.Year = "1990";
+
+            // Assert
+            Assert.Equal ("1990", account.Year);
         }
 
         [Fact]

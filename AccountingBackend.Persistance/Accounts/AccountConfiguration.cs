@@ -1,3 +1,11 @@
+/*
+ * @CreateTime: May 2, 2019 3:20 PM
+ * @Author:  Mikael Araya
+ * @Contact: MikaelAraya12@gmail.com
+ * @Last Modified By:  Mikael Araya
+ * @Last Modified Time: May 2, 2019 3:20 PM
+ * @Description: Modify Here, Please 
+ */
 using AccountingBackend.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -12,6 +20,10 @@ namespace AccountingBackend.Persistance.Accounts {
 
             builder.HasIndex (e => e.ParentAccount)
                 .HasName ("account_account_FK");
+
+            builder.HasIndex (e => new { e.Year, e.Id })
+                .HasName ("account_year_UN")
+                .IsUnique ();
 
             builder.Property (e => e.Id)
                 .HasColumnName ("ID")
@@ -50,6 +62,11 @@ namespace AccountingBackend.Persistance.Accounts {
                 .HasColumnName ("parent_account")
                 .HasColumnType ("varchar(10)");
 
+            builder.Property (e => e.Year)
+                .IsRequired ()
+                .HasColumnName ("year")
+                .HasColumnType ("varchar(4)");
+
             builder.HasOne (d => d.Catagory)
                 .WithMany (p => p.Account)
                 .HasForeignKey (d => d.CatagoryId)
@@ -60,6 +77,7 @@ namespace AccountingBackend.Persistance.Accounts {
                 .WithMany (p => p.InverseParentAccountNavigation)
                 .HasForeignKey (d => d.ParentAccount)
                 .HasConstraintName ("account_account_FK");
+
         }
     }
 }
