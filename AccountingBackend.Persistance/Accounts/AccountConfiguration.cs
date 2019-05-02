@@ -3,7 +3,7 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: May 2, 2019 3:20 PM
+ * @Last Modified Time: May 2, 2019 6:48 PM
  * @Description: Modify Here, Please 
  */
 using AccountingBackend.Domain;
@@ -14,6 +14,10 @@ namespace AccountingBackend.Persistance.Accounts {
     public class AccountConfiguration : IEntityTypeConfiguration<Account> {
         public void Configure (EntityTypeBuilder<Account> builder) {
             builder.ToTable ("account");
+
+            builder.HasIndex (e => e.AccountId)
+                .HasName ("account_UN")
+                .IsUnique ();
 
             builder.HasIndex (e => e.CatagoryId)
                 .HasName ("account_account_catagory_FK");
@@ -27,7 +31,11 @@ namespace AccountingBackend.Persistance.Accounts {
 
             builder.Property (e => e.Id)
                 .HasColumnName ("ID")
-                .HasColumnType ("varchar(10)");
+                .HasColumnType ("int(11)");
+
+            builder.Property (e => e.AccountId)
+                .IsRequired ()
+                .HasColumnType ("varchar(20)");
 
             builder.Property (e => e.AccountName)
                 .IsRequired ()
@@ -60,7 +68,7 @@ namespace AccountingBackend.Persistance.Accounts {
 
             builder.Property (e => e.ParentAccount)
                 .HasColumnName ("parent_account")
-                .HasColumnType ("varchar(10)");
+                .HasColumnType ("int(11)");
 
             builder.Property (e => e.Year)
                 .IsRequired ()
@@ -77,7 +85,6 @@ namespace AccountingBackend.Persistance.Accounts {
                 .WithMany (p => p.InverseParentAccountNavigation)
                 .HasForeignKey (d => d.ParentAccount)
                 .HasConstraintName ("account_account_FK");
-
         }
     }
 }

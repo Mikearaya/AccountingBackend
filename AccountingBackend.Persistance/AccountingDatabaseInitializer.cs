@@ -3,7 +3,7 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: May 2, 2019 1:26 PM
+ * @Last Modified Time: May 2, 2019 6:49 PM
  * @Description: Modify Here, Please 
  */
 using System;
@@ -60,8 +60,8 @@ namespace AccountingBackend.Persistance {
             database.AccountCatagory.Add (new AccountCatagory () { Id = 3, Catagory = "COGE", DateAdded = DateTime.Now, DateUpdated = DateTime.Now });
             database.AccountCatagory.Add (new AccountCatagory () {
                 Id = 4, Catagory = "COGE", DateAdded = DateTime.Now, DateUpdated = DateTime.Now, Account = new [] {
-                    new Account () { Id = "5000", AccountName = "Cash", OpeningBalance = 100, DateAdded = DateTime.Now, DateUpdated = DateTime.Now },
-                        new Account () { Id = "7000", AccountName = "Cash at Bank", OpeningBalance = 100, DateAdded = DateTime.Now, DateUpdated = DateTime.Now }
+                    new Account () { AccountId = "5000", AccountName = "Cash", OpeningBalance = 100, DateAdded = DateTime.Now, DateUpdated = DateTime.Now },
+                        new Account () { AccountId = "7000", AccountName = "Cash at Bank", OpeningBalance = 100, DateAdded = DateTime.Now, DateUpdated = DateTime.Now }
                 }
             });
 
@@ -69,8 +69,8 @@ namespace AccountingBackend.Persistance {
 
         public void SeedAccount (AccountingDatabaseService database) {
 
-            database.Account.Add (new Account () { Id = "2000", AccountName = "Cash", OpeningBalance = 100, DateAdded = DateTime.Now, DateUpdated = DateTime.Now });
-            database.Account.Add (new Account () { Id = "3000", AccountName = "Cash at Bank", OpeningBalance = 100, DateAdded = DateTime.Now, DateUpdated = DateTime.Now });
+            database.Account.Add (new Account () { Id = 10, AccountId = "2000", AccountName = "Cash", OpeningBalance = 100, DateAdded = DateTime.Now, DateUpdated = DateTime.Now });
+            database.Account.Add (new Account () { Id = 11, AccountId = "3000", AccountName = "Cash at Bank", OpeningBalance = 100, DateAdded = DateTime.Now, DateUpdated = DateTime.Now });
 
         }
 

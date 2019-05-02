@@ -3,7 +3,7 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: May 2, 2019 6:25 PM
+ * @Last Modified Time: May 2, 2019 6:52 PM
  * @Description: Modify Here, Please 
  */
 using System.Threading;
@@ -31,7 +31,8 @@ namespace AccountingBackend.Application.Test.Accounts.Commands.CreateAccount {
         public async Task CreateAccountSuccessfuly () {
             // Arrange
             Mockdatabase.Setup (d => d.Account.Add (new Account () {
-                Id = "0000",
+
+                AccountId = "0000",
                     AccountName = "Cash",
                     Active = 0,
                     CatagoryId = 1,
@@ -52,7 +53,7 @@ namespace AccountingBackend.Application.Test.Accounts.Commands.CreateAccount {
             var response = await handler.Handle (accountModel, CancellationToken.None);
 
             // Assert
-            Assert.Equal ("0000", response);
+            Assert.Equal (0, response);
 
         }
     }

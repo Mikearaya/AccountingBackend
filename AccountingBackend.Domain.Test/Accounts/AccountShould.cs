@@ -3,7 +3,7 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: May 2, 2019 3:21 PM
+ * @Last Modified Time: May 2, 2019 6:50 PM
  * @Description: Modify Here, Please 
  */
 using Xunit;
@@ -40,10 +40,10 @@ namespace AccountingBackend.Domain.Test.Accounts {
             // Arrange
 
             // Act
-            account.Id = "10";
+            account.AccountId = "10";
 
             // Assert
-            Assert.Equal ("10", account.Id);
+            Assert.Equal ("10", account.AccountId);
         }
 
         [Fact]
@@ -62,10 +62,10 @@ namespace AccountingBackend.Domain.Test.Accounts {
             // Arrange
 
             // Act
-            account.ParentAccount = "100";
+            account.ParentAccount = 2;
 
             // Assert
-            Assert.Equal ("100", account.ParentAccount);
+            Assert.Equal (2, account.ParentAccount);
         }
 
         [Fact]
