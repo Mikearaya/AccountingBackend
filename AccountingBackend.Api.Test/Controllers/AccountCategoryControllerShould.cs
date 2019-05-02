@@ -78,27 +78,24 @@ namespace AccountingBackend.Api.Test.Controllers {
 
         //TODO: Do testing for post put and delete
         /// <summary>
-        ///
+        /// 
         /// </summary>
         /// <returns></returns>
 
+        [Fact]
         public async Task CreateAccountCategorySuccessfuly () {
             var request = new {
                 Body = new {
-                CategoryName = "Cash",
-                AccountType = "Asset"
+                CategoryName = "Account Recievable",
+                AccountType = "Liability"
                 }
             };
 
             var response = await _client.PostAsync (_ApiUrl, Utilities.GetStringContent (request.Body));
-
             response.EnsureSuccessStatusCode ();
-            Console.WriteLine (response.Content.ReadAsStringAsync ());
-
-            var categories = await Utilities.GetResponseContent<AccountCategoryView> (response);
 
             // Assert
-            Assert.Equal ("Cash", categories.CategoryName);
+            Assert.Equal (HttpStatusCode.Created, response.StatusCode);
 
         }
 

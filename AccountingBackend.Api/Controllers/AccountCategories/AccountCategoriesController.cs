@@ -6,6 +6,7 @@
  * @Last Modified Time: Apr 30, 2019 3:56 PM
  * @Description: Modify Here, Please 
  */
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AccountingBackend.Application.AccountCategories.Commands.CreateAccountCategory;
@@ -70,15 +71,13 @@ namespace AccountingBackend.Api.Controllers.AccountCategories {
         /// creates new account category passed through its parameter
         /// </summary>
         /// <param name="model"></param>
-        /// <returns>AccountCategoryView</returns>
+        /// <returns>int</returns>
         [HttpPost]
-        public async Task<ActionResult<AccountCategoryView>> CreateAccountCategory ([FromBody] CreateAccountCategoryCommand model) {
+        public async Task<ActionResult<int>> CreateAccountCategory ([FromBody] CreateAccountCategoryCommand model) {
 
             try {
                 var result = await _Mediator.Send (model);
-
-                var newCategory = await _Mediator.Send (new GetAccountCategoryQuery () { Id = result });
-                return StatusCode (201, newCategory);
+                return StatusCode (201, result);
 
             } catch (NotFoundException e) {
                 return NotFound (e.Message);
@@ -97,6 +96,10 @@ namespace AccountingBackend.Api.Controllers.AccountCategories {
         public async Task<ActionResult> UpdateAccountCategory (int id, [FromBody] UpdateAccountCategoryCommand model) {
 
             try {
+
+                Console.WriteLine ("Inside update function");
+                Console.WriteLine ("Inside update function");
+                Console.WriteLine (model);
                 var result = await _Mediator.Send (model);
                 return NoContent ();
             } catch (NotFoundException e) {

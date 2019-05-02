@@ -15,7 +15,7 @@ namespace AccountingBackend.Application.AccountCategories.Commands.UpdateAccount
 
             RuleFor (c => c.Id).NotNull ().NotEqual (0);
             RuleFor (c => c.CategoryName).NotEmpty ().NotNull ();
-            RuleFor (c => c.AccountType).IsInEnum ().NotEmpty ().NotNull ();
+            RuleFor (c => c.AccountType).NotEmpty ().NotNull ();
         }
     }
 }
