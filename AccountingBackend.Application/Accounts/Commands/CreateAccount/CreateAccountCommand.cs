@@ -3,22 +3,19 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: Apr 24, 2019 5:43 PM
+ * @Last Modified Time: May 2, 2019 5:24 PM
  * @Description: Modify Here, Please 
  */
 using MediatR;
 
 namespace AccountingBackend.Application.Accounts.Commands.CreateAccount {
-    public class CreateAccountCommand : IRequest<int> {
+    public class CreateAccountCommand : IRequest<string> {
+        public string Id { get; set; }
         public string ParentAccount { get; set; }
+        public int CatagoriId { get; set; }
         public string Name { get; set; }
-        public string AccountId { get; set; }
         public sbyte Active { get; set; }
-        public uint AccountType { get; set; }
         public uint OrganizationId { get; set; }
-        public string GlType { get; set; }
-        public string PostingType { get; set; }
-        public sbyte? IsReconcilation { get; set; }
-        public sbyte? IsPosting { get; set; }
+        public float OpeningBalance { get; set; }
     }
 }
