@@ -33,7 +33,7 @@ namespace AccountingBackend.Application.Test.AccountCategories.Commands {
         }
 
         [Fact]
-        public async void DeleteAccountSuccessfully () {
+        public async Task DeleteAccountSuccessfully () {
             //Given
 
             Mockdatabase.Setup (c => c.AccountCatagory.FindAsync (1)).ReturnsAsync ((accountCategory));
@@ -48,7 +48,7 @@ namespace AccountingBackend.Application.Test.AccountCategories.Commands {
         }
 
         [Fact]
-        public async void ThrowsNotFoundException () {
+        public async Task ThrowsNotFoundException () {
             // Arrange
             Mockdatabase.Setup (c => c.AccountCatagory.FindAsync (1)).ReturnsAsync ((accountCategory));
             Mockdatabase.Setup (c => c.AccountCatagory.Remove (accountCategory));

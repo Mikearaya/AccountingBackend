@@ -46,7 +46,7 @@ namespace AccountingBackend.Application.Test.AccountCategories.Commands {
         }
 
         [Fact]
-        public async void NotThrowNotFoundException () {
+        public async Task NotThrowNotFoundException () {
             //Given
             AccountCatagory updatedAccountCatagory = new AccountCatagory () {
                 Id = 1,
@@ -71,7 +71,7 @@ namespace AccountingBackend.Application.Test.AccountCategories.Commands {
         /// </summary>
         /// <returns></returns>
         [Fact]
-        public async void ThrowNotFoundException () {
+        public async Task ThrowNotFoundException () {
             //Given
             Mockdatabase.Setup (c => c.AccountCatagory.FindAsync (2)).ReturnsAsync (accountCatagory);
             UpdateAccountCategoryCommandHandler handler = new UpdateAccountCategoryCommandHandler (Mockdatabase.Object);

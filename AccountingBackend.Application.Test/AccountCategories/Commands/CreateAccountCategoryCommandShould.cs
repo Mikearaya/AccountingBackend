@@ -32,7 +32,7 @@ namespace AccountingBackend.Application.Test.AccountCategories.Commands {
         }
 
         [Fact]
-        public async void CreateAccount () {
+        public async Task CreateAccount () {
             //Given
             Mockdatabase.Setup (d => d.SaveAsync ()).Returns (Task.CompletedTask);
             CreateAccountCategoryCommandHandler handler = new CreateAccountCategoryCommandHandler (Mockdatabase.Object);

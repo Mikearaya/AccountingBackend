@@ -3,7 +3,7 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: May 1, 2019 9:39 AM
+ * @Last Modified Time: May 2, 2019 12:54 PM
  * @Description: Modify Here, Please 
  */
 using System;
@@ -17,8 +17,6 @@ using AccountingBackend.Domain;
 using Microsoft.EntityFrameworkCore;
 using Moq;
 using Xunit;
-
-//TODO: Test account category get queries
 
 namespace AccountingBackend.Application.Test.AccountCategories.Queries {
     public class GetAccountCategoryQueryShould {
@@ -37,7 +35,8 @@ namespace AccountingBackend.Application.Test.AccountCategories.Queries {
             };
         }
 
-        public async void ReturnAccountCategory () {
+        //TODO: Test account category view query handler
+        public async Task ReturnAccountCategory () {
             // Arrange
             MockDatabase.Setup (d => d.AccountCatagory.Select (AccountCategoryView.Projection).FirstOrDefaultAsync (a => a.Id == 1, CancellationToken.None)).Returns (Task.FromResult (accountCatagory));
 
@@ -47,7 +46,6 @@ namespace AccountingBackend.Application.Test.AccountCategories.Queries {
             var result = await getQueryHandler.Handle (new GetAccountCategoryQuery () { Id = 1 }, CancellationToken.None);
 
             // Assert
-
             Assert.Equal (accountCatagory, result);
         }
     }
