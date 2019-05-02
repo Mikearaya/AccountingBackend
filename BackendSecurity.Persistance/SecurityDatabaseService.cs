@@ -18,6 +18,8 @@ using Microsoft.Extensions.Configuration;
 namespace BackendSecurity.Persistance {
     public class SecurityDatabaseService : IdentityDbContext<ApplicationUser, ApplicationRole, string, AspNetUserClaims, AspNetUserRoles, AspNetUserLogins, AspNetRoleClaims, AspNetUserTokens>, ISecurityDatabaseService {
 
+        public SecurityDatabaseService () { }
+        public SecurityDatabaseService (DbContextOptions<SecurityDatabaseService> options) : base (options) { }
         public new DbSet<AspNetRoleClaims> RoleClaims { get; set; }
         public new DbSet<ApplicationRole> Roles { get; set; }
         public new DbSet<AspNetUserClaims> UserClaims { get; set; }
@@ -26,7 +28,10 @@ namespace BackendSecurity.Persistance {
         public new DbSet<ApplicationUser> Users { get; set; }
         public new DbSet<AspNetUserTokens> UserTokens { get; set; }
         protected override void OnConfiguring (DbContextOptionsBuilder optionBuilder) {
-            optionBuilder.UseMySql ("server=localhost;user=admin;password=admin;port=3306;database=smart_security;");
+
+            if (!optionBuilder.IsConfigured) {
+                optionBuilder.UseMySql ("server=localhost;user=admin;password=admin;port=3306;database=smart_security;");
+            }
         }
 
         protected override void OnModelCreating (ModelBuilder builder) {

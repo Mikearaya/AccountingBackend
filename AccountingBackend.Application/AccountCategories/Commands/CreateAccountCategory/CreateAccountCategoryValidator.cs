@@ -3,7 +3,7 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: Apr 30, 2019 1:18 PM
+ * @Last Modified Time: May 1, 2019 1:47 PM
  * @Description: Modify Here, Please 
  */
 using FluentValidation;
@@ -13,7 +13,7 @@ namespace AccountingBackend.Application.AccountCategories.Commands.CreateAccount
         public CreateAccountCategoryValidator () {
 
             RuleFor (c => c.CategoryName).NotEmpty ().NotNull ();
-            RuleFor (c => c.AccountType).IsInEnum ().NotEmpty ().NotNull ();
+            RuleFor (c => c.AccountType).NotEmpty ().NotNull ();
         }
     }
 }

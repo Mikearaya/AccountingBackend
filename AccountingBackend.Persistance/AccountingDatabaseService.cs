@@ -18,6 +18,9 @@ using Microsoft.EntityFrameworkCore;
 namespace AccountingBackend.Persistance {
     public class AccountingDatabaseService : DbContext, IAccountingDatabaseService {
 
+        public AccountingDatabaseService (DbContextOptions<AccountingDatabaseService> options) : base (options) { }
+
+        public AccountingDatabaseService () { }
         public DbSet<Account> Account { get; set; }
         public DbSet<AccountCatagory> AccountCatagory { get; set; }
         public DbSet<AccountType> AccountType { get; set; }
@@ -31,17 +34,15 @@ namespace AccountingBackend.Persistance {
         }
 
         protected override void OnConfiguring (DbContextOptionsBuilder optionBuilder) {
-            optionBuilder.UseMySql ("server=localhost;user=admin;password=admin;port=3306;database=smart_accounting;");
+            if (!optionBuilder.IsConfigured) {
+                optionBuilder.UseMySql ("server=localhost;user=admin;password=admin;port=3306;database=smart_accounting;");
+            }
 
         }
 
         protected override void OnModelCreating (ModelBuilder builder) {
-            base.OnModelCreating (builder);
 
-            builder.ApplyConfiguration (new AccountConfiguration ());
-
-            builder.ApplyConfiguration (new AccountTypeConfiguration ());
-            builder.ApplyConfiguration (new AccountCategoryConfiguration ());
+            builder.ApplyConfigurationsFromAssembly (typeof (AccountingDatabaseService).Assembly);
 
         }
 

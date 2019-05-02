@@ -41,9 +41,9 @@ namespace AccountingBackend.Domain.Test.AccountCategories {
             // Arrange
 
             // Act
-            _category.Name = "Fixed Asset";
+            _category.Catagory = "Fixed Asset";
             // Assert
-            Assert.Equal ("Fixed Asset", _category.Name);
+            Assert.Equal ("Fixed Asset", _category.Catagory);
         }
 
         [Fact]

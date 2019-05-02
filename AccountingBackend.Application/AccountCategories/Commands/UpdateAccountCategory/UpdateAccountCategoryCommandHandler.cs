@@ -27,7 +27,7 @@ namespace AccountingBackend.Application.AccountCategories.Commands.UpdateAccount
                 throw new NotFoundException ("Account Category", request.Id);
             }
 
-            catagory.Name = request.CategoryName;
+            catagory.Catagory = request.CategoryName;
             catagory.Type = request.AccountType.ToString ();
 
             _database.AccountCatagory.Update (catagory);

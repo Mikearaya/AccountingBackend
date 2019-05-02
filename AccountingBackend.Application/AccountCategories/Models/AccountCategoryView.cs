@@ -3,7 +3,7 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: Apr 30, 2019 1:58 PM
+ * @Last Modified Time: May 1, 2019 9:16 AM
  * @Description: Modify Here, Please 
  */
 using System;
@@ -23,11 +23,15 @@ namespace AccountingBackend.Application.AccountCategories.Models {
                 return category => new AccountCategoryView () {
                     Id = category.Id,
                     AccountType = category.Type,
-                    CategoryName = category.Name,
+                    CategoryName = category.Catagory,
                     DateAdded = (DateTime) category.DateAdded,
                     DateUpdated = (DateTime) category.DateUpdated
                 };
             }
+        }
+
+        public static AccountCategoryView Create (AccountCatagory catagory) {
+            return Projection.Compile ().Invoke (catagory);
         }
 
     }

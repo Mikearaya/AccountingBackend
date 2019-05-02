@@ -29,7 +29,7 @@ namespace AccountingBackend.Application.Test.AccountCategories.Commands {
             accountCatagory = new AccountCatagory () {
                 Id = 1,
                 Type = "Asset",
-                Name = "Cash",
+                Catagory = "Cash",
                 DateAdded = DateTime.Now,
                 DateUpdated = DateTime.Now
             };
@@ -51,7 +51,7 @@ namespace AccountingBackend.Application.Test.AccountCategories.Commands {
             AccountCatagory updatedAccountCatagory = new AccountCatagory () {
                 Id = 1,
                 Type = "Asset",
-                Name = "Petty Cash",
+                Catagory = "Petty Cash",
                 DateAdded = DateTime.Now,
                 DateUpdated = DateTime.Now
             };

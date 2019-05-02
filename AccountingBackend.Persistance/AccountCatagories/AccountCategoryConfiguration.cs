@@ -27,11 +27,6 @@ namespace AccountingBackend.Persistance.AccountCatagories {
                 .HasColumnName ("ID")
                 .HasColumnType ("int(11)");
 
-            builder.Property (e => e.Catagory)
-                .IsRequired ()
-                .HasColumnName ("catagory")
-                .HasColumnType ("varchar(100)");
-
             builder.Property (e => e.DateAdded)
                 .HasColumnName ("date_added")
                 .HasColumnType ("datetime")
@@ -42,11 +37,6 @@ namespace AccountingBackend.Persistance.AccountCatagories {
                 .HasColumnType ("datetime")
                 .HasDefaultValueSql ("'CURRENT_TIMESTAMP'")
                 .ValueGeneratedOnAddOrUpdate ();
-
-            builder.Property (e => e.Name)
-                .IsRequired ()
-                .HasColumnName ("name")
-                .HasColumnType ("varchar(100)");
 
             builder.Property (e => e.Type)
                 .IsRequired ()

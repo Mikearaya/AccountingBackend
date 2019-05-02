@@ -21,6 +21,7 @@ using AccountingBackend.Application.Infrastructure;
 using AccountingBackend.Application.Interfaces;
 using AccountingBackend.Application.Users.Commands.CreateUser;
 using AccountingBackend.Persistance;
+using AutoMapper;
 using BackendSecurity.Domain.Identity;
 using BackendSecurity.Persistance;
 using FluentValidation.AspNetCore;
@@ -31,6 +32,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -75,6 +77,7 @@ namespace AccountingBackend.Api {
 
             JwtSettings settings;
             settings = GetJwtSettings ();
+            // Add AutoMapper
 
             services.AddSingleton<JwtSettings> (settings);
             services.AddScoped<ISecurityDatabaseService, SecurityDatabaseService> ();
@@ -82,6 +85,11 @@ namespace AccountingBackend.Api {
 
             services.AddScoped<IAccountingDatabaseService, AccountingDatabaseService> ();
             services.AddDbContext<AccountingDatabaseService> ();
+
+            // Customise default API behavour
+            services.Configure<ApiBehaviorOptions> (options => {
+                options.SuppressModelStateInvalidFilter = true;
+            });
 
             services.AddAuthentication (options => {
                 options.DefaultAuthenticateScheme = "JwtBearer";
@@ -168,6 +176,8 @@ namespace AccountingBackend.Api {
             if (env.IsDevelopment ()) {
                 app.UseDeveloperExceptionPage ();
             } else {
+                app.UseExceptionHandler ("/Error");
+
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 //        app.UseHsts ();
             }

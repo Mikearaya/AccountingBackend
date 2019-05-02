@@ -3,9 +3,10 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: Apr 30, 2019 1:18 PM
+ * @Last Modified Time: May 1, 2019 1:47 PM
  * @Description: Modify Here, Please 
  */
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using AccountingBackend.Application.Interfaces;
@@ -22,8 +23,11 @@ namespace AccountingBackend.Application.AccountCategories.Commands.CreateAccount
 
         public async Task<int> Handle (CreateAccountCategoryCommand request, CancellationToken cancellationToken) {
             AccountCatagory category = new AccountCatagory () {
-                Name = request.CategoryName,
-                Type = request.AccountType.ToString ()
+
+                Catagory = request.CategoryName,
+                Type = request.AccountType,
+                DateAdded = DateTime.Now,
+                DateUpdated = DateTime.Now
             };
 
             _database.AccountCatagory.Add (category);

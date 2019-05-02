@@ -24,7 +24,7 @@ namespace AccountingBackend.Application.Test.AccountCategories.Commands {
             accountCategory = new AccountCatagory () {
                 Id = 1,
                 Type = "Asset",
-                Name = "Cash"
+                Catagory = "Cash"
             };
 
             Mockdatabase = new Mock<IAccountingDatabaseService> ();

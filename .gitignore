@@ -28,5 +28,9 @@
 **/BackendSecurity.Domain/obj/
 **/BackendSecurity.Persistance/bin/
 **/BackendSecurity.Persistance/obj/
+**/BackendSecurity.Persistance.Test/obj/
+**/BackendSecurity.Persistance.Test/bin/
+**/BackendSecurity.Domain.Test/obj/
+**/BackendSecurity.Domain.Test/bin/
 .vscode/
 

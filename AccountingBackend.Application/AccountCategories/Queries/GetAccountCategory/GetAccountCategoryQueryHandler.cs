@@ -3,7 +3,7 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: Apr 30, 2019 2:09 PM
+ * @Last Modified Time: May 1, 2019 9:31 AM
  * @Description: Modify Here, Please 
  */
 using System.Linq;
@@ -25,9 +25,8 @@ namespace AccountingBackend.Application.AccountCategories.Queries.GetAccountCate
 
         public async Task<AccountCategoryView> Handle (GetAccountCategoryQuery request, CancellationToken cancellationToken) {
             var accountCategory = await _database.AccountCatagory
-                .Where (a => a.Id == request.Id)
                 .Select (AccountCategoryView.Projection)
-                .FirstOrDefaultAsync ();
+                .FirstOrDefaultAsync (c => c.Id == request.Id);
 
             if (accountCategory == null) {
                 throw new NotFoundException ("Account category", request.Id);

@@ -3,7 +3,7 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: Apr 30, 2019 1:20 PM
+ * @Last Modified Time: May 1, 2019 1:47 PM
  * @Description: Modify Here, Please 
  */
 using System.Threading;
@@ -38,7 +38,7 @@ namespace AccountingBackend.Application.Test.AccountCategories.Commands {
             CreateAccountCategoryCommandHandler handler = new CreateAccountCategoryCommandHandler (Mockdatabase.Object);
             //When
             var result = await handler.Handle (new CreateAccountCategoryCommand () {
-                AccountType = AccountTypes.Asset,
+                AccountType = "Asset",
                     CategoryName = "Cash"
             }, CancellationToken.None);
             //Then
