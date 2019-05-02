@@ -73,15 +73,11 @@ namespace AccountingBackend.Api.Controllers.AccountCategories {
         /// <param name="model"></param>
         /// <returns>int</returns>
         [HttpPost]
-        public async Task<ActionResult<int>> CreateAccountCategory ([FromBody] CreateAccountCategoryCommand model) {
+        public async Task<ActionResult<AccountCategoryView>> CreateAccountCategory ([FromBody] CreateAccountCategoryCommand model) {
 
-            try {
-                var result = await _Mediator.Send (model);
-                return StatusCode (201, result);
-
-            } catch (NotFoundException e) {
-                return NotFound (e.Message);
-            }
+            var result = await _Mediator.Send (model);
+            var category = await _Mediator.Send (new GetAccountCategoryQuery () { Id = result });
+            return StatusCode (201, category);
 
         }
 
@@ -97,9 +93,6 @@ namespace AccountingBackend.Api.Controllers.AccountCategories {
 
             try {
 
-                Console.WriteLine ("Inside update function");
-                Console.WriteLine ("Inside update function");
-                Console.WriteLine (model);
                 var result = await _Mediator.Send (model);
                 return NoContent ();
             } catch (NotFoundException e) {

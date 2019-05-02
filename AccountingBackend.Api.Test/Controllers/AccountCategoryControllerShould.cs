@@ -53,11 +53,11 @@ namespace AccountingBackend.Api.Test.Controllers {
         public async Task ShouldReturnSingleAccountCategory () {
             // Arrange
 
-            var response = await _client.GetAsync ($"{_ApiUrl}/1");
+            var response = await _client.GetAsync ($"{_ApiUrl}/2");
             response.EnsureSuccessStatusCode ();
             // Act
             var categories = await Utilities.GetResponseContent<AccountCategoryView> (response);
-            Assert.Equal (1, categories.Id);
+            Assert.Equal (2, categories.Id);
             // Assert
         }
 
@@ -76,7 +76,6 @@ namespace AccountingBackend.Api.Test.Controllers {
             // Assert
         }
 
-        //TODO: Do testing for post put and delete
         /// <summary>
         /// 
         /// </summary>
@@ -87,7 +86,7 @@ namespace AccountingBackend.Api.Test.Controllers {
             var request = new {
                 Body = new {
                 CategoryName = "Account Recievable",
-                AccountType = "Liability"
+                AccountType = "Asset"
                 }
             };
 
@@ -115,7 +114,7 @@ namespace AccountingBackend.Api.Test.Controllers {
             };
 
             // Act
-            var response = await _client.PutAsync ($"{_ApiUrl}/1", Utilities.GetStringContent (request.Body));
+            var response = await _client.PutAsync ($"{_ApiUrl}/2", Utilities.GetStringContent (request.Body));
             response.EnsureSuccessStatusCode ();
 
             // Assert
@@ -151,7 +150,7 @@ namespace AccountingBackend.Api.Test.Controllers {
         [Fact]
         public async Task DeleteAccountCategorySuccessfuly () {
             // Arrange
-            var response = await _client.DeleteAsync ($"{_ApiUrl}/2");
+            var response = await _client.DeleteAsync ($"{_ApiUrl}/3");
             response.EnsureSuccessStatusCode ();
             // Act
 

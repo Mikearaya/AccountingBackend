@@ -56,15 +56,15 @@ namespace AccountingBackend.Persistance {
 
         public void SeedAccountCategory (AccountingDatabaseService database) {
 
-            database.AccountCatagory.Add (new AccountCatagory () { Id = 1, Catagory = "Cash Account", DateAdded = DateTime.Now, DateUpdated = DateTime.Now });
-            database.AccountCatagory.Add (new AccountCatagory () { Id = 2, Catagory = "COGE", DateAdded = DateTime.Now, DateUpdated = DateTime.Now });
+            database.AccountCatagory.Add (new AccountCatagory () { Id = 2, Catagory = "Cash Account", DateAdded = DateTime.Now, DateUpdated = DateTime.Now });
+            database.AccountCatagory.Add (new AccountCatagory () { Id = 3, Catagory = "COGE", DateAdded = DateTime.Now, DateUpdated = DateTime.Now });
 
         }
 
         public void SeedAccount (AccountingDatabaseService database) {
 
-            database.Account.Add (new Account () { Id = "1", AccountName = "Cash", OpeningBalance = 100, DateAdded = DateTime.Now, DateUpdated = DateTime.Now });
-            database.Account.Add (new Account () { Id = "2", AccountName = "Cash at Bank", OpeningBalance = 100, DateAdded = DateTime.Now, DateUpdated = DateTime.Now });
+            database.Account.Add (new Account () { Id = "2000", AccountName = "Cash", OpeningBalance = 100, DateAdded = DateTime.Now, DateUpdated = DateTime.Now });
+            database.Account.Add (new Account () { Id = "3000", AccountName = "Cash at Bank", OpeningBalance = 100, DateAdded = DateTime.Now, DateUpdated = DateTime.Now });
 
         }
 

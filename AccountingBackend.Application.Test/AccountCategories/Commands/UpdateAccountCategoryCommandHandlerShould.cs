@@ -36,7 +36,7 @@ namespace AccountingBackend.Application.Test.AccountCategories.Commands {
 
             updateRequest = new UpdateAccountCategoryCommand () {
                 Id = 1,
-                AccountType = AccountTypes.Asset,
+                AccountType = "Asset",
                 CategoryName = "Petty Cash"
             };
 
