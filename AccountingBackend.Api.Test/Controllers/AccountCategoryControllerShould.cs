@@ -21,6 +21,7 @@ namespace AccountingBackend.Api.Test.Controllers {
     public class AccountCategoryControllerShould : IClassFixture<CustomWebApplicationFactory<Startup>> {
 
         private readonly HttpClient _client;
+        private readonly string _Api_Url = "api/account-categories";
         public AccountCategoryControllerShould (CustomWebApplicationFactory<Startup> factory) {
 
             _client = factory.CreateClient ();
@@ -32,7 +33,7 @@ namespace AccountingBackend.Api.Test.Controllers {
         [Fact]
         public async Task ReturnSuccessStatusCode () {
             // Arrange
-            var response = await _client.GetAsync ("api/account-categories");
+            var response = await _client.GetAsync (_Api_Url);
 
             response.EnsureSuccessStatusCode ();
             var categories = await Utilities.GetResponseContent<IEnumerable<AccountCategoryView>> (response);
@@ -51,24 +52,11 @@ namespace AccountingBackend.Api.Test.Controllers {
         public async Task ShouldReturnSingleAccountCategory () {
             // Arrange
 
-            var response = await _client.GetAsync ("api/account-categories/1");
+            var response = await _client.GetAsync ($"{_Api_Url}/1");
             response.EnsureSuccessStatusCode ();
             // Act
             var categories = await Utilities.GetResponseContent<AccountCategoryView> (response);
             Assert.Equal (1, categories.Id);
-            // Assert
-        }
-
-        /// <summary>
-        /// test for 404 not found response by giving a wrong url
-        /// </summary>
-        [Fact]
-        public async Task ReturnNotFoundResponse () {
-            // Arrange
-            var response = await _client.GetAsync ("api/account-categoies");
-
-            // Act
-            Assert.Equal ("NotFound", response.StatusCode.ToString ());
             // Assert
         }
 
@@ -77,17 +65,16 @@ namespace AccountingBackend.Api.Test.Controllers {
         ///
         /// </summary>
         /// <returns></returns>
-        [Fact]
+
         public async Task CreateAccountCategorySuccessfuly () {
             var request = new {
-                Url = "api/account-categories",
                 Body = new {
                 CategoryName = "Cash",
                 AccountType = "Asset"
                 }
             };
 
-            var response = await _client.PostAsync (request.Url, ContentHelper.GetStringContent (request.Body));
+            var response = await _client.PostAsync (_Api_Url, ContentHelper.GetStringContent (request.Body));
 
             response.EnsureSuccessStatusCode ();
             Console.WriteLine (response.Content.ReadAsStringAsync ());
@@ -103,7 +90,6 @@ namespace AccountingBackend.Api.Test.Controllers {
         public async Task UpdateAccountCategorySuccessfuly () {
             // Arrange
             var request = new {
-                Url = "/api/account_categories/1",
                 Body = new {
                 Id = 1,
                 CategoryName = "Account Payable",
@@ -112,7 +98,7 @@ namespace AccountingBackend.Api.Test.Controllers {
             };
 
             // Act
-            var response = await _client.PutAsync (request.Url, ContentHelper.GetStringContent (request.Body));
+            var response = await _client.PutAsync ($"{_Api_Url}/1", ContentHelper.GetStringContent (request.Body));
 
             // Assert
             response.EnsureSuccessStatusCode ();
