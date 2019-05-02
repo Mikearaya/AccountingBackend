@@ -3,7 +3,7 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: May 1, 2019 3:07 PM
+ * @Last Modified Time: May 2, 2019 1:26 PM
  * @Description: Modify Here, Please 
  */
 using System;
@@ -58,6 +58,12 @@ namespace AccountingBackend.Persistance {
 
             database.AccountCatagory.Add (new AccountCatagory () { Id = 2, Catagory = "Cash Account", DateAdded = DateTime.Now, DateUpdated = DateTime.Now });
             database.AccountCatagory.Add (new AccountCatagory () { Id = 3, Catagory = "COGE", DateAdded = DateTime.Now, DateUpdated = DateTime.Now });
+            database.AccountCatagory.Add (new AccountCatagory () {
+                Id = 4, Catagory = "COGE", DateAdded = DateTime.Now, DateUpdated = DateTime.Now, Account = new [] {
+                    new Account () { Id = "5000", AccountName = "Cash", OpeningBalance = 100, DateAdded = DateTime.Now, DateUpdated = DateTime.Now },
+                        new Account () { Id = "7000", AccountName = "Cash at Bank", OpeningBalance = 100, DateAdded = DateTime.Now, DateUpdated = DateTime.Now }
+                }
+            });
 
         }
 

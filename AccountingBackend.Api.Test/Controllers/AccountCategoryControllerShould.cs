@@ -3,7 +3,7 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: May 1, 2019 1:56 PM
+ * @Last Modified Time: May 2, 2019 1:43 PM
  * @Description: Modify Here, Please 
  */
 using System;
@@ -15,6 +15,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AccountingBackend.Api.Test.Commons;
 using AccountingBackend.Application.AccountCategories.Models;
+using AccountingBackend.Application.Exceptions;
 using Newtonsoft.Json;
 using Xunit;
 
@@ -40,7 +41,7 @@ namespace AccountingBackend.Api.Test.Controllers {
             var categories = await Utilities.GetResponseContent<IEnumerable<AccountCategoryView>> (response);
 
             Assert.IsAssignableFrom<List<AccountCategoryView>> (categories);
-            Assert.Equal (2, categories.Count ());
+            Assert.Equal (3, categories.Count ());
 
             // Assert
         }

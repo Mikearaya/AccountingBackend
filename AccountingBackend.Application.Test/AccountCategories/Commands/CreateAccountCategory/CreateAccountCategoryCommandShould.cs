@@ -3,7 +3,7 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: May 1, 2019 1:47 PM
+ * @Last Modified Time: May 2, 2019 2:02 PM
  * @Description: Modify Here, Please 
  */
 using System.Threading;
@@ -16,7 +16,7 @@ using MediatR;
 using Moq;
 using Xunit;
 
-namespace AccountingBackend.Application.Test.AccountCategories.Commands {
+namespace AccountingBackend.Application.Test.AccountCategories.Commands.CreateAccountCategory {
     public class CreateAccountCategoryCommandShould {
 
         private readonly Mock<IAccountingDatabaseService> Mockdatabase;
