@@ -9,6 +9,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,7 +22,7 @@ namespace AccountingBackend.Api.Test.Controllers {
     public class AccountCategoryControllerShould : IClassFixture<CustomWebApplicationFactory<Startup>> {
 
         private readonly HttpClient _client;
-        private readonly string _Api_Url = "api/account-categories";
+        private readonly string _ApiUrl = "api/account-categories";
         public AccountCategoryControllerShould (CustomWebApplicationFactory<Startup> factory) {
 
             _client = factory.CreateClient ();
@@ -33,7 +34,7 @@ namespace AccountingBackend.Api.Test.Controllers {
         [Fact]
         public async Task ReturnSuccessStatusCode () {
             // Arrange
-            var response = await _client.GetAsync (_Api_Url);
+            var response = await _client.GetAsync (_ApiUrl);
 
             response.EnsureSuccessStatusCode ();
             var categories = await Utilities.GetResponseContent<IEnumerable<AccountCategoryView>> (response);
@@ -52,11 +53,26 @@ namespace AccountingBackend.Api.Test.Controllers {
         public async Task ShouldReturnSingleAccountCategory () {
             // Arrange
 
-            var response = await _client.GetAsync ($"{_Api_Url}/1");
+            var response = await _client.GetAsync ($"{_ApiUrl}/1");
             response.EnsureSuccessStatusCode ();
             // Act
             var categories = await Utilities.GetResponseContent<AccountCategoryView> (response);
             Assert.Equal (1, categories.Id);
+            // Assert
+        }
+
+        /// <summary>
+        /// tests if api return not found response  single account category request 
+        /// with non existing Id
+        /// </summary>
+        /// <returns></returns>
+        [Fact]
+        public async Task ReturnNotFoundForNonExistingAccountCategoryId () {
+            // Arrange
+
+            var response = await _client.GetAsync ($"{_ApiUrl}/1000");
+            // Act
+            Assert.Equal (HttpStatusCode.NotFound, response.StatusCode);
             // Assert
         }
 
@@ -74,7 +90,7 @@ namespace AccountingBackend.Api.Test.Controllers {
                 }
             };
 
-            var response = await _client.PostAsync (_Api_Url, ContentHelper.GetStringContent (request.Body));
+            var response = await _client.PostAsync (_ApiUrl, Utilities.GetStringContent (request.Body));
 
             response.EnsureSuccessStatusCode ();
             Console.WriteLine (response.Content.ReadAsStringAsync ());
@@ -86,6 +102,10 @@ namespace AccountingBackend.Api.Test.Controllers {
 
         }
 
+        /// <summary>
+        /// Tests update/put request for successful response
+        /// </summary>
+        /// <returns></returns>
         [Fact]
         public async Task UpdateAccountCategorySuccessfuly () {
             // Arrange
@@ -98,15 +118,60 @@ namespace AccountingBackend.Api.Test.Controllers {
             };
 
             // Act
-            var response = await _client.PutAsync ($"{_Api_Url}/1", ContentHelper.GetStringContent (request.Body));
+            var response = await _client.PutAsync ($"{_ApiUrl}/1", Utilities.GetStringContent (request.Body));
+            response.EnsureSuccessStatusCode ();
 
             // Assert
+            Assert.Equal (HttpStatusCode.NoContent, response.StatusCode);
+        }
+
+        /// <summary>
+        /// test update/put request for 404 not found response by giving a wrong url
+        /// </summary>
+        [Fact]
+        public async Task ReturnNotFoundResponseForNonExistingId () {
+            // Arrange
+            // Arrange
+            var request = new {
+                Body = new {
+                Id = 1000,
+                CategoryName = "Account Payable",
+                AccountType = "Asset",
+                }
+            };
+            var response = await _client.GetAsync ($"{_ApiUrl}/1000");
+
+            // Act
+            Assert.Equal (HttpStatusCode.NotFound, response.StatusCode);
+            // Assert
+        }
+
+        /// <summary>
+        /// testing delete request for a successful completion
+        /// </summary>
+        /// <returns></returns>
+
+        [Fact]
+        public async Task DeleteAccountCategorySuccessfuly () {
+            // Arrange
+            var response = await _client.DeleteAsync ($"{_ApiUrl}/2");
             response.EnsureSuccessStatusCode ();
+            // Act
+
+            // Assert
+            Assert.Equal (HttpStatusCode.NoContent, response.StatusCode);
+        }
+
+        [Fact]
+        public async Task ReturnNotFoundForNonExistingAccountCategoryDeleteRequest () {
+            // Arrange
+            var response = await _client.DeleteAsync ($"{_ApiUrl}/1000");
+            // Act
+
+            // Assert
+            Assert.Equal (HttpStatusCode.NotFound, response.StatusCode);
         }
 
     }
 
-    public static class ContentHelper {
-        public static StringContent GetStringContent (object obj) => new StringContent (JsonConvert.SerializeObject (obj), Encoding.Default, "application/json");
-    }
 }

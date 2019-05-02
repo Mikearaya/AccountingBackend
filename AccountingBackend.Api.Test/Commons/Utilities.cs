@@ -21,5 +21,7 @@ namespace AccountingBackend.Api.Test.Commons {
         public static void InitializeDbForTests (AccountingDatabaseService context) {
             AccountingDatabaseInitializer.Initialize (context);
         }
+
+        public static StringContent GetStringContent (object obj) => new StringContent (JsonConvert.SerializeObject (obj), Encoding.Default, "application/json");
     }
 }
