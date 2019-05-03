@@ -3,7 +3,7 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: May 2, 2019 6:49 PM
+ * @Last Modified Time: May 3, 2019 2:47 PM
  * @Description: Modify Here, Please 
  */
 using System;
@@ -33,8 +33,6 @@ namespace AccountingBackend.Persistance {
             }
 
             SeedAccountType (context);
-            SeedAccountCategory (context);
-            SeedAccount (context);
 
             context.SaveChanges ();
 
@@ -46,31 +44,23 @@ namespace AccountingBackend.Persistance {
                 new AccountType () { Type = "Liability" },
                 new AccountType () { Type = "Capital" },
                 new AccountType () { Type = "Revenue" },
-                new AccountType () { Type = "Expence" }
+                new AccountType () {
+                Type = "Expence",
+                AccountCatagory = new [] {
+                new AccountCatagory () { Id = 2, Catagory = "Cash Account", DateAdded = DateTime.Now, DateUpdated = DateTime.Now },
+                new AccountCatagory () { Id = 3, Catagory = "COGE", DateAdded = DateTime.Now, DateUpdated = DateTime.Now },
+                new AccountCatagory () {
+                Id = 4, Catagory = "COGE", DateAdded = DateTime.Now, DateUpdated = DateTime.Now, Account = new [] {
+                new Account () { Id = 10, AccountId = "5000", AccountName = "Cash", OpeningBalance = 100, DateAdded = DateTime.Now, DateUpdated = DateTime.Now },
+                new Account () { Id = 11, AccountId = "7000", AccountName = "Cash at Bank", OpeningBalance = 100, DateAdded = DateTime.Now, DateUpdated = DateTime.Now }
+                }
+                }
+                }
+                }
 
             };
 
             database.AccountType.AddRange (accountType);
-
-        }
-
-        public void SeedAccountCategory (AccountingDatabaseService database) {
-
-            database.AccountCatagory.Add (new AccountCatagory () { Id = 2, Catagory = "Cash Account", DateAdded = DateTime.Now, DateUpdated = DateTime.Now });
-            database.AccountCatagory.Add (new AccountCatagory () { Id = 3, Catagory = "COGE", DateAdded = DateTime.Now, DateUpdated = DateTime.Now });
-            database.AccountCatagory.Add (new AccountCatagory () {
-                Id = 4, Catagory = "COGE", DateAdded = DateTime.Now, DateUpdated = DateTime.Now, Account = new [] {
-                    new Account () { AccountId = "5000", AccountName = "Cash", OpeningBalance = 100, DateAdded = DateTime.Now, DateUpdated = DateTime.Now },
-                        new Account () { AccountId = "7000", AccountName = "Cash at Bank", OpeningBalance = 100, DateAdded = DateTime.Now, DateUpdated = DateTime.Now }
-                }
-            });
-
-        }
-
-        public void SeedAccount (AccountingDatabaseService database) {
-
-            database.Account.Add (new Account () { Id = 10, AccountId = "2000", AccountName = "Cash", OpeningBalance = 100, DateAdded = DateTime.Now, DateUpdated = DateTime.Now });
-            database.Account.Add (new Account () { Id = 11, AccountId = "3000", AccountName = "Cash at Bank", OpeningBalance = 100, DateAdded = DateTime.Now, DateUpdated = DateTime.Now });
 
         }
 

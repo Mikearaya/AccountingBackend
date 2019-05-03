@@ -3,7 +3,7 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: May 2, 2019 1:43 PM
+ * @Last Modified Time: May 3, 2019 2:01 PM
  * @Description: Modify Here, Please 
  */
 using System;
@@ -33,7 +33,7 @@ namespace AccountingBackend.Api.Test.Controllers {
         /// tests successful return of categories list
         /// </summary>
         [Fact]
-        public async Task ReturnSuccessStatusCode () {
+        public async Task ReturnListOfAccountCategoriesSuccessSuccessfuly () {
             // Arrange
             var response = await _client.GetAsync (_ApiUrl);
 
