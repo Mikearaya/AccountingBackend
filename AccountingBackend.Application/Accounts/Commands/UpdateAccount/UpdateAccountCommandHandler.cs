@@ -3,9 +3,10 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: May 2, 2019 7:06 PM
+ * @Last Modified Time: May 3, 2019 9:00 AM
  * @Description: Modify Here, Please 
  */
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using AccountingBackend.Application.Exceptions;
@@ -32,6 +33,7 @@ namespace AccountingBackend.Application.Accounts.Commands.UpdateAccount {
             account.AccountId = request.AccountId;
             account.Active = request.Active;
             account.ParentAccount = request.ParentAccount;
+            account.DateUpdated = DateTime.Now;
 
             _database.Account.Update (account);
 

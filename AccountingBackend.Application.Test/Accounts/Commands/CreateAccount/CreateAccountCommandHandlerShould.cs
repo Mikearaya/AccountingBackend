@@ -3,7 +3,7 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: May 2, 2019 6:52 PM
+ * @Last Modified Time: May 3, 2019 9:15 AM
  * @Description: Modify Here, Please 
  */
 using System.Threading;
@@ -22,8 +22,6 @@ namespace AccountingBackend.Application.Test.Accounts.Commands.CreateAccount {
         Mock<IAccountingDatabaseService> Mockdatabase;
         public CreateAccountCommandHandlerShould () {
             Mockdatabase = new Mock<IAccountingDatabaseService> ();
-            Mockdatabase.Setup (d => d.SaveAsync ());
-
             Mockdatabase.Setup (d => d.SaveAsync ()).Returns (Task.CompletedTask);
         }
 
