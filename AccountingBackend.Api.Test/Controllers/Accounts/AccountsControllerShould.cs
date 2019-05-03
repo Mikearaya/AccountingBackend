@@ -92,12 +92,57 @@ namespace AccountingBackend.Api.Test.Controllers.Accounts {
             };
 
             var response = await _client.PostAsync (_ApiUrl, Utilities.GetStringContent (request.Body));
+            var account = await Utilities.GetResponseContent<AccountViewModel> (response);
 
             response.EnsureSuccessStatusCode ();
 
             // Assert
             Assert.Equal (HttpStatusCode.Created, response.StatusCode);
+            Assert.Equal ("5050", account.AccountId);
+            Assert.Equal (3, account.CategoryId);
+            Assert.Equal ("string", account.AccountName);
+            Assert.Equal (true, account.Active);
+            Assert.Equal (4000, account.OpeningBalance);
+            Assert.Equal (3, account.CategoryId);
 
+        }
+
+        [Fact]
+        public async Task UpdateAccountSuccessfuly () {
+            //Given
+
+            var request = new {
+                Body = new {
+                Id = 10,
+                Name = "Account Recievable",
+                AccountId = "5444",
+                Active = 0
+                }
+            };
+            var response = await _client.PutAsync ($"{_ApiUrl}/10", Utilities.GetStringContent (request.Body));
+            response.EnsureSuccessStatusCode ();
+            //When
+
+            //Then
+            Assert.Equal (HttpStatusCode.NoContent, response.StatusCode);
+        }
+
+        [Fact]
+        public async Task ReturnNotFoundStatusCodeForUpdateWithNoExistingAccountId () {
+            //Given
+            var request = new {
+                Body = new {
+                Id = 1000,
+                Name = "Account Recievable",
+                AccountId = "5444",
+                Active = 0
+                }
+            };
+            //When
+            var response = await _client.PutAsync ($"{_ApiUrl}/10", Utilities.GetStringContent (request.Body));
+
+            //Then
+            Assert.Equal (HttpStatusCode.NotFound, response.StatusCode);
         }
 
     }
