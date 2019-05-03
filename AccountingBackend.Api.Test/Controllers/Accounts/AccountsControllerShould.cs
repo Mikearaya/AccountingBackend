@@ -39,7 +39,7 @@ namespace AccountingBackend.Api.Test.Controllers.Accounts {
             var account = await Utilities.GetResponseContent<IEnumerable<AccountViewModel>> (response);
 
             // Assert
-            Assert.Equal (2, account.Count ());
+
             Assert.IsAssignableFrom<List<AccountViewModel>> (account);
         }
 
@@ -73,7 +73,7 @@ namespace AccountingBackend.Api.Test.Controllers.Accounts {
         }
 
         /// <summary>
-        /// tests creates  account  successfuly
+        /// tests creates  account request completes  successfuly
         /// </summary>
         /// <returns></returns>
 
@@ -107,6 +107,10 @@ namespace AccountingBackend.Api.Test.Controllers.Accounts {
 
         }
 
+        /// <summary>
+        /// checks if updat account request completes successfuly
+        /// </summary>
+        /// <returns></returns>
         [Fact]
         public async Task UpdateAccountSuccessfuly () {
             //Given
@@ -127,6 +131,12 @@ namespace AccountingBackend.Api.Test.Controllers.Accounts {
             Assert.Equal (HttpStatusCode.NoContent, response.StatusCode);
         }
 
+        /// <summary>
+        /// checks if update account with non existing account id returns not found
+        /// http response
+        /// </summary>
+        /// <returns></returns>
+
         [Fact]
         public async Task ReturnNotFoundStatusCodeForUpdateWithNoExistingAccountId () {
             //Given
@@ -139,11 +149,35 @@ namespace AccountingBackend.Api.Test.Controllers.Accounts {
                 }
             };
             //When
-            var response = await _client.PutAsync ($"{_ApiUrl}/10", Utilities.GetStringContent (request.Body));
-
+            var response = await _client.PutAsync ($"{_ApiUrl}/100", Utilities.GetStringContent (request.Body));
             //Then
             Assert.Equal (HttpStatusCode.NotFound, response.StatusCode);
         }
 
+        /// <summary>
+        /// checks if delete account request completes successfuly
+        /// </summary>
+        /// <returns></returns>
+        [Fact]
+        public async Task DeletesAccountSuccessfuly () {
+            var response = await _client.DeleteAsync ($"{_ApiUrl}/11");
+            response.EnsureSuccessStatusCode ();
+
+            Assert.Equal (HttpStatusCode.NoContent, response.StatusCode);
+        }
+
+        /// <summary>
+        /// checks if delete account request with no id 
+        /// returns not found http status code
+        /// </summary>
+        /// <returns></returns>
+        [Fact]
+        public async Task DeleteAccountRequestReturnNotFound () {
+            var response = await _client.DeleteAsync ($"{_ApiUrl}/1000");
+
+            Assert.Equal (HttpStatusCode.NotFound, response.StatusCode);
+        }
+
     }
+
 }
