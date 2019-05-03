@@ -3,12 +3,13 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: May 3, 2019 11:23 AM
+ * @Last Modified Time: May 3, 2019 11:26 AM
  * @Description: Modify Here, Please 
  */
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AccountingBackend.Application.Accounts.Commands.CreateAccount;
+using AccountingBackend.Application.Accounts.Commands.UpdateAccount;
 using AccountingBackend.Application.Accounts.Models;
 using AccountingBackend.Application.Accounts.Queries.GetAccount;
 using AccountingBackend.Application.Accounts.Queries.GetAccountsList;
@@ -67,6 +68,13 @@ namespace AccountingBackend.Api.Controllers.Accounts {
             var result = await _Mediator.Send (model);
             var newAccount = await _Mediator.Send (new GetAccountQuery () { Id = result });
             return StatusCode (201, newAccount);
+        }
+
+        [HttpPut ("{id}")]
+        public async Task<ActionResult> UpdateAccount (int id, [FromBody] UpdateAccountCommand model) {
+
+            await _Mediator.Send (model);
+            return NoContent ();
         }
 
     }
