@@ -3,7 +3,7 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: May 3, 2019 2:01 PM
+ * @Last Modified Time: May 3, 2019 2:55 PM
  * @Description: Modify Here, Please 
  */
 using System;
@@ -78,7 +78,7 @@ namespace AccountingBackend.Api.Test.Controllers {
         }
 
         /// <summary>
-        /// 
+        /// creates account category successfuly
         /// </summary>
         /// <returns></returns>
 

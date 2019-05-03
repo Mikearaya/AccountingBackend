@@ -3,7 +3,7 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: May 2, 2019 6:50 PM
+ * @Last Modified Time: May 3, 2019 2:58 PM
  * @Description: Modify Here, Please 
  */
 using System;
@@ -25,9 +25,9 @@ namespace AccountingBackend.Application.Accounts.Commands.CreateAccount {
             var account = new Account () {
                 AccountName = request.Name,
                 Active = request.Active,
-                CatagoryId = request.CatagoriId,
+                CatagoryId = request.CatagoryId,
                 ParentAccount = request.ParentAccount,
-                AccountId = request.Id,
+                AccountId = request.AccountId,
                 Year = DateTime.Now.Year.ToString (),
                 OpeningBalance = request.OpeningBalance,
                 DateAdded = DateTime.Now,

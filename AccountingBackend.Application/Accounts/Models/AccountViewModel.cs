@@ -3,7 +3,7 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: May 3, 2019 2:20 PM
+ * @Last Modified Time: May 3, 2019 3:15 PM
  * @Description: Modify Here, Please 
  */
 using System;
@@ -34,7 +34,7 @@ namespace AccountingBackend.Application.Accounts.Models {
                     AccountId = account.AccountId,
                     AccountName = account.AccountName,
                     ParentAccount = account.ParentAccountNavigation.AccountId,
-                    Active = (account.Active == 0) ? true : false,
+                    Active = (account.Active == 1) ? true : false,
                     OpeningBalance = account.OpeningBalance,
                     Year = account.Year,
                     Category = account.Catagory.Catagory,

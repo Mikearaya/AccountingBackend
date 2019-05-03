@@ -3,7 +3,7 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: May 2, 2019 6:27 PM
+ * @Last Modified Time: May 3, 2019 3:09 PM
  * @Description: Modify Here, Please 
  */
 using AccountingBackend.Application.Accounts.Commands.CreateAccount;
@@ -19,14 +19,14 @@ namespace AccountingBackend.Application.Test.Accounts.Commands.CreateAccount {
 
         [Fact]
         public void HaveErrorWhenIdIsNullOrEmpty () {
-            validator.ShouldHaveValidationErrorFor (c => c.Id, null as string);
-            validator.ShouldHaveValidationErrorFor (c => c.Id, "");
+            validator.ShouldHaveValidationErrorFor (c => c.AccountId, null as string);
+            validator.ShouldHaveValidationErrorFor (c => c.AccountId, "");
         }
 
         [Fact]
         public void NotHaveErrorWhenIdIsNotNullOrEmpty () {
 
-            validator.ShouldNotHaveValidationErrorFor (c => c.Id, "0000");
+            validator.ShouldNotHaveValidationErrorFor (c => c.AccountId, "0000");
         }
 
         [Fact]
@@ -41,12 +41,12 @@ namespace AccountingBackend.Application.Test.Accounts.Commands.CreateAccount {
 
         [Fact]
         public void HaveValidationErrorWhenCatagoryIdIsNull () {
-            validator.ShouldHaveValidationErrorFor (c => c.CatagoriId, 0);
+            validator.ShouldHaveValidationErrorFor (c => c.CatagoryId, 0);
         }
 
         [Fact]
         public void NotHaveValidationErrorWhenCatagoryIdIsNotNull () {
-            validator.ShouldNotHaveValidationErrorFor (c => c.CatagoriId, 10);
+            validator.ShouldNotHaveValidationErrorFor (c => c.CatagoryId, 10);
         }
 
         [Fact]

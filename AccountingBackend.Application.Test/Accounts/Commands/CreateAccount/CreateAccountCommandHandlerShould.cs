@@ -3,7 +3,7 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: May 3, 2019 9:52 AM
+ * @Last Modified Time: May 3, 2019 3:09 PM
  * @Description: Modify Here, Please 
  */
 using System.Threading;
@@ -39,10 +39,10 @@ namespace AccountingBackend.Application.Test.Accounts.Commands.CreateAccount {
 
             handler = new CreateAccountCommandHandler (Mockdatabase.Object);
             accountModel = new CreateAccountCommand () {
-                Id = "0000",
+                AccountId = "0000",
                 Name = "Cash",
                 Active = 0,
-                CatagoriId = 1,
+                CatagoryId = 1,
                 OpeningBalance = 100,
                 OrganizationId = 1,
             };
