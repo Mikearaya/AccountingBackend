@@ -3,12 +3,13 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: May 3, 2019 11:26 AM
+ * @Last Modified Time: May 3, 2019 11:30 AM
  * @Description: Modify Here, Please 
  */
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AccountingBackend.Application.Accounts.Commands.CreateAccount;
+using AccountingBackend.Application.Accounts.Commands.DeleteAccount;
 using AccountingBackend.Application.Accounts.Commands.UpdateAccount;
 using AccountingBackend.Application.Accounts.Models;
 using AccountingBackend.Application.Accounts.Queries.GetAccount;
@@ -70,10 +71,30 @@ namespace AccountingBackend.Api.Controllers.Accounts {
             return StatusCode (201, newAccount);
         }
 
+        /// <summary>
+        /// Updates single instance of account based on the id provided through its parameter or
+        /// throws not found exception on the case the account with that id is not found
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpPut ("{id}")]
         public async Task<ActionResult> UpdateAccount (int id, [FromBody] UpdateAccountCommand model) {
 
             await _Mediator.Send (model);
+            return NoContent ();
+        }
+
+        /// <summary>
+        /// Deletes a single instance of account based on the id passed on its parameter ot
+        /// throws not found exception in the case the account is not found
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpDelete ("{id}")]
+        public async Task<ActionResult> DeleteAccount (int id) {
+
+            await _Mediator.Send (new DeleteAccountCommand () { Id = id });
             return NoContent ();
         }
 
