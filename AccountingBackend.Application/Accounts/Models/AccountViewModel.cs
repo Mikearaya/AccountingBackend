@@ -45,5 +45,15 @@ namespace AccountingBackend.Application.Accounts.Models {
                 };
             }
         }
+
+        public static Expression<Func<Account, AccountViewModel>> Index {
+
+            get {
+                return account => new AccountViewModel {
+                    Id = account.Id,
+                    AccountName = $"{account.AccountId} - {account.AccountName}"
+                };
+            }
+        }
     }
 }

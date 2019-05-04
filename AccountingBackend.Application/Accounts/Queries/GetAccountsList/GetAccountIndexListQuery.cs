@@ -1,9 +1,9 @@
 /*
- * @CreateTime: Apr 24, 2019 6:10 PM
+ * @CreateTime: May 4, 2019 9:33 AM
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: Apr 24, 2019 6:14 PM
+ * @Last Modified Time: May 4, 2019 9:38 AM
  * @Description: Modify Here, Please 
  */
 using System.Collections.Generic;
@@ -12,7 +12,5 @@ using AccountingBackend.Commons.QueryHelpers;
 using MediatR;
 
 namespace AccountingBackend.Application.Accounts.Queries.GetAccountsList {
-    public class GetAccountsListQuery : ApiQueryString, IRequest<IEnumerable<AccountViewModel>> {
-
-    }
+    public class GetAccountIndexListQuery : ApiQueryString, IRequest<IEnumerable<AccountIndexView>> { }
 }

@@ -3,7 +3,7 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: May 3, 2019 11:30 AM
+ * @Last Modified Time: May 4, 2019 9:44 AM
  * @Description: Modify Here, Please 
  */
 using System.Collections.Generic;
@@ -52,9 +52,9 @@ namespace AccountingBackend.Api.Controllers.Accounts {
         /// </summary>
         /// <returns >AccountViewModel</returns>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<AccountViewModel>>> GetAccountsList () {
+        public async Task<ActionResult<IEnumerable<AccountViewModel>>> GetAccountsList ([FromQuery] GetAccountsListQuery query) {
 
-            var result = await _Mediator.Send (new GetAccountsListQuery ());
+            var result = await _Mediator.Send (query);
             return StatusCode (200, result);
         }
 
@@ -96,6 +96,18 @@ namespace AccountingBackend.Api.Controllers.Accounts {
 
             await _Mediator.Send (new DeleteAccountCommand () { Id = id });
             return NoContent ();
+        }
+
+        /// <summary>
+        /// returns name and id of  top 10 accounts in the system based on given search criteria
+        /// </summary>
+        /// <param name="query"></param>
+        /// <returns></returns>
+        [HttpGet ("index")]
+        public async Task<ActionResult<IEnumerable<AccountIndexView>>> GetAccountIndex ([FromQuery] GetAccountIndexListQuery query) {
+
+            var index = await _Mediator.Send (query);
+            return Ok (index);
         }
 
     }

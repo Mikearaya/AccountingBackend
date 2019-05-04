@@ -12,6 +12,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using AccountingBackend.Application.Accounts.Models;
 using AccountingBackend.Application.Interfaces;
+using AccountingBackend.Commons.QueryHelpers;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -23,10 +24,15 @@ namespace AccountingBackend.Application.Accounts.Queries.GetAccountsList {
             _database = database;
         }
 
-        public async Task<IEnumerable<AccountViewModel>> Handle (GetAccountsListQuery request, CancellationToken cancellationToken) {
-            return await _database.Account
+        public Task<IEnumerable<AccountViewModel>> Handle (GetAccountsListQuery request, CancellationToken cancellationToken) {
+            var accountList = _database.Account
                 .Select (AccountViewModel.Projection)
-                .ToListAsync ();
+                .Select (DynamicQueryHelper.GenerateSelectedColumns<AccountViewModel> (request.SelectedColumns))
+                .Skip (request.PageNumber * request.PageSize)
+                .Take (request.PageSize)
+                .ToList ();
+
+            return Task.FromResult<IEnumerable<AccountViewModel>> (accountList);
         }
     }
 }
