@@ -3,7 +3,7 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: Apr 30, 2019 3:56 PM
+ * @Last Modified Time: May 4, 2019 10:15 AM
  * @Description: Modify Here, Please 
  */
 using System;
@@ -119,6 +119,13 @@ namespace AccountingBackend.Api.Controllers.AccountCategories {
             } catch (NotFoundException e) {
                 return NotFound (e.Message);
             }
+        }
+
+        [HttpGet ("index")]
+        public async Task<ActionResult<IEnumerable<AccountCategoryIndexView>>> GetAccountCategoryIndexs ([FromQuery] GetAccountCategoryListQuery query) {
+            var categoryIndex = await _Mediator.Send (query);
+            return Ok (categoryIndex);
+
         }
 
     }
