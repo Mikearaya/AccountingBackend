@@ -3,7 +3,7 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: May 3, 2019 3:18 PM
+ * @Last Modified Time: May 4, 2019 9:50 AM
  * @Description: Modify Here, Please 
  */
 using System;
@@ -39,7 +39,7 @@ namespace AccountingBackend.Api.Test.Controllers.Accounts {
             var account = await Utilities.GetResponseContent<IEnumerable<AccountViewModel>> (response);
 
             // Assert
-
+            Assert.True (account.Count () > 0);
             Assert.IsAssignableFrom<List<AccountViewModel>> (account);
         }
 
@@ -176,6 +176,23 @@ namespace AccountingBackend.Api.Test.Controllers.Accounts {
             var response = await _client.DeleteAsync ($"{_ApiUrl}/1000");
 
             Assert.Equal (HttpStatusCode.NotFound, response.StatusCode);
+        }
+
+        /// <summary>
+        /// tests  successful return of account index getter function
+        /// </summary>
+        [Fact]
+        public async Task ReturnIndexForListOfAccountsSuccessfuly () {
+
+            // Actions
+            var response = await _client.GetAsync ($"{_ApiUrl}/index");
+
+            response.EnsureSuccessStatusCode ();
+            var account = await Utilities.GetResponseContent<IEnumerable<AccountIndexView>> (response);
+
+            // Assert
+
+            Assert.IsAssignableFrom<List<AccountIndexView>> (account);
         }
 
     }
