@@ -3,11 +3,13 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: Apr 26, 2019 9:27 PM
+ * @Last Modified Time: May 4, 2019 9:54 AM
  * @Description: Modify Here, Please 
  */
 using System;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
+using AccountingBackend.Application.Accounts.Models;
 using AccountingBackend.Application.Interfaces;
 using AccountingBackend.Domain;
 using AccountingBackend.Persistance.AccountCatagories;
