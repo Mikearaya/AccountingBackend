@@ -3,7 +3,7 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: May 3, 2019 2:55 PM
+ * @Last Modified Time: May 4, 2019 10:23 AM
  * @Description: Modify Here, Please 
  */
 using System;
@@ -41,7 +41,7 @@ namespace AccountingBackend.Api.Test.Controllers {
             var categories = await Utilities.GetResponseContent<IEnumerable<AccountCategoryView>> (response);
 
             Assert.IsAssignableFrom<List<AccountCategoryView>> (categories);
-            Assert.Equal (3, categories.Count ());
+            Assert.True (categories.Count () > 0);
 
             // Assert
         }
@@ -167,6 +167,23 @@ namespace AccountingBackend.Api.Test.Controllers {
 
             // Assert
             Assert.Equal (HttpStatusCode.NotFound, response.StatusCode);
+        }
+
+        /// <summary>
+        /// tests successful return of categories cantegory index api request
+        /// </summary>
+        [Fact]
+        public async Task ReturnIndexForListOfAccountCategoriesSuccessfuly () {
+            // Arrange
+            var response = await _client.GetAsync ($"{_ApiUrl}/index");
+
+            response.EnsureSuccessStatusCode ();
+            var categories = await Utilities.GetResponseContent<IEnumerable<AccountCategoryIndexView>> (response);
+
+            Assert.IsAssignableFrom<List<AccountCategoryIndexView>> (categories);
+            Assert.True (categories.Count () > 0);
+
+            // Assert
         }
 
     }

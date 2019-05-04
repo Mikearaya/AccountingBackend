@@ -3,7 +3,7 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: May 4, 2019 9:40 AM
+ * @Last Modified Time: May 4, 2019 10:24 AM
  * @Description: Modify Here, Please 
  */
 using System.Collections.Generic;
@@ -27,7 +27,7 @@ namespace AccountingBackend.Application.Accounts.Queries.GetAccountsList {
             return await _database.Account
                 .Select (AccountIndexView.Projection)
                 .Where (a => a.Name.Contains (request.SearchString))
-                .Take (10)
+                .Take (request.PageSize)
                 .ToListAsync ();
         }
     }

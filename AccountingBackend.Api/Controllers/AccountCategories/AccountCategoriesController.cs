@@ -3,7 +3,7 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: May 4, 2019 10:15 AM
+ * @Last Modified Time: May 4, 2019 10:20 AM
  * @Description: Modify Here, Please 
  */
 using System;
@@ -121,6 +121,11 @@ namespace AccountingBackend.Api.Controllers.AccountCategories {
             }
         }
 
+        /// <summary>
+        /// returns account category index information based on the criteria provided in the search string
+        /// </summary>
+        /// <param name="query"></param>
+        /// <returns></returns>
         [HttpGet ("index")]
         public async Task<ActionResult<IEnumerable<AccountCategoryIndexView>>> GetAccountCategoryIndexs ([FromQuery] GetAccountCategoryListQuery query) {
             var categoryIndex = await _Mediator.Send (query);
