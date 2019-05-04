@@ -101,7 +101,7 @@ namespace AccountingBackend.Api.Test.Controllers.Accounts {
             Assert.Equal ("5050", account.AccountId);
             Assert.Equal (3, account.CategoryId);
             Assert.Equal ("string", account.AccountName);
-            Assert.Equal (true, account.Active);
+            Assert.True (account.Active);
             Assert.Equal (4000, account.OpeningBalance);
             Assert.Equal (3, account.CategoryId);
 

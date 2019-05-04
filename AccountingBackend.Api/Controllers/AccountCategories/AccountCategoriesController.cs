@@ -60,9 +60,9 @@ namespace AccountingBackend.Api.Controllers.AccountCategories {
         /// </summary>
         /// <returns>AccountCategoryView</returns>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<AccountCategoryView>>> GetAccountCategoryList () {
+        public async Task<ActionResult<IEnumerable<AccountCategoryView>>> GetAccountCategoryList ([FromQuery] GetAccountCategoryListQuery query) {
 
-            var result = await _Mediator.Send (new GetAccountCategoryListQuery ());
+            var result = await _Mediator.Send (query);
             return Ok (result);
 
         }
