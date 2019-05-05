@@ -127,7 +127,7 @@ namespace AccountingBackend.Api.Controllers.AccountCategories {
         /// <param name="query"></param>
         /// <returns></returns>
         [HttpGet ("index")]
-        public async Task<ActionResult<IEnumerable<AccountCategoryIndexView>>> GetAccountCategoryIndexs ([FromQuery] GetAccountCategoryListQuery query) {
+        public async Task<ActionResult<IEnumerable<AccountCategoryIndexView>>> GetAccountCategoryIndexs ([FromQuery] GetAccountCategoryIndexListQuery query) {
             var categoryIndex = await _Mediator.Send (query);
             return Ok (categoryIndex);
 

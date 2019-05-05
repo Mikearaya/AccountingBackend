@@ -14,7 +14,7 @@ namespace AccountingBackend.Application.Accounts.Commands.CreateAccount {
             RuleFor (x => x.AccountId).MinimumLength (4).NotEmpty ().NotNull ();
             RuleFor (x => x.Active).NotNull ().NotNull ();
             RuleFor (x => x.Name).NotNull ().NotEmpty ();
-            RuleFor (x => x.OrganizationId).NotNull ().NotEmpty ();
+
             RuleFor (x => x.CatagoryId).NotEmpty ().NotNull ();
         }
     }

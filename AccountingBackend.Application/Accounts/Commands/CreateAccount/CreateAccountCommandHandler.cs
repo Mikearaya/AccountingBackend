@@ -26,7 +26,6 @@ namespace AccountingBackend.Application.Accounts.Commands.CreateAccount {
                 AccountName = request.Name,
                 Active = request.Active,
                 CatagoryId = request.CatagoryId,
-                ParentAccount = request.ParentAccount,
                 AccountId = request.AccountId,
                 Year = DateTime.Now.Year.ToString (),
                 OpeningBalance = request.OpeningBalance,
@@ -34,6 +33,9 @@ namespace AccountingBackend.Application.Accounts.Commands.CreateAccount {
                 DateUpdated = DateTime.Now
             };
 
+            if (request.ParentAccount != 0) {
+                account.ParentAccount = request.ParentAccount;
+            }
             _database.Account.Add (account);
 
             await _database.SaveAsync ();

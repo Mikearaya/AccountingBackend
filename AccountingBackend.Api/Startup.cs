@@ -7,6 +7,7 @@
  * @Description: Modify Here, Please 
  */
 using System;
+using System.Buffers;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -32,12 +33,15 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 [assembly : ApiController]
 [assembly : ApiConventionType (typeof (CustomApiConventions))]
@@ -142,9 +146,23 @@ namespace AccountingBackend.Api {
                 options.AddPolicy ("AllowAllOrigins",
                     builder => builder.AllowAnyOrigin ().AllowAnyMethod ().AllowAnyHeader ());
             });
-            services.AddMvc (options => options.Filters.Add (typeof (CustomExceptionFilterAttribute)))
+
+            services.AddMvc (
+                    options => {
+                        options.Filters.Add (typeof (CustomExceptionFilterAttribute));
+                        options.OutputFormatters.Clear (); // Disables recurrsive reference of entity framework get requests
+                        options.OutputFormatters.Add (new JsonOutputFormatter (new JsonSerializerSettings () {
+                            ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+                        }, ArrayPool<char>.Shared));
+                    }
+                )
+                .AddJsonOptions (options => options.SerializerSettings.ContractResolver = new DefaultContractResolver ())
                 .SetCompatibilityVersion (CompatibilityVersion.Version_2_2)
                 .AddFluentValidation (fv => fv.RegisterValidatorsFromAssemblyContaining<CreateAccountCommandValidator> ());
+
+            services.Configure<ApiBehaviorOptions> (options => {
+                options.SuppressModelStateInvalidFilter = true;
+            });
 
             services.Configure<IdentityOptions> (options => {
                 // Default Password settings.

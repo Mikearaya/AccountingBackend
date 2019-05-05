@@ -10,15 +10,22 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
 
 namespace AccountingBackend.Commons.QueryHelpers {
     public static class DynamicQueryHelper {
         public static Func<T, T> GenerateSelectedColumns<T> (string Fields = "") {
             string[] EntityFields;
-            if (Fields == "")
-                EntityFields = typeof (T).GetProperties ().Select (propertyInfo => propertyInfo.Name).ToArray ();
-            else
+            if (String.IsNullOrEmpty (Fields)) {
+
+                EntityFields = typeof (T).GetProperties ()
+                    .Where (d => d.GetGetMethod ().IsStatic == false)
+                    .Select (propertyInfo => propertyInfo.Name)
+                    .ToArray ();
+
+            } else {
                 EntityFields = Fields.Split (',');
+            }
             var xParameter = Expression.Parameter (typeof (T), "o");
             var xNew = Expression.New (typeof (T));
 
@@ -33,6 +40,7 @@ namespace AccountingBackend.Commons.QueryHelpers {
             var lambda = Expression.Lambda<Func<T, T>> (xInit, xParameter);
 
             return lambda.Compile ();
+
         }
 
         public static string GenerateFilterString (ApiQueryString query) {

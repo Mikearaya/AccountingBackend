@@ -31,7 +31,7 @@ namespace AccountingBackend.Commons.QueryHelpers {
             }
         }
 
-        public string SelectedColumns { get; set; } = "Id";
+        public string SelectedColumns { get; set; } = "";
 
     }
 }
