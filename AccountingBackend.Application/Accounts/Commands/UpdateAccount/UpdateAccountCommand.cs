@@ -11,7 +11,7 @@ using MediatR;
 namespace AccountingBackend.Application.Accounts.Commands.UpdateAccount {
     public class UpdateAccountCommand : IRequest {
         public int Id { get; set; }
-        public int ParentAccount { get; set; }
+        public int? ParentAccount { get; set; }
         public string Name { get; set; }
         public string AccountId { get; set; }
         public sbyte Active { get; set; }
