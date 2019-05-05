@@ -11,6 +11,7 @@ using System.Collections.Generic;
 
 namespace AccountingBackend.Domain {
     public partial class Account {
+
         public Account () {
             InverseParentAccountNavigation = new HashSet<Account> ();
         }
@@ -22,7 +23,7 @@ namespace AccountingBackend.Domain {
         public DateTime? DateAdded { get; set; }
         public DateTime? DateUpdated { get; set; }
         public float? OpeningBalance { get; set; }
-        public sbyte? Active { get; set; }
+        public sbyte Active { get; set; }
         public string Year { get; set; }
         public string AccountId { get; set; }
 

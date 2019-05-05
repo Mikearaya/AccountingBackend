@@ -27,6 +27,11 @@ namespace AccountingBackend.Persistance.AccountCatagories {
                 .HasColumnName ("ID")
                 .HasColumnType ("int(11)");
 
+            builder.Property (e => e.Catagory)
+                .IsRequired ()
+                .HasColumnName ("catagory")
+                .HasColumnType ("varchar(100)");
+
             builder.Property (e => e.DateAdded)
                 .HasColumnName ("date_added")
                 .HasColumnType ("datetime")

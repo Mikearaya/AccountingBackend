@@ -15,10 +15,6 @@ namespace AccountingBackend.Persistance.Accounts {
         public void Configure (EntityTypeBuilder<Account> builder) {
             builder.ToTable ("account");
 
-            builder.HasIndex (e => e.AccountId)
-                .HasName ("account_UN")
-                .IsUnique ();
-
             builder.HasIndex (e => e.CatagoryId)
                 .HasName ("account_account_catagory_FK");
 
@@ -44,7 +40,7 @@ namespace AccountingBackend.Persistance.Accounts {
 
             builder.Property (e => e.Active)
                 .HasColumnName ("active")
-                .HasColumnType ("tinyint(1)")
+                .HasColumnType ("tinyint(4)")
                 .HasDefaultValueSql ("'1'");
 
             builder.Property (e => e.CatagoryId)
@@ -84,6 +80,7 @@ namespace AccountingBackend.Persistance.Accounts {
             builder.HasOne (d => d.ParentAccountNavigation)
                 .WithMany (p => p.InverseParentAccountNavigation)
                 .HasForeignKey (d => d.ParentAccount)
+                .OnDelete (DeleteBehavior.Cascade)
                 .HasConstraintName ("account_account_FK");
         }
     }

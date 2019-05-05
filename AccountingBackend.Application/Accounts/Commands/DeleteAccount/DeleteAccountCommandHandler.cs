@@ -6,11 +6,14 @@
  * @Last Modified Time: May 2, 2019 7:12 PM
  * @Description: Modify Here, Please 
  */
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using AccountingBackend.Application.Accounts.Models;
 using AccountingBackend.Application.Exceptions;
 using AccountingBackend.Application.Interfaces;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace AccountingBackend.Application.Accounts.Commands.DeleteAccount {
     public class DeleteAccountCommandHandler : IRequestHandler<DeleteAccountCommand, Unit> {
@@ -21,7 +24,8 @@ namespace AccountingBackend.Application.Accounts.Commands.DeleteAccount {
         }
 
         public async Task<Unit> Handle (DeleteAccountCommand request, CancellationToken cancellationToken) {
-            var account = await _database.Account.FindAsync (request.Id);
+            var account = await _database.Account
+                .FirstOrDefaultAsync (c => c.Id == request.Id);
 
             if (account == null) {
                 throw new NotFoundException ("Account", request.Id);
