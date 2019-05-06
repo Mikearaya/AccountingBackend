@@ -3,9 +3,10 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: May 6, 2019 11:08 AM
+ * @Last Modified Time: May 6, 2019 11:20 AM
  * @Description: Modify Here, Please 
  */
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using AccountingBackend.Application.Interfaces;
@@ -25,7 +26,9 @@ namespace AccountingBackend.Application.SystemLookups.Commands.CreateSystemLooku
             foreach (var item in request.Lookups) {
                 _database.SystemLookup.Add (new SystemLookup () {
                     Type = item.Type,
-                        Value = item.Value
+                        Value = item.Value,
+                        DateAdded = DateTime.Now,
+                        DateUpdated = DateTime.Now
                 });
             }
 
