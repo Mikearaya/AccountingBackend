@@ -3,7 +3,7 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: May 2, 2019 6:48 PM
+ * @Last Modified Time: May 6, 2019 10:36 AM
  * @Description: Modify Here, Please 
  */
 using AccountingBackend.Domain;
@@ -17,6 +17,9 @@ namespace AccountingBackend.Persistance.Accounts {
 
             builder.HasIndex (e => e.CatagoryId)
                 .HasName ("account_account_catagory_FK");
+
+            builder.HasIndex (e => e.CostCenterId)
+                .HasName ("account_FK");
 
             builder.HasIndex (e => e.ParentAccount)
                 .HasName ("account_account_FK");
@@ -45,6 +48,10 @@ namespace AccountingBackend.Persistance.Accounts {
 
             builder.Property (e => e.CatagoryId)
                 .HasColumnName ("CATAGORY_ID")
+                .HasColumnType ("int(11)");
+
+            builder.Property (e => e.CostCenterId)
+                .HasColumnName ("COST_CENTER_ID")
                 .HasColumnType ("int(11)");
 
             builder.Property (e => e.DateAdded)
@@ -76,6 +83,12 @@ namespace AccountingBackend.Persistance.Accounts {
                 .HasForeignKey (d => d.CatagoryId)
                 .OnDelete (DeleteBehavior.ClientSetNull)
                 .HasConstraintName ("account_account_catagory_FK");
+
+            builder.HasOne (d => d.CostCenter)
+                .WithMany (p => p.Account)
+                .HasForeignKey (d => d.CostCenterId)
+                .OnDelete (DeleteBehavior.ClientSetNull)
+                .HasConstraintName ("account_FK");
 
             builder.HasOne (d => d.ParentAccountNavigation)
                 .WithMany (p => p.InverseParentAccountNavigation)

@@ -3,7 +3,7 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: May 3, 2019 3:15 PM
+ * @Last Modified Time: May 6, 2019 10:38 AM
  * @Description: Modify Here, Please 
  */
 using System;
@@ -21,6 +21,8 @@ namespace AccountingBackend.Application.Accounts.Models {
         public string Year { get; set; }
         public float? OpeningBalance { get; set; }
 
+        public int CostCenterId { get; set; }
+        public string CostCenter { get; set; }
         public string Category { get; set; }
         public int CategoryId { get; set; }
         public DateTime? DateAdded { get; set; }
@@ -39,6 +41,8 @@ namespace AccountingBackend.Application.Accounts.Models {
                     Year = account.Year,
                     Category = account.Catagory.Catagory,
                     CategoryId = account.CatagoryId,
+                    CostCenterId = account.CostCenterId,
+                    CostCenter = account.CostCenter.Value,
                     DateAdded = account.DateAdded,
                     DateUpdated = account.DateUpdated
 
