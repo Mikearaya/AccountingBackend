@@ -3,7 +3,7 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: May 4, 2019 9:54 AM
+ * @Last Modified Time: May 6, 2019 10:32 AM
  * @Description: Modify Here, Please 
  */
 using System;
@@ -26,7 +26,7 @@ namespace AccountingBackend.Persistance {
         public DbSet<Account> Account { get; set; }
         public DbSet<AccountCatagory> AccountCatagory { get; set; }
         public DbSet<AccountType> AccountType { get; set; }
-
+        public DbSet<SystemLookup> SystemLookup { get; set; }
         public void Save () {
             this.SaveChanges ();
         }
