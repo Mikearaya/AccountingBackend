@@ -3,7 +3,7 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: May 3, 2019 2:58 PM
+ * @Last Modified Time: May 7, 2019 12:17 PM
  * @Description: Modify Here, Please 
  */
 using System;
@@ -29,6 +29,7 @@ namespace AccountingBackend.Application.Accounts.Commands.CreateAccount {
                 AccountId = request.AccountId,
                 Year = DateTime.Now.Year.ToString (),
                 OpeningBalance = request.OpeningBalance,
+                CostCenterId = (int) request.CostCenterId,
                 DateAdded = DateTime.Now,
                 DateUpdated = DateTime.Now
             };

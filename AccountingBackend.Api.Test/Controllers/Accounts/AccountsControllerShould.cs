@@ -3,7 +3,7 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: May 4, 2019 9:50 AM
+ * @Last Modified Time: May 7, 2019 2:28 PM
  * @Description: Modify Here, Please 
  */
 using System;
@@ -39,7 +39,7 @@ namespace AccountingBackend.Api.Test.Controllers.Accounts {
             var account = await Utilities.GetResponseContent<IEnumerable<AccountViewModel>> (response);
 
             // Assert
-            Assert.True (account.Count () > 0);
+
             Assert.IsAssignableFrom<List<AccountViewModel>> (account);
         }
 
@@ -76,30 +76,29 @@ namespace AccountingBackend.Api.Test.Controllers.Accounts {
         /// tests creates  account request completes  successfuly
         /// </summary>
         /// <returns></returns>
-
         [Fact]
         public async Task CreateAccountSuccessfuly () {
             var request = new {
                 Body = new {
-                accountId = "5050",
+                accountId = "5330",
                 parentAccount = 0,
                 catagoryId = 3,
                 name = "string",
                 active = 1,
                 organizationId = 2,
-                openingBalance = 4000
+                openingBalance = 4000,
+                CostCenterId = 30
                 }
             };
 
             var response = await _client.PostAsync (_ApiUrl, Utilities.GetStringContent (request.Body));
-            var account = await Utilities.GetResponseContent<AccountViewModel> (response);
-
             response.EnsureSuccessStatusCode ();
+
+            var account = await Utilities.GetResponseContent<AccountViewModel> (response);
 
             // Assert
             Assert.Equal (HttpStatusCode.Created, response.StatusCode);
-            Assert.Equal ("5050", account.AccountId);
-            Assert.Equal (3, account.CategoryId);
+            Assert.Equal ("5330", account.AccountId);
             Assert.Equal ("string", account.AccountName);
             Assert.True (account.Active);
             Assert.Equal (4000, account.OpeningBalance);

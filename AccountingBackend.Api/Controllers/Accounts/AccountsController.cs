@@ -3,9 +3,10 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: May 4, 2019 9:44 AM
+ * @Last Modified Time: May 7, 2019 1:30 PM
  * @Description: Modify Here, Please 
  */
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AccountingBackend.Application.Accounts.Commands.CreateAccount;
@@ -67,6 +68,10 @@ namespace AccountingBackend.Api.Controllers.Accounts {
         public async Task<ActionResult<AccountViewModel>> CreateAccount ([FromBody] CreateAccountCommand model) {
 
             var result = await _Mediator.Send (model);
+            Console.WriteLine ("Test Controller");
+            Console.WriteLine ("Test Controller");
+            Console.WriteLine ("Test Controller");
+            Console.WriteLine (result);
             var newAccount = await _Mediator.Send (new GetAccountQuery () { Id = result });
             return StatusCode (201, newAccount);
         }

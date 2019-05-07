@@ -3,7 +3,7 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: May 3, 2019 11:00 AM
+ * @Last Modified Time: May 7, 2019 1:32 PM
  * @Description: Modify Here, Please 
  */
 using System.Linq;
@@ -25,6 +25,8 @@ namespace AccountingBackend.Application.Accounts.Queries.GetAccount {
 
         public async Task<AccountViewModel> Handle (GetAccountQuery request, CancellationToken cancellationToken) {
             var account = await _database.Account
+                .Include (x => x.CostCenter)
+                .Include (x => x.Catagory)
                 .Select (AccountViewModel.Projection)
                 .FirstOrDefaultAsync (c => c.Id == request.Id);
 
