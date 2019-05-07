@@ -3,7 +3,7 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: May 7, 2019 3:54 PM
+ * @Last Modified Time: May 7, 2019 3:58 PM
  * @Description: Modify Here, Please 
  */
 using System.Collections.Generic;
@@ -41,6 +41,27 @@ namespace AccountingBackend.Api.Test.Controllers.SystemLookups {
         public async Task ReturnListOfSystemlookupsSuccessfuly () {
             // Arrange
             var response = await _client.GetAsync (_ApiUrl);
+            // Act
+
+            response.EnsureSuccessStatusCode ();
+            // Assert
+            var lookups = await Utilities.GetResponseContent<IEnumerable<SystemLookupViewModel>> (response);
+
+            // Assert
+
+            Assert.IsType<List<SystemLookupViewModel>> (lookups);
+
+        }
+
+        /// <summary>
+        /// tests the successful return system look up array list based on look up type type
+        /// </summary>
+        /// <returns></returns>
+
+        [Fact]
+        public async Task ReturnListOfSystemlookupTypeSuccessfuly () {
+            // Arrange
+            var response = await _client.GetAsync ($"{_ApiUrl}/type?Type=Cost Center");
             // Act
 
             response.EnsureSuccessStatusCode ();
