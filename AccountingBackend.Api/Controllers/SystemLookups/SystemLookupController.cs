@@ -3,7 +3,7 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: May 7, 2019 2:50 PM
+ * @Last Modified Time: May 7, 2019 3:46 PM
  * @Description: Modify Here, Please 
  */
 using System.Collections.Generic;
@@ -83,12 +83,11 @@ namespace AccountingBackend.Api.Controllers.SystemLookups {
         /// <summary>
         /// updates  instance of arrays of system lookup 
         /// </summary>
-        /// <param name="id"></param>
         /// <param name="model"></param>
         /// <returns></returns>
 
-        [HttpPut ("{id}")]
-        public async Task<ActionResult> UpdateSystemLookup (int id, [FromBody] UpdateSystemLookupCommand model) {
+        [HttpPut]
+        public async Task<ActionResult> UpdateSystemLookup ([FromBody] UpdateSystemLookupCommand model) {
             var result = await _Mediator.Send (model);
             return StatusCode (204, result);
         }
