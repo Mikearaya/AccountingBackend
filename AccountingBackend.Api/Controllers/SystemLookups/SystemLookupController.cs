@@ -3,7 +3,7 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: May 6, 2019 12:18 PM
+ * @Last Modified Time: May 7, 2019 2:50 PM
  * @Description: Modify Here, Please 
  */
 using System.Collections.Generic;
@@ -43,7 +43,7 @@ namespace AccountingBackend.Api.Controllers.SystemLookups {
         public async Task<ActionResult<SystemLookupViewModel>> FindSystemLookupById (int id) {
 
             var lookup = await _Mediator.Send (new GetSystemLookupQuery () { Id = id });
-            return Ok (lookup);
+            return StatusCode (200, lookup);
         }
 
         /// <summary>

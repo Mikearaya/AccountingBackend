@@ -3,10 +3,12 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: May 7, 2019 12:34 PM
+ * @Last Modified Time: May 7, 2019 2:48 PM
  * @Description: Modify Here, Please 
  */
 using System.Collections.Generic;
+using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using AccountingBackend.Api.Test.Commons;
@@ -34,12 +36,36 @@ namespace AccountingBackend.Api.Test.Controllers.SystemLookups {
 
             response.EnsureSuccessStatusCode ();
             // Assert
-            var account = await Utilities.GetResponseContent<IEnumerable<AccountViewModel>> (response);
+            var lookups = await Utilities.GetResponseContent<IEnumerable<SystemLookupViewModel>> (response);
 
             // Assert
 
-            Assert.IsType<List<AccountViewModel>> (account);
+            Assert.IsType<List<SystemLookupViewModel>> (lookups);
 
+        }
+
+        [Fact]
+        public async Task ReturnsSingleInstanceOfSystemLookupSuccessfuly () {
+            // Arrange
+            var response = await _client.GetAsync ($"{_ApiUrl}/30");
+            // Act
+
+            response.EnsureSuccessStatusCode ();
+            // Assert
+            var lookups = await Utilities.GetResponseContent<SystemLookupViewModel> (response);
+
+            // Assert
+
+            Assert.IsAssignableFrom<SystemLookupViewModel> (lookups);
+        }
+
+        [Fact]
+        public async Task ReturnsNotFoundResponse () {
+            // Arrange
+            var response = await _client.GetAsync ($"{_ApiUrl}/430");
+            // Act
+            //Assert
+            Assert.Equal (HttpStatusCode.NotFound, response.StatusCode);
         }
 
     }

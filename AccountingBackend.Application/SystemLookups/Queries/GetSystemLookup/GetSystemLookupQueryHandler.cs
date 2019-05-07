@@ -3,7 +3,7 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: May 6, 2019 11:35 AM
+ * @Last Modified Time: May 7, 2019 2:52 PM
  * @Description: Modify Here, Please 
  */
 using System.Linq;
@@ -23,8 +23,8 @@ namespace AccountingBackend.Application.SystemLookups.Queries.GetSystemLookup {
             _database = database;
         }
 
-        public Task<SystemLookupViewModel> Handle (GetSystemLookupQuery request, CancellationToken cancellationToken) {
-            var lookup = _database.SystemLookup
+        public async Task<SystemLookupViewModel> Handle (GetSystemLookupQuery request, CancellationToken cancellationToken) {
+            var lookup = await _database.SystemLookup
                 .Select (SystemLookupViewModel.Projection)
                 .FirstOrDefaultAsync (s => s.Id == request.Id);
 
