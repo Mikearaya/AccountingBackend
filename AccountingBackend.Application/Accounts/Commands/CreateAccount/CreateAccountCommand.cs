@@ -3,7 +3,7 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: May 6, 2019 10:39 AM
+ * @Last Modified Time: May 7, 2019 4:33 PM
  * @Description: Modify Here, Please 
  */
 using MediatR;
@@ -16,7 +16,6 @@ namespace AccountingBackend.Application.Accounts.Commands.CreateAccount {
         public string Name { get; set; }
         public sbyte Active { get; set; }
         public int? CostCenterId { get; set; }
-        public int? OrganizationId { get; set; }
         public float OpeningBalance { get; set; }
     }
 }

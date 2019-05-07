@@ -3,7 +3,7 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: May 2, 2019 7:12 PM
+ * @Last Modified Time: May 7, 2019 4:47 PM
  * @Description: Modify Here, Please 
  */
 using System.Linq;
@@ -25,7 +25,7 @@ namespace AccountingBackend.Application.Accounts.Commands.DeleteAccount {
 
         public async Task<Unit> Handle (DeleteAccountCommand request, CancellationToken cancellationToken) {
             var account = await _database.Account
-                .FirstOrDefaultAsync (c => c.Id == request.Id);
+                .FindAsync (request.Id);
 
             if (account == null) {
                 throw new NotFoundException ("Account", request.Id);

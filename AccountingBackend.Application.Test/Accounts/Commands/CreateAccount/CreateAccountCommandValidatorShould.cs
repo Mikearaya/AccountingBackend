@@ -3,7 +3,7 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: May 3, 2019 3:09 PM
+ * @Last Modified Time: May 7, 2019 4:33 PM
  * @Description: Modify Here, Please 
  */
 using AccountingBackend.Application.Accounts.Commands.CreateAccount;
@@ -27,16 +27,6 @@ namespace AccountingBackend.Application.Test.Accounts.Commands.CreateAccount {
         public void NotHaveErrorWhenIdIsNotNullOrEmpty () {
 
             validator.ShouldNotHaveValidationErrorFor (c => c.AccountId, "0000");
-        }
-
-        [Fact]
-        public void HaveErrorWhenOrganizationIdIsNull () {
-            validator.ShouldHaveValidationErrorFor (c => c.OrganizationId, 0);
-        }
-
-        [Fact]
-        public void NotHaveErrorWhenOrganizationIdIsNotNull () {
-            validator.ShouldNotHaveValidationErrorFor (c => c.OrganizationId, 1);
         }
 
         [Fact]

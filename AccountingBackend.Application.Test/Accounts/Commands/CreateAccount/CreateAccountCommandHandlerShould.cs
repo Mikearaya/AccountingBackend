@@ -3,7 +3,7 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: May 3, 2019 3:09 PM
+ * @Last Modified Time: May 7, 2019 4:37 PM
  * @Description: Modify Here, Please 
  */
 using System.Threading;
@@ -34,7 +34,8 @@ namespace AccountingBackend.Application.Test.Accounts.Commands.CreateAccount {
                     AccountName = "Cash",
                     Active = 0,
                     CatagoryId = 1,
-                    OpeningBalance = 100
+                    OpeningBalance = 100,
+                    CostCenterId = 1
             }));
 
             handler = new CreateAccountCommandHandler (Mockdatabase.Object);
@@ -44,7 +45,7 @@ namespace AccountingBackend.Application.Test.Accounts.Commands.CreateAccount {
                 Active = 0,
                 CatagoryId = 1,
                 OpeningBalance = 100,
-                OrganizationId = 1,
+                CostCenterId = 1
             };
 
             // Act

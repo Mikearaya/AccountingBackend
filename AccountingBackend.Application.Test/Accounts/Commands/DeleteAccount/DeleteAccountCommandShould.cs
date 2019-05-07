@@ -3,7 +3,7 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: May 3, 2019 10:24 AM
+ * @Last Modified Time: May 7, 2019 4:47 PM
  * @Description: Modify Here, Please 
  */
 using System;
@@ -20,7 +20,6 @@ using Xunit;
 namespace AccountingBackend.Application.Test.Accounts.Commands.DeleteAccount {
     public class DeleteAccountCommandShould {
         private Mock<IAccountingDatabaseService> MockDatabase;
-        private DeleteAccountCommandHandler handler;
         private Account account;
         public DeleteAccountCommandShould () {
             MockDatabase = new Mock<IAccountingDatabaseService> ();
@@ -32,6 +31,7 @@ namespace AccountingBackend.Application.Test.Accounts.Commands.DeleteAccount {
                 Active = 0,
                 CatagoryId = 1,
                 ParentAccount = 2,
+                CostCenterId = 4,
                 OpeningBalance = 200,
                 DateUpdated = DateTime.Now,
                 Year = "1990",
@@ -44,7 +44,7 @@ namespace AccountingBackend.Application.Test.Accounts.Commands.DeleteAccount {
         [Fact]
         public async Task DeleteAccountSuccessfuly () {
             // Arrange
-            handler = new DeleteAccountCommandHandler (MockDatabase.Object);
+            DeleteAccountCommandHandler handler = new DeleteAccountCommandHandler (MockDatabase.Object);
             //Act
             var result = await handler.Handle (new DeleteAccountCommand () { Id = 1 }, CancellationToken.None);
             //Assert
@@ -55,7 +55,7 @@ namespace AccountingBackend.Application.Test.Accounts.Commands.DeleteAccount {
         [Fact]
         public async Task ThrowNotFoundExceptionForAccountIdThatDoesnotExist () {
             // Arrange
-            handler = new DeleteAccountCommandHandler (MockDatabase.Object);
+            DeleteAccountCommandHandler handler = new DeleteAccountCommandHandler (MockDatabase.Object);
 
             await Assert.ThrowsAsync<NotFoundException> (() => handler.Handle (new DeleteAccountCommand () { Id = 2 }, CancellationToken.None));
         }
