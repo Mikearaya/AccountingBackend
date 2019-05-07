@@ -3,7 +3,7 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: May 7, 2019 3:58 PM
+ * @Last Modified Time: May 7, 2019 4:16 PM
  * @Description: Modify Here, Please 
  */
 using System.Collections.Generic;
@@ -197,6 +197,28 @@ namespace AccountingBackend.Api.Test.Controllers.SystemLookups {
             var response = await _client.PutAsync (_ApiUrl, Utilities.GetRequestContent (request.body));
             Assert.Equal (HttpStatusCode.NotFound, response.StatusCode);
 
+        }
+
+        [Fact]
+        public async Task DeleteSingleSystemLookupInstanceSuccessfully () {
+            // Arrange
+            var response = await _client.DeleteAsync ($" {_ApiUrl}/90");
+
+            // Act
+            response.EnsureSuccessStatusCode ();
+
+            // Assert
+        }
+
+        [Fact]
+        public async Task ReturnNotFoungResultOnDelete () {
+            // Arrange
+            var response = await _client.DeleteAsync ($" {_ApiUrl}/70");
+
+            // Act
+
+            // Assert
+            Assert.Equal (HttpStatusCode.NotFound, response.StatusCode);
         }
     }
 

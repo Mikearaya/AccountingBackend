@@ -3,7 +3,7 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: May 7, 2019 2:31 PM
+ * @Last Modified Time: May 7, 2019 4:19 PM
  * @Description: Modify Here, Please 
  */
 using System;
@@ -75,10 +75,13 @@ namespace AccountingBackend.Persistance {
         public void SeedSystemLookup (AccountingDatabaseService database) {
 
             var systemLookup = new [] {
-                new SystemLookup () { Id = 40, Type = "Cost Center", Value = "Production", DateAdded = DateTime.Now, DateUpdated = DateTime.Now },
-                new SystemLookup () { Id = 50, Type = "Cost Center", Value = "Sales", DateAdded = DateTime.Now, DateUpdated = DateTime.Now },
-                new SystemLookup () { Id = 30, Type = "Cost Center", Value = "Manufacturing", DateAdded = DateTime.Now, DateUpdated = DateTime.Now }
+                new SystemLookup () { Id = 700, Type = "Cost Center", Value = "Production", DateAdded = DateTime.Now, DateUpdated = DateTime.Now },
+                new SystemLookup () { Id = 500, Type = "Cost Center", Value = "Sales", DateAdded = DateTime.Now, DateUpdated = DateTime.Now },
+                new SystemLookup () { Id = 300, Type = "Cost Center", Value = "Manufacturing", DateAdded = DateTime.Now, DateUpdated = DateTime.Now },
+                new SystemLookup () { Id = 90, Type = "Cost Center", Value = "Manufacturing", DateAdded = DateTime.Now, DateUpdated = DateTime.Now }
             };
+
+            database.SystemLookup.AddRange (systemLookup);
         }
 
     }
