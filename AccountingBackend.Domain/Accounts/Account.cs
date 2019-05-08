@@ -3,7 +3,7 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: May 6, 2019 10:35 AM
+ * @Last Modified Time: May 8, 2019 4:49 AM
  * @Description: Modify Here, Please 
  */
 using System;
@@ -13,6 +13,7 @@ namespace AccountingBackend.Domain {
     public partial class Account {
         public Account () {
             InverseParentAccountNavigation = new HashSet<Account> ();
+            LedgerEntry = new HashSet<LedgerEntry> ();
         }
 
         public int Id { get; set; }
@@ -31,5 +32,6 @@ namespace AccountingBackend.Domain {
         public virtual SystemLookup CostCenter { get; set; }
         public virtual Account ParentAccountNavigation { get; set; }
         public virtual ICollection<Account> InverseParentAccountNavigation { get; set; }
+        public virtual ICollection<LedgerEntry> LedgerEntry { get; set; }
     }
 }

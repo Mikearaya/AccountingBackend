@@ -3,7 +3,7 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: May 1, 2019 1:47 PM
+ * @Last Modified Time: May 8, 2019 4:27 AM
  * @Description: Modify Here, Please 
  */
 using System;
@@ -25,6 +25,7 @@ namespace AccountingBackend.Application.AccountCategories.Commands.CreateAccount
             AccountCatagory category = new AccountCatagory () {
                 Catagory = request.CategoryName,
                 Type = request.AccountType,
+                IsDirect = request.isDirect,
                 DateAdded = DateTime.Now,
                 DateUpdated = DateTime.Now
             };
