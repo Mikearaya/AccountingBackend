@@ -6,11 +6,13 @@
  * @Last Modified Time: May 7, 2019 4:10 PM
  * @Description: Modify Here, Please 
  */
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AccountingBackend.Application.Exceptions;
 using AccountingBackend.Application.Interfaces;
+using FluentValidation.Results;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -23,6 +25,7 @@ namespace AccountingBackend.Application.SystemLookups.Commands.DeleteSystemLooku
         }
 
         public async Task<Unit> Handle (DeleteSystemLookupCommand request, CancellationToken cancellationToken) {
+            List<ValidationFailure> validationFailures = new List<ValidationFailure> ();
             var lookup = await _database.SystemLookup
                 .Include (x => x.Account)
                 .FirstOrDefaultAsync (d => d.Id == request.Id);
@@ -32,7 +35,8 @@ namespace AccountingBackend.Application.SystemLookups.Commands.DeleteSystemLooku
             }
 
             if (lookup.Account.Count () > 0) {
-                throw new DeleteingParentOfMultipleChilderenException ("Lookup", request.Id);
+                validationFailures.Add (new ValidationFailure ("Lookup", $"can not delete lookup {lookup.Value} with Id {request.Id}, because it has relation with other parts of the system"));
+                throw new ValidationException (validationFailures);
             }
 
             _database.SystemLookup.Remove (lookup);

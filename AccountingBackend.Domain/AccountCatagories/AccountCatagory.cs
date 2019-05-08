@@ -21,6 +21,7 @@ namespace AccountingBackend.Domain {
         public DateTime? DateAdded { get; set; }
         public DateTime? DateUpdated { get; set; }
         public string Type { get; set; }
+        public sbyte? IsDirect { get; set; }
 
         public virtual AccountType TypeNavigation { get; set; }
         public virtual ICollection<Account> Account { get; set; }
