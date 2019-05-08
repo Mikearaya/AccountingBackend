@@ -3,11 +3,12 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: May 8, 2019 6:12 PM
+ * @Last Modified Time: May 8, 2019 6:16 PM
  * @Description: Modify Here, Please 
  */
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using AccountingBackend.Application.Ledgers.Commands.CreateLedgerEntry;
 using AccountingBackend.Application.Ledgers.Models;
 using AccountingBackend.Application.Ledgers.Queries.GetLedgerEntry;
 using AccountingBackend.Application.Ledgers.Queries.GetLedgerEntryList;
@@ -31,7 +32,7 @@ namespace AccountingBackend.Api.Controllers.Ledgers {
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet ("{id}")]
-        public async Task<ActionResult<LedgerEntryDetailViewModel>> FindLedgerEntryById (int id) {
+        public async Task<ActionResult<LedgerEntryViewModel>> FindLedgerEntryById (int id) {
 
             var entry = await _Mediator.Send (new GetLedgerEntryByIdQuery () { Id = id });
             return Ok (entry);
@@ -47,6 +48,20 @@ namespace AccountingBackend.Api.Controllers.Ledgers {
 
             var entryList = await _Mediator.Send (query);
             return StatusCode (200, entryList);
+        }
+
+        /// <summary>
+        /// Creates new ledger entry and return the new entry on success
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<ActionResult<LedgerEntryViewModel>> CreateNewLedgerEntry ([FromBody] CreateLedgerEntryCommand model) {
+
+            var result = await _Mediator.Send (model);
+            var newEntry = await _Mediator.Send (new GetLedgerEntryByIdQuery () { Id = result });
+
+            return StatusCode (201, newEntry);
         }
     }
 }
