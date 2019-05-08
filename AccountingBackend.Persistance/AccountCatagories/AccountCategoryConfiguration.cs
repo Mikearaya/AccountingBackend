@@ -3,7 +3,7 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: Apr 30, 2019 6:32 AM
+ * @Last Modified Time: May 8, 2019 9:24 AM
  * @Description: Modify Here, Please 
  */
 
@@ -47,6 +47,11 @@ namespace AccountingBackend.Persistance.AccountCatagories {
                 .IsRequired ()
                 .HasColumnName ("type")
                 .HasColumnType ("varchar(20)");
+
+            builder.Property (e => e.IsDirect)
+                .HasColumnName ("is_direct")
+                .HasColumnType ("tinyint(4)")
+                .HasDefaultValueSql ("'0'");
 
             builder.HasOne (d => d.TypeNavigation)
                 .WithMany (p => p.AccountCatagory)

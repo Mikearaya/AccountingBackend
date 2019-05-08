@@ -3,7 +3,7 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: May 6, 2019 10:33 AM
+ * @Last Modified Time: May 8, 2019 9:41 AM
  * @Description: Modify Here, Please 
  */
 using System;
@@ -20,6 +20,8 @@ namespace AccountingBackend.Application.Interfaces {
         DbSet<AccountCatagory> AccountCatagory { get; set; }
         DbSet<AccountType> AccountType { get; set; }
         DbSet<SystemLookup> SystemLookup { get; set; }
+        DbSet<Ledger> Ledger { get; set; }
+        DbSet<LedgerEntry> LedgerEntry { get; set; }
 
         void Save ();
         Task SaveAsync ();

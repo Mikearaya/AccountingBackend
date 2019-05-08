@@ -3,7 +3,7 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: May 8, 2019 4:53 AM
+ * @Last Modified Time: May 8, 2019 9:25 AM
  * @Description: Modify Here, Please 
  */
 using AccountingBackend.Domain;
@@ -37,10 +37,19 @@ namespace AccountingBackend.Persistance.Ledgers {
                 .HasColumnName ("description")
                 .HasColumnType ("varchar(100)");
 
+            builder.HasIndex (e => e.VoucherId)
+                .HasName ("ledger_UN")
+                .IsUnique ();
+
             builder.Property (e => e.IsPosted)
                 .HasColumnName ("is_posted")
                 .HasColumnType ("tinyint(4)")
                 .HasDefaultValueSql ("'0'");
+
+            builder.Property (e => e.VoucherId)
+                .IsRequired ()
+                .HasColumnName ("voucher_id")
+                .HasColumnType ("varchar(50)");
 
             builder.Property (e => e.Reference)
                 .HasColumnName ("reference")
