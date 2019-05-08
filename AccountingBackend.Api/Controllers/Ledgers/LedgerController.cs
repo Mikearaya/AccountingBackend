@@ -3,7 +3,7 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: May 8, 2019 6:23 PM
+ * @Last Modified Time: May 8, 2019 6:35 PM
  * @Description: Modify Here, Please 
  */
 using System.Collections.Generic;
@@ -86,6 +86,18 @@ namespace AccountingBackend.Api.Controllers.Ledgers {
         [HttpDelete ("{id}")]
         public async Task<ActionResult> DeleteLedgerEntry (int id) {
             await _Mediator.Send (new DeleteLedgerEntryCommand () { Id = id });
+            return StatusCode (204);
+        }
+
+        /// <summary>
+        /// updates the posting status of ledger entry based on the id provided in the url and request body
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [HttpPut ("{id}")]
+        public async Task<ActionResult> UpdateLedgerEntryStatus (int id, [FromBody] UpdateLedgerStatusCommand model) {
+            await _Mediator.Send (model);
             return StatusCode (204);
         }
     }
