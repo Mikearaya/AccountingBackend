@@ -3,7 +3,7 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: May 8, 2019 10:24 AM
+ * @Last Modified Time: May 8, 2019 1:51 PM
  * @Description: Modify Here, Please 
  */
 using System;
@@ -31,10 +31,10 @@ namespace AccountingBackend.Application.Ledgers.Commands.CreateLedgerEntry {
 
             List<ValidationFailure> validationFailures = new List<ValidationFailure> ();
 
-            if (await _database.Ledger.AnyAsync (v => v.VoucherId.ToLower ().Trim () == request.VoucherId.ToLower ().Trim ())) {
+            /* if (await _database.Ledger.AnyAsync (v => v.VoucherId.ToLower ().Trim () == request.VoucherId.ToLower ().Trim ())) {
                 error = true;
                 validationFailures.Add (new ValidationFailure ("VoucherId", "Voucher Id provided has already been used for anouther entry, use another Id"));
-            }
+            } */
 
             Ledger ledger = new Ledger () {
                 Description = request.Description,
