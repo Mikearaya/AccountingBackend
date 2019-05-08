@@ -3,12 +3,13 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: May 8, 2019 6:16 PM
+ * @Last Modified Time: May 8, 2019 6:20 PM
  * @Description: Modify Here, Please 
  */
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AccountingBackend.Application.Ledgers.Commands.CreateLedgerEntry;
+using AccountingBackend.Application.Ledgers.Commands.UpdateLedgerEntry;
 using AccountingBackend.Application.Ledgers.Models;
 using AccountingBackend.Application.Ledgers.Queries.GetLedgerEntry;
 using AccountingBackend.Application.Ledgers.Queries.GetLedgerEntryList;
@@ -62,6 +63,18 @@ namespace AccountingBackend.Api.Controllers.Ledgers {
             var newEntry = await _Mediator.Send (new GetLedgerEntryByIdQuery () { Id = result });
 
             return StatusCode (201, newEntry);
+        }
+
+        /// <summary>
+        /// updated single ledger entry instance and all of it details
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [HttpPut ("{id}")]
+        public async Task<ActionResult> UpdateLedgerEntry (int id, [FromBody] UpdateLedgerEntryCommand model) {
+            await _Mediator.Send (model);
+            return StatusCode (204);
         }
     }
 }
