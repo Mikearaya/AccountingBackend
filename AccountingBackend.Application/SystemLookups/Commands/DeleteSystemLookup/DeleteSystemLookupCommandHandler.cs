@@ -3,7 +3,7 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: May 7, 2019 4:10 PM
+ * @Last Modified Time: May 8, 2019 4:11 AM
  * @Description: Modify Here, Please 
  */
 using System.Collections.Generic;
@@ -27,8 +27,7 @@ namespace AccountingBackend.Application.SystemLookups.Commands.DeleteSystemLooku
         public async Task<Unit> Handle (DeleteSystemLookupCommand request, CancellationToken cancellationToken) {
             List<ValidationFailure> validationFailures = new List<ValidationFailure> ();
             var lookup = await _database.SystemLookup
-                .Include (x => x.Account)
-                .FirstOrDefaultAsync (d => d.Id == request.Id);
+                .FindAsync (request.Id);
 
             if (lookup == null) {
                 throw new NotFoundException ("System lookup", request.Id);
