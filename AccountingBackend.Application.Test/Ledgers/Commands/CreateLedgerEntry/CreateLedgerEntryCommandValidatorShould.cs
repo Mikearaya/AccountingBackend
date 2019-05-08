@@ -3,7 +3,7 @@ using AccountingBackend.Application.Ledgers.Commands.CreateLedgerEntry;
 using FluentValidation.TestHelper;
 using Xunit;
 
-namespace AccountingBackend.Application.Test.Ledgers.Commands {
+namespace AccountingBackend.Application.Test.Ledgers.Commands.CreateLedgerEntry {
     public class CreateLedgerEntryCommandValidatorShould {
 
         private CreateLedgerEntryCommandValidator validator;
@@ -40,6 +40,11 @@ namespace AccountingBackend.Application.Test.Ledgers.Commands {
         [Fact]
         public void NotHaveValidationErrorWhenReferenceIsNotNullOrEmpty () {
             validator.ShouldNotHaveValidationErrorFor (x => x.Reference, null as string);
+        }
+
+        [Fact]
+        public void NotHaveValidationErrorWhenIsNotNullOrEmpty () {
+            validator.ShouldNotHaveValidationErrorFor (x => x.Date, DateTime.Now);
         }
 
     }
