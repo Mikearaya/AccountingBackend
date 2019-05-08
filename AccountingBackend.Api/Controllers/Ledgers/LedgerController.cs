@@ -3,12 +3,13 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: May 8, 2019 6:20 PM
+ * @Last Modified Time: May 8, 2019 6:23 PM
  * @Description: Modify Here, Please 
  */
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AccountingBackend.Application.Ledgers.Commands.CreateLedgerEntry;
+using AccountingBackend.Application.Ledgers.Commands.DeleteLedgerEntry;
 using AccountingBackend.Application.Ledgers.Commands.UpdateLedgerEntry;
 using AccountingBackend.Application.Ledgers.Models;
 using AccountingBackend.Application.Ledgers.Queries.GetLedgerEntry;
@@ -74,6 +75,17 @@ namespace AccountingBackend.Api.Controllers.Ledgers {
         [HttpPut ("{id}")]
         public async Task<ActionResult> UpdateLedgerEntry (int id, [FromBody] UpdateLedgerEntryCommand model) {
             await _Mediator.Send (model);
+            return StatusCode (204);
+        }
+
+        /// <summary>
+        /// deletes single instance of ledger entry based on the id provided in its url and body
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpDelete ("{id}")]
+        public async Task<ActionResult> DeleteLedgerEntry (int id) {
+            await _Mediator.Send (new DeleteLedgerEntryCommand () { Id = id });
             return StatusCode (204);
         }
     }
