@@ -3,15 +3,15 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: May 8, 2019 5:52 PM
+ * @Last Modified Time: May 10, 2019 12:09 AM
  * @Description: Modify Here, Please 
  */
 using FluentValidation;
 
 namespace AccountingBackend.Application.Ledgers.Commands.UpdateLedgerEntry {
-    public class UpdateLedgerEntryStatusCommandValidator : AbstractValidator<UpdateLedgerStatusCommand> {
+    public class UpdateLedgerStatusCommandValidator : AbstractValidator<UpdateLedgerStatusCommand> {
 
-        public UpdateLedgerEntryStatusCommandValidator () {
+        public UpdateLedgerStatusCommandValidator () {
             RuleFor (x => x.Id).NotNull ().NotEmpty ();
             RuleFor (x => x.Posted).NotNull ().NotEmpty ();
         }
