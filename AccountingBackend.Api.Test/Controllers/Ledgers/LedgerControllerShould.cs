@@ -222,5 +222,26 @@ namespace AccountingBackend.Api.Test.Controllers.Ledgers {
             Assert.Equal (HttpStatusCode.UnprocessableEntity, response.StatusCode);
         }
 
+        /// <summary>
+        /// test for deleting ledger entry by id successfuly
+        /// </summary>
+        /// <returns></returns>
+        [Fact]
+        public async Task DeleteLedgerEntrySuccessfuly () {
+            var response = await _client.DeleteAsync ($"{_ApiUrl}/11");
+            response.EnsureSuccessStatusCode ();
+            Assert.Equal (HttpStatusCode.NoContent, response.StatusCode);
+        }
+
+        /// <summary>
+        /// tests the return of 404 status code when requested to delete ledger entry with id that doesnt exist
+        /// </summary>
+        /// <returns></returns>
+        [Fact]
+        public async Task Return404WhenRequestingToDeleteNonExistingEntry () {
+            var response = await _client.DeleteAsync ($"{_ApiUrl}/100");
+            Assert.Equal (HttpStatusCode.NotFound, response.StatusCode);
+        }
+
     }
 }

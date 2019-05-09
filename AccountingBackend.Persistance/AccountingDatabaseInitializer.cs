@@ -93,6 +93,13 @@ namespace AccountingBackend.Persistance {
                 new LedgerEntry () { Id = 10, LedgerId = 10, AccountId = 10, Debit = 0, Credit = 100, DateAdded = DateTime.Now, DateUpdated = DateTime.Now },
                 new LedgerEntry () { Id = 11, LedgerId = 10, AccountId = 11, Debit = 100, Credit = 0, DateAdded = DateTime.Now, DateUpdated = DateTime.Now }
                 }
+                },
+                new Ledger () {
+                Id = 11, IsPosted = 0, Description = "Test entry", Date = DateTime.Now, DateAdded = DateTime.Now, DateUpdated = DateTime.Now, VoucherId = "JV/001",
+                LedgerEntry = new [] {
+                new LedgerEntry () { Id = 15, LedgerId = 11, AccountId = 10, Debit = 0, Credit = 100, DateAdded = DateTime.Now, DateUpdated = DateTime.Now },
+                new LedgerEntry () { Id = 16, LedgerId = 11, AccountId = 11, Debit = 100, Credit = 0, DateAdded = DateTime.Now, DateUpdated = DateTime.Now }
+                }
                 }
             };
 
