@@ -11,6 +11,6 @@ using MediatR;
 namespace AccountingBackend.Application.Ledgers.Commands.UpdateLedgerEntry {
     public class UpdateLedgerStatusCommand : IRequest {
         public int Id { get; set; }
-        public bool Posted { get; set; }
+        public sbyte? Posted { get; set; }
     }
 }

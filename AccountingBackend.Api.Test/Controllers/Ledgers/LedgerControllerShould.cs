@@ -243,5 +243,52 @@ namespace AccountingBackend.Api.Test.Controllers.Ledgers {
             Assert.Equal (HttpStatusCode.NotFound, response.StatusCode);
         }
 
+        /// <summary>
+        /// tests the successful update of ledger entry status from posted to unposted and vice versa
+        /// </summary>
+        /// <returns></returns>
+        [Fact]
+        public async Task ChangeStatusOfLedgerEntrySuccessfuly () {
+            //Given
+            var request = new {
+                Body = new {
+                Id = 10,
+                Posted = true
+                }
+            };
+            //When
+            var beforeUpdate = await _client.GetAsync ($"{_ApiUrl}/10");
+
+            var response = await _client.PutAsync ($"{_ApiUrl}/status/10", Utilities.GetStringContent (request.Body));
+            var afterUpdate = await _client.GetAsync ($"{_ApiUrl}/10");
+            var before = await Utilities.GetResponseContent<LedgerEntryViewModel> (beforeUpdate);
+            var after = await Utilities.GetResponseContent<LedgerEntryViewModel> (afterUpdate);
+            response.EnsureSuccessStatusCode ();
+            //Then
+            Assert.NotEqual (after.Posted, before.Posted);
+            Assert.Equal (HttpStatusCode.NoContent, response.StatusCode);
+        }
+
+        /// <summary>
+        /// tests the return of not found response when attempting to update the status of ledger entry whose id does not exist
+        /// </summary>
+        /// <returns></returns>
+        [Fact]
+        public async Task Returns404WhenAttemptingUpdateLedgerEntryStatus () {
+            //Given
+            var request = new {
+                Body = new {
+                Id = 1000,
+                Posted = true
+                }
+            };
+            //When
+
+            var response = await _client.PutAsync ($"{_ApiUrl}/status/1000", Utilities.GetStringContent (request.Body));
+
+            //Then
+            Assert.Equal (HttpStatusCode.NotFound, response.StatusCode);
+        }
+
     }
 }

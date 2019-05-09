@@ -27,7 +27,7 @@ namespace AccountingBackend.Application.Ledgers.Commands.UpdateLedgerEntry {
                 throw new NotFoundException ("Ledger entry", request.Id);
             }
 
-            entry.IsPosted = (request.Posted == true) ? (sbyte?) 1 : 0;
+            entry.IsPosted = request.Posted;
 
             _database.Ledger.Update (entry);
             await _database.SaveAsync ();
