@@ -3,7 +3,7 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: May 7, 2019 3:46 PM
+ * @Last Modified Time: May 9, 2019 8:03 AM
  * @Description: Modify Here, Please 
  */
 using System.Collections.Generic;
@@ -101,7 +101,7 @@ namespace AccountingBackend.Api.Controllers.SystemLookups {
         [HttpDelete ("{id}")]
         public async Task<ActionResult> DeleteSystemLookup (int id) {
             var result = await _Mediator.Send (new DeleteSystemLookupCommand () { Id = id });
-            return NoContent ();
+            return StatusCode (204);
         }
     }
 }

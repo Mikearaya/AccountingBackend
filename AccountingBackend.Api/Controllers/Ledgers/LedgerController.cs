@@ -3,7 +3,7 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: May 8, 2019 6:35 PM
+ * @Last Modified Time: May 9, 2019 8:36 AM
  * @Description: Modify Here, Please 
  */
 using System.Collections.Generic;
@@ -20,10 +20,17 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AccountingBackend.Api.Controllers.Ledgers {
 
-    [Route ("api/ledger")]
+    /// <summary>
+    /// manages all ledger entry related transactions in the system
+    /// </summary>
+    [Route ("api/ledgers")]
     public class LedgerController : Controller {
         private readonly IMediator _Mediator;
 
+        /// <summary>
+        /// creates new instance of ledgercontroller
+        /// </summary>
+        /// <param name="mediator"></param>
         public LedgerController (IMediator mediator) {
             _Mediator = mediator;
         }
@@ -95,7 +102,7 @@ namespace AccountingBackend.Api.Controllers.Ledgers {
         /// <param name="id"></param>
         /// <param name="model"></param>
         /// <returns></returns>
-        [HttpPut ("{id}")]
+        [HttpPut ("status/{id}")]
         public async Task<ActionResult> UpdateLedgerEntryStatus (int id, [FromBody] UpdateLedgerStatusCommand model) {
             await _Mediator.Send (model);
             return StatusCode (204);

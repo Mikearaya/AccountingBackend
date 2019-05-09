@@ -3,7 +3,7 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: May 7, 2019 4:19 PM
+ * @Last Modified Time: May 9, 2019 8:30 AM
  * @Description: Modify Here, Please 
  */
 using System;
@@ -35,6 +35,7 @@ namespace AccountingBackend.Persistance {
 
             SeedAccountType (context);
             SeedSystemLookup (context);
+            SeedLedgerEntries (context);
 
             context.SaveChanges ();
 
@@ -82,6 +83,21 @@ namespace AccountingBackend.Persistance {
             };
 
             database.SystemLookup.AddRange (systemLookup);
+        }
+
+        public void SeedLedgerEntries (AccountingDatabaseService database) {
+            var ledgerEntries = new [] {
+                new Ledger () {
+                Id = 10, IsPosted = 0, Description = "Test entry", Date = DateTime.Now, DateAdded = DateTime.Now, DateUpdated = DateTime.Now, VoucherId = "JV/001",
+                LedgerEntry = new [] {
+                new LedgerEntry () { Id = 10, LedgerId = 10, AccountId = 10, Debit = 0, Credit = 100, DateAdded = DateTime.Now, DateUpdated = DateTime.Now },
+                new LedgerEntry () { Id = 11, LedgerId = 10, AccountId = 10, Debit = 100, Credit = 0, DateAdded = DateTime.Now, DateUpdated = DateTime.Now }
+                }
+                }
+            };
+
+            database.Ledger.AddRange (ledgerEntries);
+            database.Save ();
         }
 
     }

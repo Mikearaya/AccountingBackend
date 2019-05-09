@@ -3,9 +3,10 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: May 8, 2019 2:41 PM
+ * @Last Modified Time: May 9, 2019 8:21 AM
  * @Description: Modify Here, Please 
  */
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -43,6 +44,7 @@ namespace AccountingBackend.Application.Ledgers.Commands.UpdateLedgerEntry {
             entry.Date = request.Date;
             entry.IsPosted = request.Posted;
             entry.Reference = request.Reference;
+            entry.DateUpdated = DateTime.Now;
 
             float? totalCredit = 0;
             float? totalDebit = 0;

@@ -3,7 +3,7 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: May 8, 2019 5:12 PM
+ * @Last Modified Time: May 9, 2019 8:08 AM
  * @Description: Modify Here, Please 
  */
 using System;
@@ -24,7 +24,7 @@ namespace AccountingBackend.Application.Ledgers.Models {
 
         public DateTime DateAdded { get; set; }
         public DateTime DateUpdated { get; set; }
-        List<LedgerEntryDetailViewModel> LedgerEntries = new List<LedgerEntryDetailViewModel> ();
+        public List<LedgerEntryDetailViewModel> LedgerEntries = new List<LedgerEntryDetailViewModel> ();
 
         public static Expression<Func<Ledger, LedgerEntryViewModel>> Projection {
             get {
