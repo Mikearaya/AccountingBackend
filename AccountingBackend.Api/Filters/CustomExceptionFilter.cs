@@ -3,7 +3,7 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: Apr 26, 2019 11:18 AM
+ * @Last Modified Time: May 9, 2019 10:00 AM
  * @Description: Modify Here, Please 
  */
 using System;
@@ -33,6 +33,8 @@ namespace AccountingBackend.Api.Filters {
 
                 return;
             }
+
+            Console.WriteLine (context.Exception.GetType ());
 
             var code = HttpStatusCode.InternalServerError;
 

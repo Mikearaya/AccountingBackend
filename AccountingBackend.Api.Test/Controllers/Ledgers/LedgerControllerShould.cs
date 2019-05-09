@@ -3,9 +3,10 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: May 9, 2019 8:56 AM
+ * @Last Modified Time: May 9, 2019 10:33 AM
  * @Description: Modify Here, Please 
  */
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -69,6 +70,61 @@ namespace AccountingBackend.Api.Test.Controllers.Ledgers {
 
             // Assert
             Assert.True (entries.Count () > 0);
+        }
+
+        /// <summary>
+        /// tests the creation of ledger entry successfuly when every thing is passed is
+        /// set to valid value
+        /// </summary>
+        [Fact]
+        public async Task CreatesLedgerEntrySuccessfuly () {
+            // Arrange
+            var request = new {
+                Body = new {
+                Description = "Test",
+                VoucherId = "JV/005",
+                Date = DateTime.Now,
+                Reference = "CH-01",
+                Posted = 0,
+                Entries = new [] {
+                new { AccountId = 10, Credit = 100, Debit = 0 },
+                new { AccountId = 11, Credit = 0, Debit = 100 }
+                }
+                }
+            };
+            // Act
+            var response = await _client.PostAsync (_ApiUrl, Utilities.GetStringContent (request.Body));
+            response.EnsureSuccessStatusCode ();
+
+            // Assert
+            Assert.Equal (HttpStatusCode.Created, response.StatusCode);
+
+        }
+
+        [Fact]
+        public async Task Return422ResponseWhenMakingUnBallanceEntry () {
+
+            // Arrange
+            var request = new {
+                Body = new {
+                Description = "Test",
+                VoucherId = "JV/005",
+                Date = DateTime.Now,
+                Reference = "CH-01",
+                Posted = 0,
+                Entries = new [] {
+                new { AccountId = 10, Credit = 100, Debit = 0 },
+                new { AccountId = 11, Credit = 0, Debit = 200 }
+                }
+                }
+            };
+            // Act
+            var response = await _client.PostAsync (_ApiUrl, Utilities.GetStringContent (request.Body));
+            var reesponseContent = await response.Content.ReadAsStringAsync ();
+            // Assert
+            Assert.Equal (HttpStatusCode.UnprocessableEntity, response.StatusCode);
+            Assert.Contains ("not balanced", reesponseContent);
+
         }
 
     }

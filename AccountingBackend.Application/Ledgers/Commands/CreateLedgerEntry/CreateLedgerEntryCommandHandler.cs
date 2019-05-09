@@ -3,7 +3,7 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: May 8, 2019 1:51 PM
+ * @Last Modified Time: May 9, 2019 9:57 AM
  * @Description: Modify Here, Please 
  */
 using System;
@@ -11,9 +11,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using AccountingBackend.Application.Exceptions;
 using AccountingBackend.Application.Interfaces;
 using AccountingBackend.Domain;
-using FluentValidation;
 using FluentValidation.Results;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -55,8 +55,9 @@ namespace AccountingBackend.Application.Ledgers.Commands.CreateLedgerEntry {
                         Debit = item.Debit
                 });
 
-                totalCredit += totalCredit + item.Credit;
-                totalDebit = totalDebit + item.Debit;
+                totalCredit += item.Credit;
+                totalDebit += item.Debit;
+
             }
 
             if (totalCredit != totalDebit) {
