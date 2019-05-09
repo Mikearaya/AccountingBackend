@@ -3,7 +3,7 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: May 9, 2019 8:21 AM
+ * @Last Modified Time: May 9, 2019 1:14 PM
  * @Description: Modify Here, Please 
  */
 using System;
@@ -76,8 +76,8 @@ namespace AccountingBackend.Application.Ledgers.Commands.UpdateLedgerEntry {
                     });
                 }
 
-                totalCredit += totalCredit + item.Credit;
-                totalDebit = totalDebit + item.Debit;
+                totalCredit += item.Credit;
+                totalDebit += item.Debit;
             }
 
             if (totalCredit != totalDebit) {

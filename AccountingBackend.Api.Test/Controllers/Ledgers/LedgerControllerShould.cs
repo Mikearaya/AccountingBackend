@@ -3,7 +3,7 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: May 9, 2019 10:33 AM
+ * @Last Modified Time: May 9, 2019 1:24 PM
  * @Description: Modify Here, Please 
  */
 using System;
@@ -40,6 +40,7 @@ namespace AccountingBackend.Api.Test.Controllers.Ledgers {
             // Assert
             Assert.Equal (10, entry.Id);
             Assert.True (entry.LedgerEntries.Count () > 1);
+            Assert.Equal (HttpStatusCode.OK, response.StatusCode);
         }
 
         /// <summary>
@@ -70,6 +71,7 @@ namespace AccountingBackend.Api.Test.Controllers.Ledgers {
 
             // Assert
             Assert.True (entries.Count () > 0);
+            Assert.Equal (HttpStatusCode.OK, response.StatusCode);
         }
 
         /// <summary>
@@ -77,7 +79,7 @@ namespace AccountingBackend.Api.Test.Controllers.Ledgers {
         /// set to valid value
         /// </summary>
         [Fact]
-        public async Task CreatesLedgerEntrySuccessfuly () {
+        public async Task CreatesSuccessfuly () {
             // Arrange
             var request = new {
                 Body = new {
@@ -100,6 +102,11 @@ namespace AccountingBackend.Api.Test.Controllers.Ledgers {
             Assert.Equal (HttpStatusCode.Created, response.StatusCode);
 
         }
+
+        /// <summary>
+        /// tests if response is 422 when passed a ledger entry without balanced contetnt
+        /// </summary>
+        /// <returns></returns>
 
         [Fact]
         public async Task Return422ResponseWhenMakingUnBallanceEntry () {
@@ -124,7 +131,95 @@ namespace AccountingBackend.Api.Test.Controllers.Ledgers {
             // Assert
             Assert.Equal (HttpStatusCode.UnprocessableEntity, response.StatusCode);
             Assert.Contains ("not balanced", reesponseContent);
+        }
 
+        /// <summary>
+        /// tests successful update of ledger entry
+        /// </summary>
+        /// <returns></returns>
+        [Fact]
+        public async Task UpdateSuccessfuly () {
+            //Given
+            // Arrange
+            var request = new {
+                Body = new {
+                Id = 10,
+                Description = "Test",
+                VoucherId = "JV/005",
+                Date = DateTime.Now,
+                Reference = "CH-01",
+                Posted = 0,
+                Entries = new [] {
+                new { Id = 10, AccountId = 10, Credit = 100, Debit = 0 },
+                new { Id = 11, AccountId = 11, Credit = 0, Debit = 100 }
+                }
+                }
+            };
+            //When
+            var response = await _client.PutAsync ($"{_ApiUrl}/10", Utilities.GetStringContent (request.Body));
+            response.EnsureSuccessStatusCode ();
+            //Then
+            Assert.Equal (HttpStatusCode.NoContent, response.StatusCode);
+        }
+
+        /// <summary>
+        /// tests the return of not found status code when requesting to update a ledger that doesnt exist
+        /// </summary>
+        /// <returns></returns>
+        [Fact]
+        public async Task Return404WhenRequestedForUpdateNonExistingId () {
+            //Given
+            // Arrange
+            var request = new {
+                Body = new {
+                Id = 25,
+                Description = "Test",
+                VoucherId = "JV/005",
+                Date = DateTime.Now,
+                Reference = "CH-01",
+                Posted = 0,
+                Entries = new [] {
+                new { Id = 10, AccountId = 10, Credit = 100, Debit = 0 },
+                new { Id = 11, AccountId = 11, Credit = 0, Debit = 100 }
+                }
+                }
+            };
+            //When
+            var response = await _client.PutAsync ($"{_ApiUrl}/10", Utilities.GetStringContent (request.Body));
+
+            //Then
+            Assert.Equal (HttpStatusCode.NotFound, response.StatusCode);
+        }
+
+        /// <summary>
+        /// tests the return of invalid/unprocessable entity reponse when the leger entries dont balance
+        /// </summary>
+        /// <returns></returns>
+        [Fact]
+        public async Task Return422WhenRequestedForUpdateNotBallancedEntries () {
+
+            // Arrange
+            var request = new {
+                Body = new {
+                Id = 10,
+                Description = "Test",
+                VoucherId = "JV/005",
+                Date = DateTime.Now,
+                Reference = "CH-01",
+                Posted = 0,
+                Entries = new [] {
+                new { Id = 10, AccountId = 10, Credit = 100, Debit = 0 },
+                new { Id = 11, AccountId = 11, Credit = 0, Debit = 200 }
+                }
+                }
+            };
+            //When
+            var response = await _client.PutAsync ($"{_ApiUrl}/10", Utilities.GetStringContent (request.Body));
+
+            //Then
+            var responseString = await response.Content.ReadAsStringAsync ();
+            Assert.Contains ("not balanced", responseString);
+            Assert.Equal (HttpStatusCode.UnprocessableEntity, response.StatusCode);
         }
 
     }
