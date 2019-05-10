@@ -3,7 +3,7 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: May 9, 2019 9:57 AM
+ * @Last Modified Time: May 10, 2019 10:33 AM
  * @Description: Modify Here, Please 
  */
 using System;
@@ -31,10 +31,10 @@ namespace AccountingBackend.Application.Ledgers.Commands.CreateLedgerEntry {
 
             List<ValidationFailure> validationFailures = new List<ValidationFailure> ();
 
-            /* if (await _database.Ledger.AnyAsync (v => v.VoucherId.ToLower ().Trim () == request.VoucherId.ToLower ().Trim ())) {
+            if (await _database.Ledger.AnyAsync (v => v.VoucherId.ToLower ().Trim () == request.VoucherId.ToLower ().Trim ())) {
                 error = true;
                 validationFailures.Add (new ValidationFailure ("VoucherId", "Voucher Id provided has already been used for anouther entry, use another Id"));
-            } */
+            }
 
             Ledger ledger = new Ledger () {
                 Description = request.Description,
@@ -48,6 +48,13 @@ namespace AccountingBackend.Application.Ledgers.Commands.CreateLedgerEntry {
 
             float? totalCredit = 0;
             float? totalDebit = 0;
+
+            if (request.Entries.Count () < 2) {
+                error = true;
+                validationFailures.Add (new ValidationFailure ("Number of Entries", $"Atleast two accounts must be involved to have a successful ledger entry only {request.Entries.Count()} Given"));
+
+            }
+
             foreach (var item in request.Entries) {
                 ledger.LedgerEntry.Add (new LedgerEntry () {
                     AccountId = item.AccountId,
