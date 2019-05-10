@@ -7,7 +7,7 @@ using AccountingBackend.Application.Ledgers.Models;
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: May 10, 2019 11:28 AM
+ * @Last Modified Time: May 10, 2019 1:04 PM
  * @Description: Modify Here, Please 
  */
 using AccountingBackend.Application.Ledgers.Queries.GetLedgerEntryList;

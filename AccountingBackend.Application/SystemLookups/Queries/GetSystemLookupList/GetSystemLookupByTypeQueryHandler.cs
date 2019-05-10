@@ -3,7 +3,7 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: May 6, 2019 11:51 AM
+ * @Last Modified Time: May 10, 2019 3:42 PM
  * @Description: Modify Here, Please 
  */
 using System.Collections.Generic;
@@ -16,14 +16,14 @@ using AccountingBackend.Commons.QueryHelpers;
 using MediatR;
 
 namespace AccountingBackend.Application.SystemLookups.Queries.GetSystemLookupList {
-    public class GetSystemLookupListViewByTypeQueryHandler : IRequestHandler<GetSystemLookupListViewByTypeQuery, IEnumerable<SystemLookupViewModel>> {
+    public class GetSystemLookupByTypeQueryHandler : IRequestHandler<GetSystemLookupByTypeQuery, IEnumerable<SystemLookupViewModel>> {
         private readonly IAccountingDatabaseService _database;
 
-        public GetSystemLookupListViewByTypeQueryHandler (IAccountingDatabaseService database) {
+        public GetSystemLookupByTypeQueryHandler (IAccountingDatabaseService database) {
             _database = database;
         }
 
-        public Task<IEnumerable<SystemLookupViewModel>> Handle (GetSystemLookupListViewByTypeQuery request, CancellationToken cancellationToken) {
+        public Task<IEnumerable<SystemLookupViewModel>> Handle (GetSystemLookupByTypeQuery request, CancellationToken cancellationToken) {
             var lookup = _database.SystemLookup
                 .Where (c => c.Type.ToLower () == request.Type.ToLower ())
                 .Select (SystemLookupViewModel.Projection)
