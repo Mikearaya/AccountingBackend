@@ -3,7 +3,7 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: May 10, 2019 3:53 PM
+ * @Last Modified Time: May 10, 2019 4:16 PM
  * @Description: Modify Here, Please 
  */
 using System;
@@ -21,6 +21,7 @@ namespace AccountingBackend.Application.Test {
             }
             SeedLedger (context);
             SeedSystemLookup (context);
+            SeedAccounts (context);
         }
 
         private static void SeedLedger (AccountingDatabaseService context) {
@@ -62,6 +63,38 @@ namespace AccountingBackend.Application.Test {
             };
 
             context.SystemLookup.AddRange (lookup);
+            context.Save ();
+        }
+
+        private static void SeedAccounts (AccountingDatabaseService context) {
+            var accounts = new [] {
+                new AccountType () { Type = "Asset" },
+                new AccountType () { Type = "Liability" },
+                new AccountType () { Type = "Capital" },
+                new AccountType () { Type = "Revenue" },
+                new AccountType () {
+                Type = "Expence",
+                AccountCatagory = new [] {
+                new AccountCatagory () { Id = 2, Catagory = "Cash Account", DateAdded = DateTime.Now, DateUpdated = DateTime.Now },
+                new AccountCatagory () { Id = 3, Catagory = "COGE", DateAdded = DateTime.Now, DateUpdated = DateTime.Now },
+                new AccountCatagory () {
+                Id = 4, Catagory = "COGE", DateAdded = DateTime.Now, DateUpdated = DateTime.Now, Account = new [] {
+                new Account () {
+                Id = 10, AccountId = "5000", AccountName = "Cash", OpeningBalance = 100, DateAdded = DateTime.Now, DateUpdated = DateTime.Now,
+                CostCenter = new SystemLookup () { Id = 30, Type = "Cost Center", Value = "Production" },
+                },
+                new Account () {
+                Id = 11, AccountId = "7000", AccountName = "Cash at Bank", OpeningBalance = 100, DateAdded = DateTime.Now, DateUpdated = DateTime.Now,
+                CostCenter = new SystemLookup () { Id = 50, Type = "Cost Center", Value = "Production" },
+                }
+                }
+                }
+                }
+                }
+
+            };
+
+            context.AccountType.AddRange (accounts);
             context.Save ();
         }
 

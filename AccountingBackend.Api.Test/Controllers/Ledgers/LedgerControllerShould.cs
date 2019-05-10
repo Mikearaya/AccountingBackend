@@ -84,18 +84,19 @@ namespace AccountingBackend.Api.Test.Controllers.Ledgers {
             var request = new {
                 Body = new {
                 Description = "Test",
-                VoucherId = "JV/005",
+                VoucherId = "JV/009",
                 Date = DateTime.Now,
                 Reference = "CH-01",
                 Posted = 0,
                 Entries = new [] {
-                new { AccountId = 10, Credit = 100, Debit = 0 },
+                new { AccountId = 13, Credit = 100, Debit = 0 },
                 new { AccountId = 11, Credit = 0, Debit = 100 }
                 }
                 }
             };
             // Act
             var response = await _client.PostAsync (_ApiUrl, Utilities.GetStringContent (request.Body));
+
             response.EnsureSuccessStatusCode ();
 
             // Assert

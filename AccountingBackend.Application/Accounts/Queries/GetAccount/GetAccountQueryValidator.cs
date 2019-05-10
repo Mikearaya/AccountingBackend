@@ -3,7 +3,7 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: May 3, 2019 11:02 AM
+ * @Last Modified Time: May 10, 2019 4:39 PM
  * @Description: Modify Here, Please 
  */
 using FluentValidation;
@@ -11,7 +11,7 @@ using FluentValidation;
 namespace AccountingBackend.Application.Accounts.Queries.GetAccount {
     public class GetAccountQueryValidator : AbstractValidator<GetAccountQuery> {
         public GetAccountQueryValidator () {
-            RuleFor (x => x.Id).NotNull ();
+            RuleFor (x => x.Id).NotEmpty ().NotNull ();
         }
     }
 }

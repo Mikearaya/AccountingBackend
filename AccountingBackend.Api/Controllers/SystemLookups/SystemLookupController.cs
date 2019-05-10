@@ -52,7 +52,7 @@ namespace AccountingBackend.Api.Controllers.SystemLookups {
         /// <param name="query"></param>
         /// <returns></returns>
         [HttpGet ("type")]
-        public async Task<ActionResult<IEnumerable<SystemLookupViewModel>>> GetSystemLookupList ([FromQuery] GetSystemLookupListViewByTypeQuery query) {
+        public async Task<ActionResult<IEnumerable<SystemLookupViewModel>>> GetSystemLookupList ([FromQuery] GetSystemLookupByTypeQuery query) {
             var lookup = await _Mediator.Send (query);
             return Ok (lookup);
         }
