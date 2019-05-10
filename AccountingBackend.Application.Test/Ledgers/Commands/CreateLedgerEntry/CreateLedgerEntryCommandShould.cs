@@ -3,7 +3,7 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: May 10, 2019 10:42 AM
+ * @Last Modified Time: May 10, 2019 11:06 AM
  * @Description: Modify Here, Please 
  */
 using System;
@@ -28,6 +28,12 @@ namespace AccountingBackend.Application.Test.Ledgers.Commands.CreateLedgerEntry 
             handler = new CreateLedgerEntryCommandHandler (_Database);
         }
 
+        /// <summary>
+        /// test the successful creation of ledger entry when all the parameters on 
+        /// a perfect senario
+        /// </summary>
+        /// <returns></returns>
+
         [Fact]
         public async Task CreateEntrySuccessfuly () {
 
@@ -51,6 +57,10 @@ namespace AccountingBackend.Application.Test.Ledgers.Commands.CreateLedgerEntry 
             Assert.NotEqual (0, result);
         }
 
+        /// <summary>
+        /// tests the throwing of validation error when voucher id has already been used in previous entries
+        /// </summary>
+        /// <returns></returns>
         [Fact]
         public async Task ThrowValidationErrorWhenVoucherIdExist () {
             //Given
@@ -71,6 +81,11 @@ namespace AccountingBackend.Application.Test.Ledgers.Commands.CreateLedgerEntry 
             await Assert.ThrowsAsync<ValidationException> (() => handler.Handle (command, CancellationToken.None));
         }
 
+        /// <summary>
+        /// test the checking of number of accounts affected by a single transaction
+        /// and throws error if it less than two
+        /// </summary>
+        /// <returns></returns>
         [Fact]
         public async Task ThrowsValidationErrorWhenLessThanTwoAccountsAreAffected () {
             //Given
@@ -90,6 +105,11 @@ namespace AccountingBackend.Application.Test.Ledgers.Commands.CreateLedgerEntry 
             await Assert.ThrowsAsync<ValidationException> (() => handler.Handle (command, CancellationToken.None));
         }
 
+        /// <summary>
+        /// tests the checking of wether the accounts in the entry balance or not 
+        /// and throwing of error when they dont balance
+        /// </summary>
+        /// <returns></returns>
         [Fact]
         public async Task ThrowsValidationErrorWhenEntriesDontBalance () {
             //Given
