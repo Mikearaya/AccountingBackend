@@ -18,23 +18,11 @@ using Moq;
 using Xunit;
 
 namespace AccountingBackend.Application.Test.Ledgers.Commands.DeleteLedgerEntry {
-    public class DeleteLedgerEntryCommandShould {
+    public class DeleteLedgerEntryCommandShould : DatabaseTestBase {
         private readonly Mock<IAccountingDatabaseService> Mockdatabase;
         private DeleteLedgerEntryCommandHandler handler;
 
-        public DeleteLedgerEntryCommandShould () {
-            Mockdatabase = new Mock<IAccountingDatabaseService> ();
-            Mockdatabase.Setup (d => d.Ledger.Remove (new Ledger ()));
-            Mockdatabase.Setup (d => d.SaveAsync ()).Returns (Task.CompletedTask);
-            Mockdatabase.Setup (d => d.Ledger.FindAsync (1)).ReturnsAsync (new Ledger () {
-                Id = 1,
-                    Description = "Description",
-                    IsPosted = 0,
-                    Date = DateTime.Now,
-                    Reference = "CH-001",
-                    VoucherId = "JV/001"
-            });
-        }
+        public DeleteLedgerEntryCommandShould () : base () { }
 
         /// <summary>
         /// test the successful deletion of ledger entry when provided with a valid/existing id
@@ -42,8 +30,8 @@ namespace AccountingBackend.Application.Test.Ledgers.Commands.DeleteLedgerEntry 
         [Fact]
         public async Task DeleteLedgerEntrySuccessfuly () {
             // Arrange
-            handler = new DeleteLedgerEntryCommandHandler (Mockdatabase.Object);
-            DeleteLedgerEntryCommand command = new DeleteLedgerEntryCommand () { Id = 1 };
+            handler = new DeleteLedgerEntryCommandHandler (_Database);
+            DeleteLedgerEntryCommand command = new DeleteLedgerEntryCommand () { Id = 10 };
             // Act
             var result = await handler.Handle (command, CancellationToken.None);
 

@@ -12,13 +12,19 @@ using AccountingBackend.Persistance;
 using Microsoft.EntityFrameworkCore;
 
 namespace AccountingBackend.Application.Test {
-    public class DatabaseTestBase : IDisposable {
+    public abstract class DatabaseTestBase : IDisposable {
         protected readonly AccountingDatabaseService _Database;
+        private static int count;
         public DatabaseTestBase () {
+            count++;
             var options = new DbContextOptionsBuilder<AccountingDatabaseService> ()
                 .UseInMemoryDatabase (databaseName: Guid.NewGuid ().ToString ())
                 .Options;
-
+            Console.WriteLine ("base");
+            Console.WriteLine (count);
+            Console.WriteLine ("base");
+            Console.WriteLine ("base");
+            Console.WriteLine (Guid.NewGuid ().ToString ());
             _Database = new AccountingDatabaseService (options);
             _Database.Database.EnsureCreated ();
 

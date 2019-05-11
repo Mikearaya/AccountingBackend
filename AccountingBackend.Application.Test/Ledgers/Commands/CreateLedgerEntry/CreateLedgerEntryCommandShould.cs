@@ -24,7 +24,7 @@ using Xunit;
 namespace AccountingBackend.Application.Test.Ledgers.Commands.CreateLedgerEntry {
     public class CreateLedgerEntryCommandShould : DatabaseTestBase {
         private CreateLedgerEntryCommandHandler handler;
-        public CreateLedgerEntryCommandShould () {
+        public CreateLedgerEntryCommandShould () : base () {
             handler = new CreateLedgerEntryCommandHandler (_Database);
         }
 
