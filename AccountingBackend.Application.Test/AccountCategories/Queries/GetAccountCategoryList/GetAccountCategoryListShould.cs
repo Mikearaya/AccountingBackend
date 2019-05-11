@@ -20,12 +20,9 @@ using Xunit;
 namespace AccountingBackend.Application.Test.AccountCategories.Queries.GetAccountCategoryList {
     public class GetAccountCategoryListShould : DatabaseTestBase {
 
-        private GetAccountCatugoryQueryListQueryHandler handler;
-        public GetAccountCategoryListShould () {
-            handler = new GetAccountCatugoryQueryListQueryHandler (_Database);
-        }
         public async Task ReturnListOfAccountCategoryView () {
             // Arrange
+            GetAccountCatugoryQueryListQueryHandler handler = new GetAccountCatugoryQueryListQueryHandler (_Database);
             GetAccountCategoryListQuery query = new GetAccountCategoryListQuery ();
 
             // Act

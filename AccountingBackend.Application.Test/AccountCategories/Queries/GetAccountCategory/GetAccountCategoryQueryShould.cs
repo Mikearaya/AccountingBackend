@@ -22,14 +22,11 @@ using Xunit;
 namespace AccountingBackend.Application.Test.AccountCategories.Queries.GetAccountCategory {
     public class GetAccountCategoryQueryShould : DatabaseTestBase {
 
-        private GetAccountCategoryQueryHandler handler;
-        public GetAccountCategoryQueryShould () {
-            handler = new GetAccountCategoryQueryHandler (_Database);
-        }
-
         [Fact]
         public async Task ReturnAccountCategory () {
             // Arrange
+            GetAccountCategoryQueryHandler handler = new GetAccountCategoryQueryHandler (_Database);
+
             GetAccountCategoryQuery query = new GetAccountCategoryQuery () {
                 Id = 10
             };
@@ -44,6 +41,7 @@ namespace AccountingBackend.Application.Test.AccountCategories.Queries.GetAccoun
         [Fact]
         public void ThrowNotFoundException () {
             // Arrange
+            GetAccountCategoryQueryHandler handler = new GetAccountCategoryQueryHandler (_Database);
             GetAccountCategoryQuery query = new GetAccountCategoryQuery () {
                 Id = 100
             };
