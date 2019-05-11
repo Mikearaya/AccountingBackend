@@ -18,35 +18,14 @@ using Moq;
 using Xunit;
 
 namespace AccountingBackend.Application.Test.Accounts.Commands.DeleteAccount {
-    public class DeleteAccountCommandShould {
-        private Mock<IAccountingDatabaseService> MockDatabase;
-        private Account account;
-        public DeleteAccountCommandShould () {
-            MockDatabase = new Mock<IAccountingDatabaseService> ();
-
-            account = new Account () {
-                Id = 1,
-                AccountId = "0002",
-                AccountName = "Account Payble",
-                Active = 0,
-                CatagoryId = 1,
-                ParentAccount = 2,
-                CostCenterId = 4,
-                OpeningBalance = 200,
-                DateUpdated = DateTime.Now,
-                Year = "1990",
-            };
-
-            MockDatabase.Setup (d => d.SaveAsync ()).Returns (Task.CompletedTask);
-            MockDatabase.Setup (d => d.Account.FindAsync (1)).ReturnsAsync (account);
-        }
+    public class DeleteAccountCommandShould : DatabaseTestBase {
 
         [Fact]
         public async Task DeleteAccountSuccessfuly () {
             // Arrange
-            DeleteAccountCommandHandler handler = new DeleteAccountCommandHandler (MockDatabase.Object);
+            DeleteAccountCommandHandler handler = new DeleteAccountCommandHandler (_Database);
             //Act
-            var result = await handler.Handle (new DeleteAccountCommand () { Id = 1 }, CancellationToken.None);
+            var result = await handler.Handle (new DeleteAccountCommand () { Id = 10 }, CancellationToken.None);
             //Assert
             Assert.Equal (Unit.Value, result);
 
@@ -55,7 +34,7 @@ namespace AccountingBackend.Application.Test.Accounts.Commands.DeleteAccount {
         [Fact]
         public async Task ThrowNotFoundExceptionForAccountIdThatDoesnotExist () {
             // Arrange
-            DeleteAccountCommandHandler handler = new DeleteAccountCommandHandler (MockDatabase.Object);
+            DeleteAccountCommandHandler handler = new DeleteAccountCommandHandler (_Database);
 
             await Assert.ThrowsAsync<NotFoundException> (() => handler.Handle (new DeleteAccountCommand () { Id = 2 }, CancellationToken.None));
         }

@@ -18,67 +18,37 @@ using Moq;
 using Xunit;
 
 namespace AccountingBackend.Application.Test.Accounts.Commands.UpdateAccount {
-    public class UpdateAccountCommandShould {
-        Mock<IAccountingDatabaseService> MockDatabase;
-        private UpdateAccountCommandHandler handler;
-        private UpdateAccountCommand updateCommand;
-        private Account account;
-        public UpdateAccountCommandShould () {
-
-            MockDatabase = new Mock<IAccountingDatabaseService> ();
-
-            account = new Account () {
-                Id = 1,
-                AccountId = "0002",
-                AccountName = "Account Payble",
-                Active = 0,
-                CatagoryId = 1,
-                ParentAccount = 2,
-                OpeningBalance = 200,
-                DateUpdated = DateTime.Now,
-                Year = "1990",
-            };
-            MockDatabase.Setup (d => d.SaveAsync ()).Returns (Task.CompletedTask);
-            MockDatabase.Setup (d => d.Account.FindAsync (1)).ReturnsAsync (account);
-            MockDatabase.Setup (d => d.Account.Update (account));
-
-        }
+    public class UpdateAccountCommandShould : DatabaseTestBase {
 
         [Fact]
         public async Task UpdateAccountSuccessfuly () {
             // Arrange
-            updateCommand = new UpdateAccountCommand () {
-                Id = 1,
+            UpdateAccountCommand updateCommand = new UpdateAccountCommand () {
+                Id = 10,
                 AccountId = "0000",
                 Name = "Account Payable Update",
                 Active = 1,
                 ParentAccount = 1,
             };
 
-            MockDatabase.Setup (d => d.Account.Update (account));
-
-            handler = new UpdateAccountCommandHandler (MockDatabase.Object);
+            UpdateAccountCommandHandler handler = new UpdateAccountCommandHandler (_Database);
             // Act
             var result = await handler.Handle (updateCommand, CancellationToken.None);
             // Assert
             Assert.Equal (Unit.Value, result);
-            Assert.Equal ("0000", account.AccountId);
-            Assert.Equal ("Account Payable Update", account.AccountName);
-            account.Active.Equals (0);
-            Assert.Equal (1, account.ParentAccount);
         }
 
         [Fact]
         public async Task ThrowNotFoundExceptionForNonExistingAccountId () {
             // Arrange
-            updateCommand = new UpdateAccountCommand () {
+            UpdateAccountCommand updateCommand = new UpdateAccountCommand () {
                 Id = 2,
                 AccountId = "0000",
                 Name = "Account Payable Update",
                 Active = 1,
                 ParentAccount = 1,
             };
-            handler = new UpdateAccountCommandHandler (MockDatabase.Object);
+            UpdateAccountCommandHandler handler = new UpdateAccountCommandHandler (_Database);
 
             await Assert.ThrowsAsync<NotFoundException> (() => handler.Handle (updateCommand, CancellationToken.None));
 

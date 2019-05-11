@@ -19,7 +19,6 @@ namespace AccountingBackend.Application.Test.Accounts.Commands.CreateAccount {
         private CreateAccountCommandHandler handler;
 
         private CreateAccountCommand accountModel;
-        public CreateAccountCommandHandlerShould () : base () { }
 
         [Fact]
         public async Task CreateAccountSuccessfuly () {

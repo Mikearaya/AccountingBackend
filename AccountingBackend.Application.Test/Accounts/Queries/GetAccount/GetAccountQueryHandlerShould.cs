@@ -1,4 +1,3 @@
-using System.Threading;
 /*
  * @CreateTime: May 10, 2019 4:06 PM
  * @Author:  Mikael Araya
@@ -7,6 +6,7 @@ using System.Threading;
  * @Last Modified Time: May 10, 2019 4:13 PM
  * @Description: Modify Here, Please 
  */
+using System.Threading;
 using System.Threading.Tasks;
 using AccountingBackend.Application.Accounts.Models;
 using AccountingBackend.Application.Accounts.Queries.GetAccount;
@@ -17,7 +17,7 @@ namespace AccountingBackend.Application.Test.Accounts.Queries.GetAccount {
     public class GetAccountQueryHandlerShould : DatabaseTestBase {
         private GetAccountQueryHandler handler;
 
-        public GetAccountQueryHandlerShould () {
+        public GetAccountQueryHandlerShould () : base () {
             handler = new GetAccountQueryHandler (_Database);
         }
 

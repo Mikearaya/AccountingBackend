@@ -67,7 +67,7 @@ namespace AccountingBackend.Application.Test {
         }
 
         private static void SeedAccounts (AccountingDatabaseService context) {
-            var accounts = new [] {
+            var accounts = new List<AccountType> () {
                 new AccountType () { Type = "Expence" },
                 new AccountType () { Type = "Liability" },
                 new AccountType () { Type = "Capital" },
@@ -79,7 +79,7 @@ namespace AccountingBackend.Application.Test {
                 new AccountCatagory () { Id = 11, Type = "Asset", Catagory = "COGE", DateAdded = DateTime.Now, DateUpdated = DateTime.Now },
                 new AccountCatagory () {
                 Id = 4, Catagory = "COGE", Type = "Asset", DateAdded = DateTime.Now, DateUpdated = DateTime.Now,
-                Account = new [] {
+                Account = new List<Account> () {
                 new Account () {
                 Id = 10, CatagoryId = 11, AccountId = "5000", AccountName = "Cash", OpeningBalance = 100, DateAdded = DateTime.Now, DateUpdated = DateTime.Now,
                 CostCenter = new SystemLookup () { Id = 30, Type = "Cost Center", Value = "Production" },
