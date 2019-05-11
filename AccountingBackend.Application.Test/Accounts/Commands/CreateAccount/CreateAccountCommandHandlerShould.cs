@@ -15,30 +15,16 @@ using Moq;
 using Xunit;
 
 namespace AccountingBackend.Application.Test.Accounts.Commands.CreateAccount {
-    public class CreateAccountCommandHandlerShould {
+    public class CreateAccountCommandHandlerShould : DatabaseTestBase {
         private CreateAccountCommandHandler handler;
 
         private CreateAccountCommand accountModel;
-        Mock<IAccountingDatabaseService> Mockdatabase;
-        public CreateAccountCommandHandlerShould () {
-            Mockdatabase = new Mock<IAccountingDatabaseService> ();
-            Mockdatabase.Setup (d => d.SaveAsync ()).Returns (Task.CompletedTask);
-        }
+        public CreateAccountCommandHandlerShould () : base () { }
 
         [Fact]
         public async Task CreateAccountSuccessfuly () {
             // Arrange
-            Mockdatabase.Setup (d => d.Account.Add (new Account () {
-
-                AccountId = "0000",
-                    AccountName = "Cash",
-                    Active = 0,
-                    CatagoryId = 1,
-                    OpeningBalance = 100,
-                    CostCenterId = 1
-            }));
-
-            handler = new CreateAccountCommandHandler (Mockdatabase.Object);
+            handler = new CreateAccountCommandHandler (_Database);
             accountModel = new CreateAccountCommand () {
                 AccountId = "0000",
                 Name = "Cash",
@@ -52,7 +38,7 @@ namespace AccountingBackend.Application.Test.Accounts.Commands.CreateAccount {
             var response = await handler.Handle (accountModel, CancellationToken.None);
 
             // Assert
-            Assert.Equal (0, response);
+            Assert.NotEqual (0, response);
 
         }
     }

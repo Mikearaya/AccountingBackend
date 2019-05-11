@@ -45,7 +45,7 @@ namespace AccountingBackend.Application.Test.Ledgers.Commands.DeleteLedgerEntry 
         [Fact]
         public void ThrowNotFoundException () {
             // Arrange
-            handler = new DeleteLedgerEntryCommandHandler (Mockdatabase.Object);
+            handler = new DeleteLedgerEntryCommandHandler (_Database);
             DeleteLedgerEntryCommand command = new DeleteLedgerEntryCommand () { Id = 2 };
 
             // Assert

@@ -78,7 +78,8 @@ namespace AccountingBackend.Application.Test {
                 new AccountCatagory () { Id = 2, Catagory = "Cash Account", DateAdded = DateTime.Now, DateUpdated = DateTime.Now },
                 new AccountCatagory () { Id = 3, Catagory = "COGE", DateAdded = DateTime.Now, DateUpdated = DateTime.Now },
                 new AccountCatagory () {
-                Id = 4, Catagory = "COGE", DateAdded = DateTime.Now, DateUpdated = DateTime.Now, Account = new [] {
+                Id = 4, Catagory = "COGE", DateAdded = DateTime.Now, DateUpdated = DateTime.Now,
+                Account = new [] {
                 new Account () {
                 Id = 10, AccountId = "5000", AccountName = "Cash", OpeningBalance = 100, DateAdded = DateTime.Now, DateUpdated = DateTime.Now,
                 CostCenter = new SystemLookup () { Id = 30, Type = "Cost Center", Value = "Production" },

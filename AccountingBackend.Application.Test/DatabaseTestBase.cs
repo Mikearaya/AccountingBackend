@@ -20,11 +20,7 @@ namespace AccountingBackend.Application.Test {
             var options = new DbContextOptionsBuilder<AccountingDatabaseService> ()
                 .UseInMemoryDatabase (databaseName: Guid.NewGuid ().ToString ())
                 .Options;
-            Console.WriteLine ("base");
-            Console.WriteLine (count);
-            Console.WriteLine ("base");
-            Console.WriteLine ("base");
-            Console.WriteLine (Guid.NewGuid ().ToString ());
+
             _Database = new AccountingDatabaseService (options);
             _Database.Database.EnsureCreated ();
 
