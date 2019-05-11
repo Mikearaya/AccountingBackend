@@ -17,23 +17,13 @@ using Moq;
 using Xunit;
 
 namespace AccountingBackend.Application.Test.SystemLookups.Commands.DeleteSystemLookup {
-    public class DeleteSystemLookupCommandShould {
-        public Mock<IAccountingDatabaseService> Mockdatabase;
-        public DeleteSystemLookupCommandShould () {
-            Mockdatabase = new Mock<IAccountingDatabaseService> ();
-
-            Mockdatabase.Setup (x => x.SaveAsync ()).Returns (Task.CompletedTask);
-
-            Mockdatabase.Setup (x => x.SystemLookup.Remove (new SystemLookup ()));
-
-            Mockdatabase.Setup (c => c.SystemLookup.FindAsync (1)).ReturnsAsync (new SystemLookup () { Id = 1, Value = "Production", Type = "Cost Center" });
-        }
+    public class DeleteSystemLookupCommandShould : DatabaseTestBase {
 
         [Fact]
         public async Task DeleteSingleIntanceSuccessfuly () {
             // Arrange
-            DeleteSystemLookupCommandHandler handler = new DeleteSystemLookupCommandHandler (Mockdatabase.Object);
-            DeleteSystemLookupCommand command = new DeleteSystemLookupCommand () { Id = 1 };
+            DeleteSystemLookupCommandHandler handler = new DeleteSystemLookupCommandHandler (_Database);
+            DeleteSystemLookupCommand command = new DeleteSystemLookupCommand () { Id = 10 };
             // Act
             var result = await handler.Handle (command, CancellationToken.None);
 
@@ -44,7 +34,7 @@ namespace AccountingBackend.Application.Test.SystemLookups.Commands.DeleteSystem
         [Fact]
         public async Task ThrowNotFoundException () {
             // Arrange
-            DeleteSystemLookupCommandHandler handler = new DeleteSystemLookupCommandHandler (Mockdatabase.Object);
+            DeleteSystemLookupCommandHandler handler = new DeleteSystemLookupCommandHandler (_Database);
             DeleteSystemLookupCommand command = new DeleteSystemLookupCommand () { Id = 2 };
             // Assert
             var result = await

@@ -19,42 +19,18 @@ using Moq;
 using Xunit;
 
 namespace AccountingBackend.Application.Test.SystemLookups.Commands.CreateSysystemLookup {
-    public class CreateSystemLookupCommandShould {
-
-        private readonly Mock<IAccountingDatabaseService> _Mockdatabase;
-        private CreateSystemLookupCommand createCommand;
-
-        public CreateSystemLookupCommandShould () {
-
-            _Mockdatabase = new Mock<IAccountingDatabaseService> ();
-
-            _Mockdatabase.Setup (x => x.SaveAsync ()).Returns (Task.CompletedTask);
-
-            _Mockdatabase.Setup (x => x.SystemLookup.Add (new SystemLookup () {
-                Type = "Cost Center",
-                    Value = "Production",
-                    DateAdded = DateTime.Now,
-                    DateUpdated = DateTime.Now
-            }));
-
-            _Mockdatabase.Setup (x => x.SystemLookup.Add (new SystemLookup () {
-                Type = "Cost Center",
-                    Value = "Manufacturing",
-                    DateAdded = DateTime.Now,
-                    DateUpdated = DateTime.Now
-            }));
-        }
+    public class CreateSystemLookupCommandShould : DatabaseTestBase {
 
         [Fact]
         public async Task CreateSystemLookupsSuccessfuly () {
-            createCommand = new CreateSystemLookupCommand () {
+            CreateSystemLookupCommand createCommand = new CreateSystemLookupCommand () {
                 Lookups = new [] {
                 new NewSystemLookupModel () { Value = "Production", Type = "Cost Center" },
                 new NewSystemLookupModel () { Value = "Manufacturing", Type = "Cost Center" }
                 }
             };
 
-            CreateSystemLookupCommandHandler handler = new CreateSystemLookupCommandHandler (_Mockdatabase.Object);
+            CreateSystemLookupCommandHandler handler = new CreateSystemLookupCommandHandler (_Database);
 
             //Assert
             var result = await handler.Handle (createCommand, CancellationToken.None);

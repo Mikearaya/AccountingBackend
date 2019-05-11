@@ -17,7 +17,7 @@ namespace AccountingBackend.Application.Test.Ledgers.Queries.GetLedgerEntryList 
     public class GetLedgerEntryListViewQueryShould : DatabaseTestBase {
         private GetJornalEntryListViewQueryHandler handler;
 
-        public GetLedgerEntryListViewQueryShould () {
+        public GetLedgerEntryListViewQueryShould () : base () {
             handler = new GetJornalEntryListViewQueryHandler (_Database);
         }
 

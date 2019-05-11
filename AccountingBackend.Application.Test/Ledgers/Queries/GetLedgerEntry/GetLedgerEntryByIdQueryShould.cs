@@ -17,7 +17,7 @@ namespace AccountingBackend.Application.Test.Ledgers.Queries.GetLedgerEntry {
     public class GetLedgerEntryByIdQueryShould : DatabaseTestBase {
 
         private GetLedgerEntryByIdQueryHandler handler;
-        public GetLedgerEntryByIdQueryShould () {
+        public GetLedgerEntryByIdQueryShould () : base () {
             handler = new GetLedgerEntryByIdQueryHandler (_Database);
         }
 

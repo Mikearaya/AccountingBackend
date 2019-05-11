@@ -17,7 +17,7 @@ namespace AccountingBackend.Application.Test.SystemLookups.Queries.GetSystemLook
     public class GetSystemLookupQueryShould : DatabaseTestBase {
 
         private GetSystemLookupQueryHandler handler;
-        public GetSystemLookupQueryShould () {
+        public GetSystemLookupQueryShould () : base () {
             handler = new GetSystemLookupQueryHandler (_Database);
         }
 

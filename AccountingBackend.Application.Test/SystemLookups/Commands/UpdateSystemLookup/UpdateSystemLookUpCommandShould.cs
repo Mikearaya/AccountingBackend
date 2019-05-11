@@ -19,43 +19,18 @@ using Moq;
 using Xunit;
 
 namespace AccountingBackend.Application.Test.SystemLookups.Commands.UpdateSystemLookup {
-    public class UpdateSystemLookUpCommandShould {
-
-        public Mock<IAccountingDatabaseService> Mockdatabase;
-        public UpdateSystemLookUpCommandShould () {
-            Mockdatabase = new Mock<IAccountingDatabaseService> ();
-
-            Mockdatabase.Setup (x => x.SaveAsync ()).Returns (Task.CompletedTask);
-
-            Mockdatabase.Setup (x => x.SystemLookup.Add (new SystemLookup () {
-                Type = "Cost Center",
-                    Value = "Production",
-                    DateAdded = DateTime.Now,
-                    DateUpdated = DateTime.Now
-            }));
-
-            Mockdatabase.Setup (x => x.SystemLookup.Add (new SystemLookup () {
-                Type = "Cost Center",
-                    Value = "Manufacturing",
-                    DateAdded = DateTime.Now,
-                    DateUpdated = DateTime.Now
-            }));
-
-            Mockdatabase.Setup (c => c.SystemLookup.FindAsync (1)).ReturnsAsync (new SystemLookup () { Id = 1, Value = "Production", Type = "Cost Center" });
-            Mockdatabase.Setup (x => x.SystemLookup.FindAsync (2)).ReturnsAsync (new SystemLookup () { Id = 2, Value = "Manufacturing", Type = "Cost Center" });
-
-        }
+    public class UpdateSystemLookUpCommandShould : DatabaseTestBase {
 
         [Fact]
         public async Task UpdateSuccessfuly () {
 
             //Given
-            UpdateSystemLookupCommandHandler handler = new UpdateSystemLookupCommandHandler (Mockdatabase.Object);
+            UpdateSystemLookupCommandHandler handler = new UpdateSystemLookupCommandHandler (_Database);
             //When
             var result = await handler.Handle (new UpdateSystemLookupCommand {
                 Lookups = new [] {
-                    new UpdatedSystemLookupModel () { Id = 1, Value = "Production Updated", Type = "Cost Center" },
-                        new UpdatedSystemLookupModel () { Id = 2, Value = "Production Updated", Type = "Cost Center" }
+                    new UpdatedSystemLookupModel () { Id = 10, Value = "Production Updated", Type = "Cost Center" },
+                        new UpdatedSystemLookupModel () { Id = 11, Value = "Production Updated", Type = "Cost Center" }
                 }
             }, CancellationToken.None);
 
@@ -66,7 +41,7 @@ namespace AccountingBackend.Application.Test.SystemLookups.Commands.UpdateSystem
         [Fact]
         public async Task ThrowNotFoundException () {
             //Given
-            UpdateSystemLookupCommandHandler handler = new UpdateSystemLookupCommandHandler (Mockdatabase.Object);
+            UpdateSystemLookupCommandHandler handler = new UpdateSystemLookupCommandHandler (_Database);
             //Assert
             await Assert.ThrowsAsync<NotFoundException> (() => handler.Handle (new UpdateSystemLookupCommand {
                 Lookups = new [] {

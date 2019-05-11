@@ -17,7 +17,7 @@ using Xunit;
 namespace AccountingBackend.Application.Test.SystemLookups.Queries.GetSystemLookupList {
     public class GetSystemLookupByTypeQueryShould : DatabaseTestBase {
         private GetSystemLookupByTypeQueryHandler handler;
-        public GetSystemLookupByTypeQueryShould () {
+        public GetSystemLookupByTypeQueryShould () : base () {
             handler = new GetSystemLookupByTypeQueryHandler (_Database);
         }
 
