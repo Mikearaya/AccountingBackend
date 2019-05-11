@@ -19,7 +19,6 @@ using Xunit;
 
 namespace AccountingBackend.Application.Test.Ledgers.Commands.DeleteLedgerEntry {
     public class DeleteLedgerEntryCommandShould : DatabaseTestBase {
-        private readonly Mock<IAccountingDatabaseService> Mockdatabase;
         private DeleteLedgerEntryCommandHandler handler;
 
         public DeleteLedgerEntryCommandShould () : base () { }

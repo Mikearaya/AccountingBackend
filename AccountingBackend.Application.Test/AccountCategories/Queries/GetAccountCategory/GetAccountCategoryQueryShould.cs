@@ -31,14 +31,14 @@ namespace AccountingBackend.Application.Test.AccountCategories.Queries.GetAccoun
         public async Task ReturnAccountCategory () {
             // Arrange
             GetAccountCategoryQuery query = new GetAccountCategoryQuery () {
-                Id = 3
+                Id = 10
             };
 
             // Act
             var result = await handler.Handle (query, CancellationToken.None);
 
             // Assert
-            Assert.Equal (3, result.Id);
+            Assert.Equal (10, result.Id);
         }
 
         [Fact]

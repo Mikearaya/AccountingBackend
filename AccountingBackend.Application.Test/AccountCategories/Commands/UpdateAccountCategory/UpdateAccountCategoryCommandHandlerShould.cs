@@ -14,56 +14,28 @@ using AccountingBackend.Application.AccountCategories.Models;
 using AccountingBackend.Application.Exceptions;
 using AccountingBackend.Application.Interfaces;
 using AccountingBackend.Domain;
+using MediatR;
 using Moq;
 using Xunit;
 
 namespace AccountingBackend.Application.Test.AccountCategories.Commands {
-    public class UpdateAccountCategoryCommandHandlerShould {
-
-        private readonly Mock<IAccountingDatabaseService> Mockdatabase;
-        private readonly AccountCatagory accountCatagory;
-
-        private readonly UpdateAccountCategoryCommand updateRequest;
-
-        public UpdateAccountCategoryCommandHandlerShould () {
-            accountCatagory = new AccountCatagory () {
-                Id = 1,
-                Type = "Asset",
-                Catagory = "Cash",
-                DateAdded = DateTime.Now,
-                DateUpdated = DateTime.Now
-            };
-
-            updateRequest = new UpdateAccountCategoryCommand () {
-                Id = 1,
-                AccountType = "Asset",
-                CategoryName = "Petty Cash"
-            };
-
-            Mockdatabase = new Mock<IAccountingDatabaseService> ();
-            Mockdatabase.Setup (d => d.SaveAsync ()).Returns (Task.CompletedTask);
-
-        }
+    public class UpdateAccountCategoryCommandHandlerShould : DatabaseTestBase {
 
         [Fact]
         public async Task NotThrowNotFoundException () {
             //Given
-            AccountCatagory updatedAccountCatagory = new AccountCatagory () {
-                Id = 1,
-                Type = "Asset",
-                Catagory = "Petty Cash",
-                DateAdded = DateTime.Now,
-                DateUpdated = DateTime.Now
+            UpdateAccountCategoryCommand command = new UpdateAccountCategoryCommand () {
+                Id = 10,
+                AccountType = "Asset",
+                CategoryName = "Petty Cash"
             };
-            Mockdatabase.Setup (c => c.AccountCatagory.FindAsync (1)).ReturnsAsync (accountCatagory);
-            Mockdatabase.Setup (c => c.AccountCatagory.Update (updatedAccountCatagory));
 
-            UpdateAccountCategoryCommandHandler handler = new UpdateAccountCategoryCommandHandler (Mockdatabase.Object);
+            UpdateAccountCategoryCommandHandler handler = new UpdateAccountCategoryCommandHandler (_Database);
             //When
-            var result = await handler.Handle (updateRequest, CancellationToken.None);
+            var result = await handler.Handle (command, CancellationToken.None);
 
             //Then
-            Assert.Equal (MediatR.Unit.Value, result);
+            Assert.Equal (Unit.Value, result);
         }
 
         /// <summary>
@@ -73,12 +45,16 @@ namespace AccountingBackend.Application.Test.AccountCategories.Commands {
         [Fact]
         public async Task ThrowNotFoundException () {
             //Given
-            Mockdatabase.Setup (c => c.AccountCatagory.FindAsync (2)).ReturnsAsync (accountCatagory);
-            UpdateAccountCategoryCommandHandler handler = new UpdateAccountCategoryCommandHandler (Mockdatabase.Object);
+            UpdateAccountCategoryCommand command = new UpdateAccountCategoryCommand () {
+                Id = 1,
+                AccountType = "Asset",
+                CategoryName = "Petty Cash"
+            };
+            UpdateAccountCategoryCommandHandler handler = new UpdateAccountCategoryCommandHandler (_Database);
             //When
 
             //Then
-            await Assert.ThrowsAsync<NotFoundException> (() => handler.Handle (updateRequest, CancellationToken.None));
+            await Assert.ThrowsAsync<NotFoundException> (() => handler.Handle (command, CancellationToken.None));
 
         }
 

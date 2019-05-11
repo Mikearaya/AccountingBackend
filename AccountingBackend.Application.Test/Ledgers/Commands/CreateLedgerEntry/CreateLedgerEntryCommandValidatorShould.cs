@@ -15,7 +15,6 @@ namespace AccountingBackend.Application.Test.Ledgers.Commands.CreateLedgerEntry 
     public class CreateLedgerEntryCommandValidatorShould {
 
         private CreateLedgerEntryCommandValidator validator;
-        private DateTime? nullDate = null;
         public CreateLedgerEntryCommandValidatorShould () {
             validator = new CreateLedgerEntryCommandValidator ();
         }

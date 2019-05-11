@@ -17,25 +17,12 @@ using Moq;
 using Xunit;
 
 namespace AccountingBackend.Application.Test.AccountCategories.Commands.CreateAccountCategory {
-    public class CreateAccountCategoryCommandShould {
-
-        private readonly Mock<IAccountingDatabaseService> Mockdatabase;
-
-        public CreateAccountCategoryCommandShould () {
-
-            Mockdatabase = new Mock<IAccountingDatabaseService> ();
-            Mockdatabase.Setup (c => c.AccountCatagory.Add (new AccountCatagory () {
-                Type = "Asset",
-                    Catagory = "Cash"
-            }));
-
-        }
+    public class CreateAccountCategoryCommandShould : DatabaseTestBase {
 
         [Fact]
         public async Task CreateAccount () {
             //Given
-            Mockdatabase.Setup (d => d.SaveAsync ()).Returns (Task.CompletedTask);
-            CreateAccountCategoryCommandHandler handler = new CreateAccountCategoryCommandHandler (Mockdatabase.Object);
+            CreateAccountCategoryCommandHandler handler = new CreateAccountCategoryCommandHandler (_Database);
             //When
             var result = await handler.Handle (new CreateAccountCategoryCommand () {
                 AccountType = "Asset",
@@ -43,7 +30,7 @@ namespace AccountingBackend.Application.Test.AccountCategories.Commands.CreateAc
             }, CancellationToken.None);
             //Then
 
-            Assert.Equal (0, result);
+            Assert.NotEqual (0, result);
         }
 
     }

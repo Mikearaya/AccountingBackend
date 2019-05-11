@@ -68,24 +68,24 @@ namespace AccountingBackend.Application.Test {
 
         private static void SeedAccounts (AccountingDatabaseService context) {
             var accounts = new [] {
-                new AccountType () { Type = "Asset" },
+                new AccountType () { Type = "Expence" },
                 new AccountType () { Type = "Liability" },
                 new AccountType () { Type = "Capital" },
                 new AccountType () { Type = "Revenue" },
                 new AccountType () {
-                Type = "Expence",
-                AccountCatagory = new [] {
-                new AccountCatagory () { Id = 2, Catagory = "Cash Account", DateAdded = DateTime.Now, DateUpdated = DateTime.Now },
-                new AccountCatagory () { Id = 3, Catagory = "COGE", DateAdded = DateTime.Now, DateUpdated = DateTime.Now },
+                Type = "Asset",
+                AccountCatagory = new List<AccountCatagory> () {
+                new AccountCatagory () { Id = 10, Type = "Asset", Catagory = "Cash Account", DateAdded = DateTime.Now, DateUpdated = DateTime.Now },
+                new AccountCatagory () { Id = 11, Type = "Asset", Catagory = "COGE", DateAdded = DateTime.Now, DateUpdated = DateTime.Now },
                 new AccountCatagory () {
-                Id = 4, Catagory = "COGE", DateAdded = DateTime.Now, DateUpdated = DateTime.Now,
+                Id = 4, Catagory = "COGE", Type = "Asset", DateAdded = DateTime.Now, DateUpdated = DateTime.Now,
                 Account = new [] {
                 new Account () {
-                Id = 10, AccountId = "5000", AccountName = "Cash", OpeningBalance = 100, DateAdded = DateTime.Now, DateUpdated = DateTime.Now,
+                Id = 10, CatagoryId = 11, AccountId = "5000", AccountName = "Cash", OpeningBalance = 100, DateAdded = DateTime.Now, DateUpdated = DateTime.Now,
                 CostCenter = new SystemLookup () { Id = 30, Type = "Cost Center", Value = "Production" },
                 },
                 new Account () {
-                Id = 11, AccountId = "7000", AccountName = "Cash at Bank", OpeningBalance = 100, DateAdded = DateTime.Now, DateUpdated = DateTime.Now,
+                Id = 11, CatagoryId = 11, AccountId = "7000", AccountName = "Cash at Bank", OpeningBalance = 100, DateAdded = DateTime.Now, DateUpdated = DateTime.Now,
                 CostCenter = new SystemLookup () { Id = 50, Type = "Cost Center", Value = "Production" },
                 }
                 }
@@ -96,7 +96,7 @@ namespace AccountingBackend.Application.Test {
             };
 
             context.AccountType.AddRange (accounts);
-            context.Save ();
+            context.SaveChanges ();
         }
 
     }
