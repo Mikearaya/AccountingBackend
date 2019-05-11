@@ -61,7 +61,8 @@ namespace AccountingBackend.Application.Ledgers.Commands.UpdateLedgerEntry {
             foreach (var item in request.Entries) {
 
                 if (item.Id != 0) {
-                    _database.LedgerEntry.Update (new LedgerEntry () {
+
+                    _database.LedgerEntry.Add (new LedgerEntry () {
                         Id = (int) item.Id,
                             AccountId = item.AccountId,
                             Credit = item.Credit,

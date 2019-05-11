@@ -20,11 +20,11 @@ using Moq;
 using Xunit;
 
 namespace AccountingBackend.Application.Test.Ledgers.Commands.UpdateLedgerEntry {
-    public class UpdateLedgerEntryCommandHandlerShould {
+    public class UpdateLedgerEntryCommandHandlerShould : DatabaseTestBase {
 
         private readonly Mock<IAccountingDatabaseService> Mockdatabase;
         private UpdateLedgerEntryCommandHandler handler;
-        public UpdateLedgerEntryCommandHandlerShould () {
+        public UpdateLedgerEntryCommandHandlerShould () : base () {
             Mockdatabase = new Mock<IAccountingDatabaseService> ();
             Mockdatabase.Setup (d => d.SaveAsync ()).Returns (Task.CompletedTask);
             Mockdatabase.Setup (d => d.Ledger.FindAsync (1)).ReturnsAsync (new Ledger () {
@@ -41,17 +41,6 @@ namespace AccountingBackend.Application.Test.Ledgers.Commands.UpdateLedgerEntry 
                             new LedgerEntry () { Id = 2, AccountId = 11, Credit = 100, Debit = 0, DateAdded = DateTime.Now, DateUpdated = DateTime.Now },
                     }
             });
-
-            Mockdatabase.Setup (d =>
-                    d.LedgerEntry.FindAsync (1))
-                .ReturnsAsync (new LedgerEntry () {
-                    Id = 1, AccountId = 10, Credit = 0, Debit = 100, DateAdded = DateTime.Now, DateUpdated = DateTime.Now
-                });
-            Mockdatabase.Setup (d =>
-                    d.LedgerEntry.FindAsync (2))
-                .ReturnsAsync (new LedgerEntry () {
-                    Id = 2, AccountId = 11, Credit = 100, Debit = 0, DateAdded = DateTime.Now, DateUpdated = DateTime.Now
-                });
 
             Mockdatabase.Setup (d => d.LedgerEntry.Remove (new LedgerEntry ()));
             Mockdatabase.Setup (d => d.LedgerEntry.Update (new LedgerEntry ()));
@@ -93,7 +82,7 @@ namespace AccountingBackend.Application.Test.Ledgers.Commands.UpdateLedgerEntry 
         [Fact]
         public async Task ThrowNotFoundExceptionWhenGivenNonExistingId () {
             // Arrange
-            handler = new UpdateLedgerEntryCommandHandler (Mockdatabase.Object);
+            handler = new UpdateLedgerEntryCommandHandler (_Database);
             UpdateLedgerEntryCommand command = new UpdateLedgerEntryCommand () {
                 Id = 2,
                 Description = "updated Description",
@@ -117,23 +106,9 @@ namespace AccountingBackend.Application.Test.Ledgers.Commands.UpdateLedgerEntry 
         [Fact]
         public async Task ThrowValidationExceptionWhenUpdatingPostedLedgerEntry () {
             // Arrange
-            Mockdatabase.Setup (d => d.Ledger.FindAsync (2)).ReturnsAsync (new Ledger () {
-                Id = 2,
-                    VoucherId = "JV/001",
-                    Date = DateTime.Now,
-                    Description = "test",
-                    Reference = "CH--001",
-                    IsPosted = 1,
-                    DateAdded = DateTime.Now,
-                    DateUpdated = DateTime.Now,
-                    LedgerEntry = new List<LedgerEntry> () {
-                        new LedgerEntry () { Id = 3, AccountId = 10, Credit = 0, Debit = 100, DateAdded = DateTime.Now, DateUpdated = DateTime.Now },
-                            new LedgerEntry () { Id = 4, AccountId = 11, Credit = 100, Debit = 0, DateAdded = DateTime.Now, DateUpdated = DateTime.Now },
-                    }
-            });
-            handler = new UpdateLedgerEntryCommandHandler (Mockdatabase.Object);
+            handler = new UpdateLedgerEntryCommandHandler (_Database);
             UpdateLedgerEntryCommand command = new UpdateLedgerEntryCommand () {
-                Id = 2,
+                Id = 10,
                 Description = "updated Description",
                 Date = DateTime.Now,
                 Posted = 0,
@@ -157,9 +132,9 @@ namespace AccountingBackend.Application.Test.Ledgers.Commands.UpdateLedgerEntry 
         public async Task ThrowValidationExceptionWhenUpdatingUnbalancedLedgerEntry () {
             // Arrange
 
-            handler = new UpdateLedgerEntryCommandHandler (Mockdatabase.Object);
+            handler = new UpdateLedgerEntryCommandHandler (_Database);
             UpdateLedgerEntryCommand command = new UpdateLedgerEntryCommand () {
-                Id = 1,
+                Id = 11,
                 Description = "updated Description",
                 Date = DateTime.Now,
                 Posted = 0,
@@ -187,7 +162,7 @@ namespace AccountingBackend.Application.Test.Ledgers.Commands.UpdateLedgerEntry 
         public async Task ThrowNotFoundExceptionWhenDeletingNonExistingEntryId () {
             // Arrange
 
-            handler = new UpdateLedgerEntryCommandHandler (Mockdatabase.Object);
+            handler = new UpdateLedgerEntryCommandHandler (_Database);
             UpdateLedgerEntryCommand command = new UpdateLedgerEntryCommand () {
                 Id = 1,
                 Description = "updated Description",
@@ -222,9 +197,9 @@ namespace AccountingBackend.Application.Test.Ledgers.Commands.UpdateLedgerEntry 
         public async Task DeleteEntrySuccessful () {
             // Arrange
 
-            handler = new UpdateLedgerEntryCommandHandler (Mockdatabase.Object);
+            handler = new UpdateLedgerEntryCommandHandler (_Database);
             UpdateLedgerEntryCommand command = new UpdateLedgerEntryCommand () {
-                Id = 1,
+                Id = 11,
                 Description = "updated Description",
                 Date = DateTime.Now,
                 Posted = 0,
@@ -232,13 +207,13 @@ namespace AccountingBackend.Application.Test.Ledgers.Commands.UpdateLedgerEntry 
                 Reference = "CH--11",
                 Entries = new List<UpdatedLedgerEntryModel> () {
                 new UpdatedLedgerEntryModel () { Id = 10, Debit = 110, Credit = 0, AccountId = 10 },
-                new UpdatedLedgerEntryModel () { Id = 11, Debit = 0, Credit = 110, AccountId = 11 },
+                new UpdatedLedgerEntryModel () { Id = 12, Debit = 0, Credit = 110, AccountId = 11 },
                 new UpdatedLedgerEntryModel () { Id = 0, Debit = 0, Credit = 220, AccountId = 11 },
                 new UpdatedLedgerEntryModel () { Id = 0, Debit = 220, Credit = 0, AccountId = 12 }
                 },
                 DeletedIds = new List<int> {
-                1,
-                2
+                20,
+                21
                 }
 
             };

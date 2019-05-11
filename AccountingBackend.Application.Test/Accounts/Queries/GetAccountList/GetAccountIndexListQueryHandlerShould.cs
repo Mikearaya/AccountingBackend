@@ -1,8 +1,3 @@
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using AccountingBackend.Application.Accounts.Models;
 /*
  * @CreateTime: May 10, 2019 4:23 PM
  * @Author:  Mikael Araya
@@ -11,6 +6,11 @@ using AccountingBackend.Application.Accounts.Models;
  * @Last Modified Time: May 10, 2019 4:33 PM
  * @Description: Modify Here, Please 
  */
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using AccountingBackend.Application.Accounts.Models;
 using AccountingBackend.Application.Accounts.Queries.GetAccountsList;
 using Xunit;
 
