@@ -24,7 +24,7 @@ namespace AccountingBackend.Application.Ledgers.Models {
 
         public DateTime DateAdded { get; set; }
         public DateTime DateUpdated { get; set; }
-        public List<LedgerEntryDetailViewModel> LedgerEntries = new List<LedgerEntryDetailViewModel> ();
+        public List<LedgerEntryDetailViewModel> Entries = new List<LedgerEntryDetailViewModel> ();
 
         public static Expression<Func<Ledger, LedgerEntryViewModel>> Projection {
             get {
@@ -35,7 +35,7 @@ namespace AccountingBackend.Application.Ledgers.Models {
                     Date = entry.Date,
                     Reference = entry.Reference,
                     Posted = (entry.IsPosted == 0) ? false : true,
-                    LedgerEntries = entry.LedgerEntry
+                    Entries = entry.LedgerEntry
                     .AsQueryable ()
                     .Select (LedgerEntryDetailViewModel.Projection)
                     .ToList ()

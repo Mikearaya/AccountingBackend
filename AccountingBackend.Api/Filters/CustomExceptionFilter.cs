@@ -34,8 +34,6 @@ namespace AccountingBackend.Api.Filters {
                 return;
             }
 
-            Console.WriteLine (context.Exception.GetType ());
-
             var code = HttpStatusCode.InternalServerError;
 
             if (context.Exception is NotFoundException) {

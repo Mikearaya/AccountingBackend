@@ -21,7 +21,7 @@ namespace AccountingBackend.Application.Accounts.Models {
         public string Year { get; set; }
         public float? OpeningBalance { get; set; }
 
-        public int CostCenterId { get; set; }
+        public int? CostCenterId { get; set; }
         public string CostCenter { get; set; }
         public string Category { get; set; }
         public int CategoryId { get; set; }

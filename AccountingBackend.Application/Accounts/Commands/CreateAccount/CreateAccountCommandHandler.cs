@@ -29,13 +29,16 @@ namespace AccountingBackend.Application.Accounts.Commands.CreateAccount {
                 AccountId = request.AccountId,
                 Year = DateTime.Now.Year.ToString (),
                 OpeningBalance = request.OpeningBalance,
-                CostCenterId = (int) request.CostCenterId,
                 DateAdded = DateTime.Now,
                 DateUpdated = DateTime.Now
             };
 
             if (request.ParentAccount != 0) {
                 account.ParentAccount = request.ParentAccount;
+            }
+
+            if (request.CostCenterId != 0) {
+                account.CostCenterId = request.CostCenterId;
             }
             _database.Account.Add (account);
 

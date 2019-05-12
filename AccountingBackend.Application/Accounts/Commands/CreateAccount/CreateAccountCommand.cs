@@ -16,6 +16,6 @@ namespace AccountingBackend.Application.Accounts.Commands.CreateAccount {
         public string Name { get; set; }
         public sbyte Active { get; set; }
         public int? CostCenterId { get; set; }
-        public float OpeningBalance { get; set; }
+        public float? OpeningBalance { get; set; }
     }
 }

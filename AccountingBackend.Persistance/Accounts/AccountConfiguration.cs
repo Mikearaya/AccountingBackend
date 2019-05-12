@@ -87,7 +87,6 @@ namespace AccountingBackend.Persistance.Accounts {
             builder.HasOne (d => d.CostCenter)
                 .WithMany (p => p.Account)
                 .HasForeignKey (d => d.CostCenterId)
-                .OnDelete (DeleteBehavior.ClientSetNull)
                 .HasConstraintName ("account_FK");
 
             builder.HasOne (d => d.ParentAccountNavigation)
@@ -95,6 +94,7 @@ namespace AccountingBackend.Persistance.Accounts {
                 .HasForeignKey (d => d.ParentAccount)
                 .OnDelete (DeleteBehavior.Cascade)
                 .HasConstraintName ("account_account_FK");
+
         }
     }
 }

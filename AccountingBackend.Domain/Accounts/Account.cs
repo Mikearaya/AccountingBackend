@@ -26,7 +26,7 @@ namespace AccountingBackend.Domain {
         public sbyte? Active { get; set; }
         public string Year { get; set; }
         public string AccountId { get; set; }
-        public int CostCenterId { get; set; }
+        public int? CostCenterId { get; set; }
 
         public virtual AccountCatagory Catagory { get; set; }
         public virtual SystemLookup CostCenter { get; set; }

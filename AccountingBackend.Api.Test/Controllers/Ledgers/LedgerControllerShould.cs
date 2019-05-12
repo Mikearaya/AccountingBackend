@@ -39,7 +39,7 @@ namespace AccountingBackend.Api.Test.Controllers.Ledgers {
 
             // Assert
             Assert.Equal (10, entry.Id);
-            Assert.True (entry.LedgerEntries.Count () > 1);
+            Assert.True (entry.Entries.Count () > 1);
             Assert.Equal (HttpStatusCode.OK, response.StatusCode);
         }
 
