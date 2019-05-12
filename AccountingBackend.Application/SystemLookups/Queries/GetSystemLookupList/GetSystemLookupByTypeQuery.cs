@@ -12,7 +12,7 @@ using AccountingBackend.Commons.QueryHelpers;
 using MediatR;
 
 namespace AccountingBackend.Application.SystemLookups.Queries.GetSystemLookupList {
-    public class GetSystemLookupByTypeQuery : ApiQueryString, IRequest<IEnumerable<SystemLookupViewModel>> {
+    public class GetSystemLookupByTypeQuery : ApiQueryString, IRequest<IEnumerable<SystemLookUpIndexModel>> {
         public string Type { get; set; }
     }
 }

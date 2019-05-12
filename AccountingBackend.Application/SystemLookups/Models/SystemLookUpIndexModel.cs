@@ -14,12 +14,14 @@ namespace AccountingBackend.Application.SystemLookups.Models {
     public class SystemLookUpIndexModel {
         public int Id { get; set; }
         public string Name { get; set; }
+        public string Type { get; set; }
 
         public static Expression<Func<SystemLookup, SystemLookUpIndexModel>> Projection {
             get {
                 return lookup => new SystemLookUpIndexModel () {
                     Id = lookup.Id,
-                    Name = lookup.Value
+                    Name = lookup.Value,
+                    Type = lookup.Type
                 };
             }
         }

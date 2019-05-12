@@ -16,6 +16,7 @@ namespace AccountingBackend.Application.Accounts.Models {
         public int Id { get; set; }
         public string AccountId { get; set; }
         public string ParentAccount { get; set; }
+        public int? ParentAccountId { get; set; }
         public string AccountName { get; set; }
         public bool Active { get; set; }
         public string Year { get; set; }
@@ -43,6 +44,7 @@ namespace AccountingBackend.Application.Accounts.Models {
                     CategoryId = account.CatagoryId,
                     CostCenterId = account.CostCenterId,
                     CostCenter = account.CostCenter.Value,
+                    ParentAccountId = account.ParentAccount,
                     DateAdded = account.DateAdded,
                     DateUpdated = account.DateUpdated
 

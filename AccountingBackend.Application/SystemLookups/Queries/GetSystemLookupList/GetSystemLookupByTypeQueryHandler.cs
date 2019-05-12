@@ -16,23 +16,23 @@ using AccountingBackend.Commons.QueryHelpers;
 using MediatR;
 
 namespace AccountingBackend.Application.SystemLookups.Queries.GetSystemLookupList {
-    public class GetSystemLookupByTypeQueryHandler : IRequestHandler<GetSystemLookupByTypeQuery, IEnumerable<SystemLookupViewModel>> {
+    public class GetSystemLookupByTypeQueryHandler : IRequestHandler<GetSystemLookupByTypeQuery, IEnumerable<SystemLookUpIndexModel>> {
         private readonly IAccountingDatabaseService _database;
 
         public GetSystemLookupByTypeQueryHandler (IAccountingDatabaseService database) {
             _database = database;
         }
 
-        public Task<IEnumerable<SystemLookupViewModel>> Handle (GetSystemLookupByTypeQuery request, CancellationToken cancellationToken) {
+        public Task<IEnumerable<SystemLookUpIndexModel>> Handle (GetSystemLookupByTypeQuery request, CancellationToken cancellationToken) {
             var lookup = _database.SystemLookup
                 .Where (c => c.Type.ToLower () == request.Type.ToLower ())
-                .Select (SystemLookupViewModel.Projection)
-                .Select (DynamicQueryHelper.GenerateSelectedColumns<SystemLookupViewModel> (request.SelectedColumns))
+                .Select (SystemLookUpIndexModel.Projection)
+                .Select (DynamicQueryHelper.GenerateSelectedColumns<SystemLookUpIndexModel> (request.SelectedColumns))
                 .Skip (request.PageNumber * request.PageSize)
                 .Take (request.PageSize)
                 .ToList ();
 
-            return Task.FromResult<IEnumerable<SystemLookupViewModel>> (lookup);
+            return Task.FromResult<IEnumerable<SystemLookUpIndexModel>> (lookup);
         }
     }
 }
