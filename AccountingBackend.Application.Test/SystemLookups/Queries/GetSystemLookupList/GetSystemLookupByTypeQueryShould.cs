@@ -6,7 +6,7 @@ using System.Threading;
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: May 10, 2019 3:55 PM
+ * @Last Modified Time: May 12, 2019 3:04 PM
  * @Description: Modify Here, Please 
  */
 using System.Threading.Tasks;
@@ -17,13 +17,11 @@ using Xunit;
 namespace AccountingBackend.Application.Test.SystemLookups.Queries.GetSystemLookupList {
     public class GetSystemLookupByTypeQueryShould : DatabaseTestBase {
         private GetSystemLookupByTypeQueryHandler handler;
-        public GetSystemLookupByTypeQueryShould () : base () {
-            handler = new GetSystemLookupByTypeQueryHandler (_Database);
-        }
 
         [Fact]
         public async Task ReturnSystemLookupsSuccessfuly () {
             // Arrange
+            handler = new GetSystemLookupByTypeQueryHandler (_Database);
             GetSystemLookupByTypeQuery query = new GetSystemLookupByTypeQuery () {
                 Type = "Cost Center"
             };
@@ -32,8 +30,8 @@ namespace AccountingBackend.Application.Test.SystemLookups.Queries.GetSystemLook
             var result = await handler.Handle (query, CancellationToken.None);
             // Assert
 
-            Assert.True ((result as List<SystemLookupViewModel>).Count () > 0);
-            Assert.All (result, (d) => Assert.True (d.Type.ToLower () == "cost center"));
+            Assert.True ((result as List<SystemLookUpIndexModel>).Count () > 0);
+
         }
 
     }

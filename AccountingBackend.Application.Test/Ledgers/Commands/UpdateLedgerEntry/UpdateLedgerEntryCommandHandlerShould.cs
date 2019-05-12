@@ -8,7 +8,7 @@ using AccountingBackend.Application.Exceptions;
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: May 10, 2019 2:28 PM
+ * @Last Modified Time: May 12, 2019 3:18 PM
  * @Description: Modify Here, Please 
  */
 using AccountingBackend.Application.Interfaces;
@@ -24,29 +24,6 @@ namespace AccountingBackend.Application.Test.Ledgers.Commands.UpdateLedgerEntry 
 
         private readonly Mock<IAccountingDatabaseService> Mockdatabase;
         private UpdateLedgerEntryCommandHandler handler;
-        public UpdateLedgerEntryCommandHandlerShould () : base () {
-            Mockdatabase = new Mock<IAccountingDatabaseService> ();
-            Mockdatabase.Setup (d => d.SaveAsync ()).Returns (Task.CompletedTask);
-            Mockdatabase.Setup (d => d.Ledger.FindAsync (1)).ReturnsAsync (new Ledger () {
-                Id = 1,
-                    VoucherId = "JV/001",
-                    Date = DateTime.Now,
-                    Description = "test",
-                    Reference = "CH--001",
-                    IsPosted = 0,
-                    DateAdded = DateTime.Now,
-                    DateUpdated = DateTime.Now,
-                    LedgerEntry = new List<LedgerEntry> () {
-                        new LedgerEntry () { Id = 1, AccountId = 10, Credit = 0, Debit = 100, DateAdded = DateTime.Now, DateUpdated = DateTime.Now },
-                            new LedgerEntry () { Id = 2, AccountId = 11, Credit = 100, Debit = 0, DateAdded = DateTime.Now, DateUpdated = DateTime.Now },
-                    }
-            });
-
-            Mockdatabase.Setup (d => d.LedgerEntry.Remove (new LedgerEntry ()));
-            Mockdatabase.Setup (d => d.LedgerEntry.Update (new LedgerEntry ()));
-            Mockdatabase.Setup (d => d.LedgerEntry.Add (new LedgerEntry ()));
-
-        }
 
         /// <summary>
         /// tests the successful completion of update when ecery parameter is provided as suggested
@@ -55,17 +32,17 @@ namespace AccountingBackend.Application.Test.Ledgers.Commands.UpdateLedgerEntry 
         [Fact]
         public async Task UpdateSuccessfully () {
             // Arrange
-            handler = new UpdateLedgerEntryCommandHandler (Mockdatabase.Object);
+            handler = new UpdateLedgerEntryCommandHandler (_Database);
             UpdateLedgerEntryCommand command = new UpdateLedgerEntryCommand () {
-                Id = 1,
+                Id = 11,
                 Description = "updated Description",
                 Date = DateTime.Now,
                 Posted = 1,
                 VoucherId = "JV/001",
                 Reference = "CH--11",
                 Entries = new List<UpdatedLedgerEntryModel> () {
-                new UpdatedLedgerEntryModel () { Id = 10, Debit = 110, Credit = 0, AccountId = 10 },
-                new UpdatedLedgerEntryModel () { Id = 11, Debit = 0, Credit = 110, AccountId = 11 }
+                new UpdatedLedgerEntryModel () { Id = 22, Debit = 110, Credit = 0, AccountId = 10 },
+                new UpdatedLedgerEntryModel () { Id = 23, Debit = 0, Credit = 110, AccountId = 11 }
                 }
             };
             // Act
@@ -115,8 +92,8 @@ namespace AccountingBackend.Application.Test.Ledgers.Commands.UpdateLedgerEntry 
                 VoucherId = "JV/001",
                 Reference = "CH--11",
                 Entries = new List<UpdatedLedgerEntryModel> () {
-                new UpdatedLedgerEntryModel () { Id = 10, Debit = 110, Credit = 0, AccountId = 10 },
-                new UpdatedLedgerEntryModel () { Id = 11, Debit = 0, Credit = 110, AccountId = 11 }
+                new UpdatedLedgerEntryModel () { Id = 20, Debit = 110, Credit = 0, AccountId = 10 },
+                new UpdatedLedgerEntryModel () { Id = 21, Debit = 0, Credit = 110, AccountId = 11 }
                 }
             };
             // Act
@@ -141,8 +118,8 @@ namespace AccountingBackend.Application.Test.Ledgers.Commands.UpdateLedgerEntry 
                 VoucherId = "JV/001",
                 Reference = "CH--11",
                 Entries = new List<UpdatedLedgerEntryModel> () {
-                new UpdatedLedgerEntryModel () { Id = 10, Debit = 110, Credit = 0, AccountId = 10 },
-                new UpdatedLedgerEntryModel () { Id = 11, Debit = 0, Credit = 110, AccountId = 11 },
+                new UpdatedLedgerEntryModel () { Id = 22, Debit = 110, Credit = 0, AccountId = 10 },
+                new UpdatedLedgerEntryModel () { Id = 23, Debit = 0, Credit = 110, AccountId = 11 },
                 new UpdatedLedgerEntryModel () { Id = 0, Debit = 0, Credit = 100, AccountId = 11 },
                 new UpdatedLedgerEntryModel () { Id = 0, Debit = 220, Credit = 0, AccountId = 12 }
                 }
@@ -206,14 +183,13 @@ namespace AccountingBackend.Application.Test.Ledgers.Commands.UpdateLedgerEntry 
                 VoucherId = "JV/001",
                 Reference = "CH--11",
                 Entries = new List<UpdatedLedgerEntryModel> () {
-                new UpdatedLedgerEntryModel () { Id = 10, Debit = 110, Credit = 0, AccountId = 10 },
-                new UpdatedLedgerEntryModel () { Id = 12, Debit = 0, Credit = 110, AccountId = 11 },
+                new UpdatedLedgerEntryModel () { Id = 22, Debit = 110, Credit = 0, AccountId = 10 },
+                new UpdatedLedgerEntryModel () { Id = 23, Debit = 0, Credit = 110, AccountId = 11 },
                 new UpdatedLedgerEntryModel () { Id = 0, Debit = 0, Credit = 220, AccountId = 11 },
                 new UpdatedLedgerEntryModel () { Id = 0, Debit = 220, Credit = 0, AccountId = 12 }
                 },
                 DeletedIds = new List<int> {
-                20,
-                21
+                22
                 }
 
             };

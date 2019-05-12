@@ -1,9 +1,10 @@
+using System.Linq;
 /*
  * @CreateTime: May 8, 2019 2:15 PM
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: May 9, 2019 11:46 PM
+ * @Last Modified Time: May 12, 2019 3:12 PM
  * @Description: Modify Here, Please 
  */
 using System;
@@ -15,6 +16,7 @@ using AccountingBackend.Application.Interfaces;
 using AccountingBackend.Domain;
 using FluentValidation.Results;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace AccountingBackend.Application.Ledgers.Commands.UpdateLedgerEntry {
     public class UpdateLedgerEntryCommandHandler : IRequestHandler<UpdateLedgerEntryCommand, Unit> {
@@ -28,7 +30,9 @@ namespace AccountingBackend.Application.Ledgers.Commands.UpdateLedgerEntry {
 
         public async Task<Unit> Handle (UpdateLedgerEntryCommand request, CancellationToken cancellationToken) {
 
-            var entry = await _database.Ledger.FindAsync (request.Id);
+            var entry = await _database.Ledger
+                .Include (x => x.LedgerEntry)
+                .FirstOrDefaultAsync (i => i.Id == request.Id);
 
             if (entry == null) {
                 throw new NotFoundException ("Ledger", request.Id);
@@ -61,14 +65,13 @@ namespace AccountingBackend.Application.Ledgers.Commands.UpdateLedgerEntry {
             foreach (var item in request.Entries) {
 
                 if (item.Id != 0) {
+                    var updated = entry.LedgerEntry.Where (x => x.Id == item.Id).First ();
 
-                    _database.LedgerEntry.Update (new LedgerEntry () {
-                        Id = (int) item.Id,
-                            LedgerId = entry.Id,
-                            AccountId = item.AccountId,
-                            Credit = item.Credit,
-                            Debit = item.Debit
-                    });
+                    updated.AccountId = item.AccountId;
+                    updated.Credit = item.Credit;
+                    updated.Debit = item.Debit;
+
+                    _database.LedgerEntry.Update (updated);
 
                 } else {
                     _database.LedgerEntry.Add (new LedgerEntry () {

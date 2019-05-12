@@ -3,7 +3,7 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: May 10, 2019 4:16 PM
+ * @Last Modified Time: May 12, 2019 2:54 PM
  * @Description: Modify Here, Please 
  */
 using System;
@@ -56,10 +56,12 @@ namespace AccountingBackend.Application.Test {
 
         private static void SeedSystemLookup (AccountingDatabaseService context) {
             var lookup = new [] {
-                new SystemLookup { Id = 10, Type = "Cost Center", Value = "Production", DateAdded = DateTime.Now, DateUpdated = DateTime.Now },
-                new SystemLookup { Id = 11, Type = "Cost Center", Value = "Manufacturing", DateAdded = DateTime.Now, DateUpdated = DateTime.Now },
-                new SystemLookup { Id = 12, Type = "Cost Center", Value = "Maintainance", DateAdded = DateTime.Now, DateUpdated = DateTime.Now },
-                new SystemLookup { Id = 14, Type = "Country", Value = "Ethiopia", DateAdded = DateTime.Now, DateUpdated = DateTime.Now }
+                new SystemLookup { Id = 10, Type = "Cost center", Value = "Production", DateAdded = DateTime.Now, DateUpdated = DateTime.Now },
+                new SystemLookup { Id = 11, Type = "Cost center", Value = "Manufacturing", DateAdded = DateTime.Now, DateUpdated = DateTime.Now },
+                new SystemLookup { Id = 12, Type = "Cost center", Value = "Maintainance", DateAdded = DateTime.Now, DateUpdated = DateTime.Now },
+                new SystemLookup { Id = 14, Type = "Country", Value = "Ethiopia", DateAdded = DateTime.Now, DateUpdated = DateTime.Now },
+                new SystemLookup { Id = 15, Type = "lookup_category", Value = "Cost center", DateAdded = DateTime.Now, DateUpdated = DateTime.Now },
+                new SystemLookup { Id = 16, Type = "lookup_category", Value = "countries", DateAdded = DateTime.Now, DateUpdated = DateTime.Now }
             };
 
             context.SystemLookup.AddRange (lookup);
