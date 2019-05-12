@@ -62,16 +62,18 @@ namespace AccountingBackend.Application.Ledgers.Commands.UpdateLedgerEntry {
 
                 if (item.Id != 0) {
 
-                    _database.LedgerEntry.Add (new LedgerEntry () {
+                    _database.LedgerEntry.Update (new LedgerEntry () {
                         Id = (int) item.Id,
+                            LedgerId = entry.Id,
                             AccountId = item.AccountId,
                             Credit = item.Credit,
                             Debit = item.Debit
                     });
 
                 } else {
-                    entry.LedgerEntry.Add (new LedgerEntry () {
+                    _database.LedgerEntry.Add (new LedgerEntry () {
                         AccountId = item.AccountId,
+                            LedgerId = entry.Id,
                             Credit = item.Credit,
                             Debit = item.Debit
                     });

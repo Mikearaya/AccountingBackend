@@ -16,7 +16,7 @@ namespace AccountingBackend.Application.Ledgers.Models {
         public float? Debit { get; set; }
         public float? Credit { get; set; }
         public string AccountName { get; set; }
-        public string AccountId { get; set; }
+        public int AccountId { get; set; }
         public DateTime? DateAdded { get; set; }
         public DateTime? DateUpdated { get; set; }
 
@@ -24,7 +24,7 @@ namespace AccountingBackend.Application.Ledgers.Models {
             get {
                 return entry => new LedgerEntryDetailViewModel () {
                     Id = entry.Id,
-                    AccountId = entry.Account.AccountId,
+                    AccountId = entry.Account.Id,
                     AccountName = entry.Account.AccountName,
                     Debit = entry.Debit,
                     Credit = entry.Credit,
