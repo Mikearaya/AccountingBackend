@@ -35,6 +35,10 @@ namespace AccountingBackend.Application.Accounts.Commands.UpdateAccount {
             account.ParentAccount = request.ParentAccount;
             account.DateUpdated = DateTime.Now;
 
+            if (request.ParentAccount != 0) {
+                account.ParentAccount = request.ParentAccount;
+            }
+
             _database.Account.Update (account);
 
             await _database.SaveAsync ();

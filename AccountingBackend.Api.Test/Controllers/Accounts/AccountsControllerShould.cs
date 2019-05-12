@@ -107,6 +107,71 @@ namespace AccountingBackend.Api.Test.Controllers.Accounts {
         }
 
         /// <summary>
+        /// test if account is successfuly created without cost center
+        /// </summary>
+        /// <returns></returns>
+        [Fact]
+        public async Task CreateAccountWithoutCostCenterSuccessfuly () {
+            var request = new {
+                Body = new {
+                accountId = "5330",
+                parentAccount = 0,
+                catagoryId = 3,
+                name = "string",
+                active = 1,
+                organizationId = 2,
+                openingBalance = 4000,
+                }
+            };
+
+            var response = await _client.PostAsync (_ApiUrl, Utilities.GetStringContent (request.Body));
+            response.EnsureSuccessStatusCode ();
+
+            var account = await Utilities.GetResponseContent<AccountViewModel> (response);
+
+            // Assert
+            Assert.Equal (HttpStatusCode.Created, response.StatusCode);
+            Assert.Equal ("5330", account.AccountId);
+            Assert.Equal ("string", account.AccountName);
+            Assert.True (account.Active);
+            Assert.Equal (4000, account.OpeningBalance);
+            Assert.Equal (3, account.CategoryId);
+
+        }
+
+        /// <summary>
+        /// test if account is successfuly created without parent account successfuly
+        /// </summary>
+        /// <returns></returns>
+        [Fact]
+        public async Task CreateAccountWithoutParentAccountSuccessfuly () {
+            var request = new {
+                Body = new {
+                accountId = "5330",
+                catagoryId = 3,
+                name = "string",
+                active = 1,
+                organizationId = 2,
+                openingBalance = 4000,
+                }
+            };
+
+            var response = await _client.PostAsync (_ApiUrl, Utilities.GetStringContent (request.Body));
+            response.EnsureSuccessStatusCode ();
+
+            var account = await Utilities.GetResponseContent<AccountViewModel> (response);
+
+            // Assert
+            Assert.Equal (HttpStatusCode.Created, response.StatusCode);
+            Assert.Equal ("5330", account.AccountId);
+            Assert.Equal ("string", account.AccountName);
+            Assert.True (account.Active);
+            Assert.Equal (4000, account.OpeningBalance);
+            Assert.Equal (3, account.CategoryId);
+
+        }
+
+        /// <summary>
         /// checks if updat account request completes successfuly
         /// </summary>
         /// <returns></returns>
