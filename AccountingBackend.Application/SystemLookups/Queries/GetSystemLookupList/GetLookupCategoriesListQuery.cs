@@ -1,5 +1,5 @@
 /*
- * @CreateTime: May 6, 2019 11:45 AM
+ * @CreateTime: May 12, 2019 2:24 PM
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
@@ -8,11 +8,10 @@
  */
 using System.Collections.Generic;
 using AccountingBackend.Application.SystemLookups.Models;
-using AccountingBackend.Commons.QueryHelpers;
 using MediatR;
 
 namespace AccountingBackend.Application.SystemLookups.Queries.GetSystemLookupList {
-    public class GetSystemLookupByTypeQuery : ApiQueryString, IRequest<IEnumerable<SystemLookUpIndexModel>> {
-        public string Type { get; set; }
+    public class GetLookupCategoriesListQuery : IRequest<IEnumerable<SystemLookupCategoryIndexView>> {
+
     }
 }

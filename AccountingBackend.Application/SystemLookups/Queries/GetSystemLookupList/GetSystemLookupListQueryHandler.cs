@@ -26,6 +26,7 @@ namespace AccountingBackend.Application.SystemLookups.Queries.GetSystemLookupLis
 
         public Task<IEnumerable<SystemLookupViewModel>> Handle (GetSystemLookupListQuery request, CancellationToken cancellationToken) {
             var lookup = _database.SystemLookup
+                .Where (l => l.Type.ToLower () != "lookup_category")
                 .Select (SystemLookupViewModel.Projection)
                 .Select (DynamicQueryHelper.GenerateSelectedColumns<SystemLookupViewModel> (request.SelectedColumns))
                 .Skip (request.PageNumber * request.PageSize)
