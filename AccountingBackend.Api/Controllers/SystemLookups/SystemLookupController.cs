@@ -3,7 +3,7 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: May 9, 2019 8:03 AM
+ * @Last Modified Time: May 12, 2019 2:37 PM
  * @Description: Modify Here, Please 
  */
 using System.Collections.Generic;
@@ -102,6 +102,17 @@ namespace AccountingBackend.Api.Controllers.SystemLookups {
         public async Task<ActionResult> DeleteSystemLookup (int id) {
             var result = await _Mediator.Send (new DeleteSystemLookupCommand () { Id = id });
             return StatusCode (204);
+        }
+
+        /// <summary>
+        /// returns all available lookup categories used in the system
+        /// </summary>
+        /// <returns></returns>
+
+        [HttpGet ("categories")]
+        public async Task<ActionResult<IEnumerable<SystemLookupCategoryIndexView>>> GetSystemLookupCategories ([FromQuery] GetSystemLookupCategoriesListQuery query) {
+            var lookupCategories = await _Mediator.Send (new GetSystemLookupCategoriesListQuery ());
+            return Ok (lookupCategories);
         }
     }
 }
