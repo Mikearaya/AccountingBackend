@@ -3,7 +3,7 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: May 14, 2019 1:37 PM
+ * @Last Modified Time: May 14, 2019 2:57 PM
  * @Description: Modify Here, Please 
  */
 using System;
@@ -70,18 +70,18 @@ namespace AccountingBackend.Application.Test {
 
         private static void SeedAccounts (AccountingDatabaseService context) {
             var accounts = new List<AccountType> () {
-                new AccountType () { Id = 5, Type = "Asset", TypeOf = 0 },
-                new AccountType () { Id = 2, Type = "Liability", TypeOf = 0 },
-                new AccountType () { Id = 3, Type = "Capital", TypeOf = 0 },
-                new AccountType () { Id = 4, Type = "Revenue", TypeOf = 0 },
+                new AccountType () { Id = 15, Type = "Asset", TypeOf = 0 },
+                new AccountType () { Id = 12, Type = "Liability", TypeOf = 0 },
+                new AccountType () { Id = 13, Type = "Capital", TypeOf = 0 },
+                new AccountType () { Id = 14, Type = "Revenue", TypeOf = 0 },
                 new AccountType () {
-                Id = 1,
+                Id = 10,
                 Type = "Asset", TypeOf = 0,
                 AccountCatagory = new List<AccountCatagory> () {
-                new AccountCatagory () { Id = 10, AccountTypeId = 1, Catagory = "Cash Account", DateAdded = DateTime.Now, DateUpdated = DateTime.Now },
-                new AccountCatagory () { Id = 11, AccountTypeId = 1, Catagory = "COGE", DateAdded = DateTime.Now, DateUpdated = DateTime.Now },
+                new AccountCatagory () { Id = 10, AccountTypeId = 10, Catagory = "Cash Account", DateAdded = DateTime.Now, DateUpdated = DateTime.Now },
+                new AccountCatagory () { Id = 11, AccountTypeId = 10, Catagory = "COGE", DateAdded = DateTime.Now, DateUpdated = DateTime.Now },
                 new AccountCatagory () {
-                Id = 4, Catagory = "COGE", AccountTypeId = 1, DateAdded = DateTime.Now, DateUpdated = DateTime.Now,
+                Id = 4, Catagory = "COGE", AccountTypeId = 10, DateAdded = DateTime.Now, DateUpdated = DateTime.Now,
                 Account = new List<Account> () {
                 new Account () {
                 Id = 10, CatagoryId = 11, AccountId = "5000", AccountName = "Cash", OpeningBalance = 100, DateAdded = DateTime.Now, DateUpdated = DateTime.Now,
@@ -95,8 +95,8 @@ namespace AccountingBackend.Application.Test {
                 }
                 }
                 },
-                new AccountType () { Id = 6, Type = "Finished Products", TypeOf = 5 },
-                new AccountType () { Id = 7, Type = "COGS (Cost of Goods)", TypeOf = 1 }
+                new AccountType () { Id = 6, Type = "Finished Products", TypeOf = 15 },
+                new AccountType () { Id = 7, Type = "COGS (Cost of Goods)", TypeOf = 10 }
 
             };
 

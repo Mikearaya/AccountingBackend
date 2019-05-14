@@ -3,7 +3,7 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: May 14, 2019 2:49 PM
+ * @Last Modified Time: May 14, 2019 2:58 PM
  * @Description: Modify Here, Please 
  */
 using System.Threading;
@@ -57,7 +57,7 @@ namespace AccountingBackend.Application.Test.AccountTypes.Commands.DeleteAccount
         public async Task ThrowsValidationExceptionWhenDeleteingSystemType () {
             // Arrange
             DeleteAccountTypeCommand command = new DeleteAccountTypeCommand () {
-                Id = 1
+                Id = 10
             };
             DeleteAccountTypeCommandHandler handler = new DeleteAccountTypeCommandHandler (_Database);
             // Act
