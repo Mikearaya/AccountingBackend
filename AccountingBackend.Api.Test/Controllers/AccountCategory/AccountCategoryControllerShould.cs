@@ -87,7 +87,7 @@ namespace AccountingBackend.Api.Test.Controllers {
             var request = new {
                 Body = new {
                 CategoryName = "Account Recievable",
-                AccountType = 1
+                AccountType = 10
                 }
             };
 

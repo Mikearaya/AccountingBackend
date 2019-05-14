@@ -7,6 +7,7 @@ using System.Net;
  * @Last Modified Time: May 14, 2019 3:49 PM
  * @Description: Modify Here, Please 
  */
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -62,6 +63,62 @@ namespace AccountingBackend.Api.Test.Controllers.AccountTypes {
             Assert.Equal (HttpStatusCode.OK, response.StatusCode);
             Assert.False (accountTypeIndex.Any (a => a.TypeOf == null));
             Assert.IsAssignableFrom<IEnumerable<AccountTypeIndexView>> (accountTypeIndex);
+        }
+
+        [Fact]
+        public async Task CreateAccountTypeSuccessfuly () {
+            // Arrange
+            var request = new {
+                Body = new {
+                IsTypeOf = 1,
+                Type = "Account Recievable",
+                SummerizeReport = 1
+                }
+            };
+
+            // Act
+            var response = await _client.PostAsync ($"{_ApiUrl}", Utilities.GetStringContent (request.Body));
+            var accountType = await Utilities.GetResponseContent<AccountTypeView> (response);
+            // Assert
+            Assert.Equal (HttpStatusCode.Created, response.StatusCode);
+
+            Assert.IsType<AccountTypeView> (accountType);
+        }
+
+        [Fact]
+        public async Task UpdateAccountTypeSuccessfuly () {
+            // Arrange
+            var request = new {
+                Body = new {
+                Id = 6,
+                IsTypeOf = 1,
+                Type = "Account Recievable",
+                SummerizeReport = 1
+                }
+            };
+
+            // Act
+            var response = await _client.PutAsync ($"{_ApiUrl}/6", Utilities.GetStringContent (request.Body));
+            // Assert
+            Assert.Equal (HttpStatusCode.NoContent, response.StatusCode);
+        }
+
+        [Fact]
+        public async Task ReturnNotFoundStatusCode () {
+            // Arrange
+            var request = new {
+                Body = new {
+                Id = 100,
+                IsTypeOf = 1,
+                Type = "Account Recievable",
+                SummerizeReport = 1
+                }
+            };
+
+            // Act
+            var response = await _client.PutAsync ($"{_ApiUrl}/100", Utilities.GetStringContent (request.Body));
+            // Assert
+            Assert.Equal (HttpStatusCode.NotFound, response.StatusCode);
         }
 
     }
