@@ -26,7 +26,7 @@ namespace AccountingBackend.Application.Test.AccountCategories.Commands {
             //Given
             UpdateAccountCategoryCommand command = new UpdateAccountCategoryCommand () {
                 Id = 10,
-                AccountType = "Asset",
+                AccountType = 1,
                 CategoryName = "Petty Cash"
             };
 
@@ -47,7 +47,7 @@ namespace AccountingBackend.Application.Test.AccountCategories.Commands {
             //Given
             UpdateAccountCategoryCommand command = new UpdateAccountCategoryCommand () {
                 Id = 1,
-                AccountType = "Asset",
+                AccountType = 1,
                 CategoryName = "Petty Cash"
             };
             UpdateAccountCategoryCommandHandler handler = new UpdateAccountCategoryCommandHandler (_Database);

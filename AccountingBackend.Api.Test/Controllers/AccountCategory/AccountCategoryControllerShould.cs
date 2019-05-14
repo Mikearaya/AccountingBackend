@@ -87,7 +87,7 @@ namespace AccountingBackend.Api.Test.Controllers {
             var request = new {
                 Body = new {
                 CategoryName = "Account Recievable",
-                AccountType = "Asset"
+                AccountType = 1
                 }
             };
 
@@ -110,7 +110,7 @@ namespace AccountingBackend.Api.Test.Controllers {
                 Body = new {
                 Id = 1,
                 CategoryName = "Account Payable",
-                AccountType = "Asset",
+                AccountType = 1,
                 }
             };
 

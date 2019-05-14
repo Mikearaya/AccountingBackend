@@ -22,7 +22,7 @@ namespace AccountingBackend.Application.AccountCategories.Models {
             get {
                 return category => new AccountCategoryView () {
                     Id = category.Id,
-                    AccountType = category.Type,
+                    AccountType = category.AccountType.Type,
                     CategoryName = category.Catagory,
                     DateAdded = (DateTime) category.DateAdded,
                     DateUpdated = (DateTime) category.DateUpdated

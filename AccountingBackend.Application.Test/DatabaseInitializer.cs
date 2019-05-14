@@ -70,17 +70,18 @@ namespace AccountingBackend.Application.Test {
 
         private static void SeedAccounts (AccountingDatabaseService context) {
             var accounts = new List<AccountType> () {
-                new AccountType () { Type = "Expence" },
-                new AccountType () { Type = "Liability" },
-                new AccountType () { Type = "Capital" },
-                new AccountType () { Type = "Revenue" },
+                new AccountType () { Id = 5, Type = "Expence" },
+                new AccountType () { Id = 4, Type = "Liability" },
+                new AccountType () { Id = 3, Type = "Capital" },
+                new AccountType () { Id = 2, Type = "Revenue" },
                 new AccountType () {
+                Id = 1,
                 Type = "Asset",
                 AccountCatagory = new List<AccountCatagory> () {
-                new AccountCatagory () { Id = 10, Type = "Asset", Catagory = "Cash Account", DateAdded = DateTime.Now, DateUpdated = DateTime.Now },
-                new AccountCatagory () { Id = 11, Type = "Asset", Catagory = "COGE", DateAdded = DateTime.Now, DateUpdated = DateTime.Now },
+                new AccountCatagory () { Id = 10, AccountTypeId = 1, Catagory = "Cash Account", DateAdded = DateTime.Now, DateUpdated = DateTime.Now },
+                new AccountCatagory () { Id = 11, AccountTypeId = 1, Catagory = "COGE", DateAdded = DateTime.Now, DateUpdated = DateTime.Now },
                 new AccountCatagory () {
-                Id = 4, Catagory = "COGE", Type = "Asset", DateAdded = DateTime.Now, DateUpdated = DateTime.Now,
+                Id = 4, Catagory = "COGE", AccountTypeId = 1, DateAdded = DateTime.Now, DateUpdated = DateTime.Now,
                 Account = new List<Account> () {
                 new Account () {
                 Id = 10, CatagoryId = 11, AccountId = "5000", AccountName = "Cash", OpeningBalance = 100, DateAdded = DateTime.Now, DateUpdated = DateTime.Now,

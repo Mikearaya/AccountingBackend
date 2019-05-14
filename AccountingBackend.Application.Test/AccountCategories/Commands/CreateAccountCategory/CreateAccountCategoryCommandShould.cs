@@ -25,7 +25,7 @@ namespace AccountingBackend.Application.Test.AccountCategories.Commands.CreateAc
             CreateAccountCategoryCommandHandler handler = new CreateAccountCategoryCommandHandler (_Database);
             //When
             var result = await handler.Handle (new CreateAccountCategoryCommand () {
-                AccountType = "Asset",
+                AccountType = 1,
                     CategoryName = "Cash"
             }, CancellationToken.None);
             //Then

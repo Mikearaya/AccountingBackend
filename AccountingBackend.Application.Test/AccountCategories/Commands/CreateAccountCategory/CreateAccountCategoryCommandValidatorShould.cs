@@ -33,14 +33,12 @@ namespace AccountingBackend.Application.Test.AccountCategories.Commands.CreateAc
 
         [Fact]
         public void HaveErrorWhenAccountTypeIsNullOrEmpty () {
-            validator.ShouldHaveValidationErrorFor (category => category.AccountType, null as string);
-            validator.ShouldHaveValidationErrorFor (category => category.AccountType, ""
-                as string);
+            validator.ShouldHaveValidationErrorFor (category => category.AccountType, 0u);
         }
 
         [Fact]
         public void NotHaveErrorWhenAccountTypeIsNotNll () {
-            validator.ShouldNotHaveValidationErrorFor (category => category.AccountType, "Cash");
+            validator.ShouldNotHaveValidationErrorFor (category => category.AccountType, 10u);
         }
 
     }

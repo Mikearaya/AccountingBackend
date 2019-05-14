@@ -13,17 +13,33 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 namespace AccountingBackend.Persistance.AccountTypes {
     public class AccountTypeConfiguration : IEntityTypeConfiguration<AccountType> {
         public void Configure (EntityTypeBuilder<AccountType> builder) {
-            builder.HasKey (e => e.Type)
-                .HasName ("PRIMARY");
-
             builder.ToTable ("account_type");
 
-            builder.HasIndex (e => e.Type)
-                .HasName ("account_type_type_IDX");
+            builder.HasIndex (e => e.TypeOf)
+                .HasName ("defult_account_type_fk");
+
+            builder.HasIndex (e => new { e.Type, e.TypeOf })
+                .HasName ("type")
+                .IsUnique ();
+
+            builder.Property (e => e.Id).HasColumnName ("ID");
+
+            builder.Property (e => e.IsSummery)
+                .HasColumnName ("is_summery")
+                .HasColumnType ("tinyint(4)")
+                .HasDefaultValueSql ("'0'");
 
             builder.Property (e => e.Type)
+                .IsRequired ()
                 .HasColumnName ("type")
                 .HasColumnType ("varchar(20)");
+
+            builder.Property (e => e.TypeOf).HasColumnName ("type_of");
+
+            builder.HasOne (d => d.TypeOfNavigation)
+                .WithMany (p => p.InverseTypeOfNavigation)
+                .HasForeignKey (d => d.TypeOf)
+                .HasConstraintName ("defult_account_type_fk");
         }
     }
 }

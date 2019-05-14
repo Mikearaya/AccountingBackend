@@ -14,7 +14,7 @@ namespace AccountingBackend.Application.AccountCategories.Commands.UpdateAccount
     public class UpdateAccountCategoryCommand : IRequest {
 
         public int Id { get; set; }
-        public string AccountType { get; set; }
+        public uint AccountType { get; set; }
         public string CategoryName { get; set; }
     }
 }

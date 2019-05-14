@@ -13,7 +13,6 @@ namespace AccountingBackend.Application.AccountCategories.Commands.CreateAccount
     public class CreateAccountCategoryCommand : IRequest<int> {
 
         public string CategoryName { get; set; }
-        public string AccountType { get; set; }
-        public sbyte? isDirect { get; set; }
+        public uint AccountType { get; set; }
     }
 }

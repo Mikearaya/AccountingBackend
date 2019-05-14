@@ -13,10 +13,15 @@ namespace AccountingBackend.Domain {
     public partial class AccountType {
         public AccountType () {
             AccountCatagory = new HashSet<AccountCatagory> ();
+            InverseTypeOfNavigation = new HashSet<AccountType> ();
         }
-
+        public uint Id { get; set; }
         public string Type { get; set; }
+        public uint? TypeOf { get; set; }
+        public sbyte IsSummery { get; set; }
 
+        public virtual AccountType TypeOfNavigation { get; set; }
         public virtual ICollection<AccountCatagory> AccountCatagory { get; set; }
+        public virtual ICollection<AccountType> InverseTypeOfNavigation { get; set; }
     }
 }

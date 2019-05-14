@@ -24,8 +24,7 @@ namespace AccountingBackend.Application.AccountCategories.Commands.CreateAccount
         public async Task<int> Handle (CreateAccountCategoryCommand request, CancellationToken cancellationToken) {
             AccountCatagory category = new AccountCatagory () {
                 Catagory = request.CategoryName,
-                Type = request.AccountType,
-                IsDirect = request.isDirect,
+                AccountTypeId = request.AccountType,
                 DateAdded = DateTime.Now,
                 DateUpdated = DateTime.Now
             };

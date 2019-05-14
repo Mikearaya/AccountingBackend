@@ -28,7 +28,7 @@ namespace AccountingBackend.Application.AccountCategories.Commands.UpdateAccount
             }
 
             catagory.Catagory = request.CategoryName;
-            catagory.Type = request.AccountType;
+            catagory.AccountTypeId = request.AccountType;
 
             _database.AccountCatagory.Update (catagory);
 
