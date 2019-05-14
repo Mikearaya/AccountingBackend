@@ -99,6 +99,7 @@ namespace AccountingBackend.Api.Test.Controllers.AccountTypes {
 
             // Act
             var response = await _client.PutAsync ($"{_ApiUrl}/6", Utilities.GetStringContent (request.Body));
+            response.EnsureSuccessStatusCode ();
             // Assert
             Assert.Equal (HttpStatusCode.NoContent, response.StatusCode);
         }
@@ -121,5 +122,31 @@ namespace AccountingBackend.Api.Test.Controllers.AccountTypes {
             Assert.Equal (HttpStatusCode.NotFound, response.StatusCode);
         }
 
+        [Fact]
+        public async Task DeleteAccountTypeSuccessfuly () {
+            // Act
+            var response = await _client.DeleteAsync ($"{_ApiUrl}/7");
+            response.EnsureSuccessStatusCode ();
+            // Assert
+            Assert.Equal (HttpStatusCode.NoContent, response.StatusCode);
+        }
+
+        [Fact]
+        public async Task Return404StatusCodeWhenAttemptingDeleteNonExisting () {
+            // Act
+            var response = await _client.DeleteAsync ($"{_ApiUrl}/100");
+
+            // Assert
+            Assert.Equal (HttpStatusCode.NotFound, response.StatusCode);
+        }
+
+        [Fact]
+        public async Task Return422StatusCodeWhenDeletingSystemAccountTypes () {
+            // Act
+            var response = await _client.DeleteAsync ($"{_ApiUrl}/10");
+
+            // Assert
+            Assert.Equal (HttpStatusCode.UnprocessableEntity, response.StatusCode);
+        }
     }
 }
