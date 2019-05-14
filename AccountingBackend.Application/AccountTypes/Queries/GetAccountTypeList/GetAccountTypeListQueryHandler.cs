@@ -3,7 +3,7 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: May 14, 2019 11:22 AM
+ * @Last Modified Time: May 14, 2019 1:30 PM
  * @Description: Modify Here, Please 
  */
 using System.Collections.Generic;
@@ -17,15 +17,16 @@ using AccountingBackend.Commons.QueryHelpers;
 using MediatR;
 
 namespace AccountingBackend.Application.AccountTypes.Queries.GetAccountTypeList {
-    public class GetAccountTypeQueryHandler : IRequestHandler<GetAccountTypeListQuery, IEnumerable<AccountTypeView>> {
+    public class GetAccountTypeListQueryHandler : IRequestHandler<GetAccountTypeListQuery, IEnumerable<AccountTypeView>> {
         private readonly IAccountingDatabaseService _database;
 
-        public GetAccountTypeQueryHandler (IAccountingDatabaseService database) {
+        public GetAccountTypeListQueryHandler (IAccountingDatabaseService database) {
             _database = database;
         }
 
         public Task<IEnumerable<AccountTypeView>> Handle (GetAccountTypeListQuery request, CancellationToken cancellationToken) {
             var accountType = _database.AccountType
+                .Where (a => a.TypeOf != 0)
                 .Select (AccountTypeView.Projection)
                 .Select (DynamicQueryHelper.GenerateSelectedColumns<AccountTypeView> (request.SelectedColumns))
                 .Skip (request.PageNumber * request.PageSize)

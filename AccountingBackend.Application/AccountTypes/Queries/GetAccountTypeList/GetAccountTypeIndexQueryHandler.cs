@@ -3,7 +3,7 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: May 14, 2019 12:44 PM
+ * @Last Modified Time: May 14, 2019 1:15 PM
  * @Description: Modify Here, Please 
  */
 using System.Collections.Generic;
@@ -26,6 +26,12 @@ namespace AccountingBackend.Application.AccountTypes.Queries.GetAccountTypeList 
         public async Task<IEnumerable<AccountTypeIndexView>> Handle (GetAccountTypeIndexQuery request, CancellationToken cancellationToken) {
             var accountTypeIndex = _database.AccountType
                 .Select (AccountTypeIndexView.Projection);
+
+            if (request.Main) {
+                accountTypeIndex = accountTypeIndex.Where (a => a.TypeOf == 0);
+            } else {
+                accountTypeIndex = accountTypeIndex.Where (a => a.TypeOf != 0);
+            }
             if (request.TypeOf != 0) {
                 accountTypeIndex.Where (a => a.TypeOf == request.TypeOf);
             }

@@ -3,7 +3,7 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: May 9, 2019 9:13 AM
+ * @Last Modified Time: May 14, 2019 1:18 PM
  * @Description: Modify Here, Please 
  */
 using System;
@@ -43,12 +43,13 @@ namespace AccountingBackend.Persistance {
 
         public void SeedAccountType (AccountingDatabaseService database) {
             var accountType = new [] {
-                new AccountType () { Type = "Asset" },
-                new AccountType () { Type = "Liability" },
-                new AccountType () { Type = "Capital" },
-                new AccountType () { Type = "Revenue" },
+                new AccountType () { Id = 1, Type = "Asset", TypeOf = 0 },
+                new AccountType () { Id = 2, Type = "Liability", TypeOf = 0 },
+                new AccountType () { Id = 3, Type = "Capital", TypeOf = 0 },
+                new AccountType () { Id = 4, Type = "Revenue", TypeOf = 0 },
                 new AccountType () {
-                Type = "Expence",
+                Id = 5,
+                Type = "Expence", TypeOf = 0,
                 AccountCatagory = new [] {
                 new AccountCatagory () { Id = 2, Catagory = "Cash Account", DateAdded = DateTime.Now, DateUpdated = DateTime.Now },
                 new AccountCatagory () { Id = 3, Catagory = "COGE", DateAdded = DateTime.Now, DateUpdated = DateTime.Now },
@@ -65,7 +66,9 @@ namespace AccountingBackend.Persistance {
                 }
                 }
                 }
-                }
+                },
+                new AccountType () { Id = 6, Type = "Finished Products", TypeOf = 1 },
+                new AccountType () { Id = 7, Type = "COGS (Cost of Goods)", TypeOf = 5 }
 
             };
 

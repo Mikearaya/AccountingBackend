@@ -3,7 +3,7 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: May 14, 2019 11:14 AM
+ * @Last Modified Time: May 14, 2019 1:47 PM
  * @Description: Modify Here, Please 
  */
 using System.Linq;
@@ -26,7 +26,7 @@ namespace AccountingBackend.Application.AccountTypes.Queries.GetAccountType {
         public async Task<AccountTypeView> Handle (GetAccountTypeQuery request, CancellationToken cancellationToken) {
             var accountType = await _database.AccountType
                 .Select (AccountTypeView.Projection)
-                .FirstOrDefaultAsync (a => a.Id == request.Id);
+                .FirstOrDefaultAsync (a => a.Id == request.Id && a.TypeOfId != 0);
 
             if (accountType == null) {
                 throw new NotFoundException ("Account Type", request.Id);
