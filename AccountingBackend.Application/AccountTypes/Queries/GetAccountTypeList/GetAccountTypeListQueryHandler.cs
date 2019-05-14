@@ -26,8 +26,8 @@ namespace AccountingBackend.Application.AccountTypes.Queries.GetAccountTypeList 
 
         public Task<IEnumerable<AccountTypeView>> Handle (GetAccountTypeListQuery request, CancellationToken cancellationToken) {
             var accountType = _database.AccountType
-                .Where (a => a.TypeOf != 0)
                 .Select (AccountTypeView.Projection)
+                .Where (a => a.TypeOfId != 0 && a.TypeOfId != null)
                 .Select (DynamicQueryHelper.GenerateSelectedColumns<AccountTypeView> (request.SelectedColumns))
                 .Skip (request.PageNumber * request.PageSize)
                 .Take (request.PageSize)
