@@ -3,11 +3,12 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: May 14, 2019 12:55 PM
+ * @Last Modified Time: May 14, 2019 1:00 PM
  * @Description: Modify Here, Please 
  */
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using AccountingBackend.Application.AccountTypes.Commands.CreateAccountType;
 using AccountingBackend.Application.AccountTypes.Models;
 using AccountingBackend.Application.AccountTypes.Queries.GetAccountType;
 using AccountingBackend.Application.AccountTypes.Queries.GetAccountTypeList;
@@ -65,5 +66,19 @@ namespace AccountingBackend.Api.Controllers.AccountTypes {
             var accountTypeIndex = await _Mediator.Send (query);
             return Ok (accountTypeIndex);
         }
+
+        /// <summary>
+        /// creates new account type and return the newly created account type appending the id generated
+        /// </summary>
+        /// <param name="command"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<ActionResult<AccountTypeView>> CreateAccountType ([FromBody] CreateAccountTypeCommand command) {
+            var newAccountTypeId = await _Mediator.Send (command);
+            var newAccountType = await _Mediator.Send (new GetAccountTypeQuery () { Id = newAccountTypeId });
+
+            return StatusCode (201, newAccountType);
+        }
+
     }
 }
