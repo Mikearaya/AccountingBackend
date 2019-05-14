@@ -3,12 +3,13 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: May 14, 2019 1:03 PM
+ * @Last Modified Time: May 14, 2019 1:08 PM
  * @Description: Modify Here, Please 
  */
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AccountingBackend.Application.AccountTypes.Commands.CreateAccountType;
+using AccountingBackend.Application.AccountTypes.Commands.DeleteAccountType;
 using AccountingBackend.Application.AccountTypes.Commands.UpdateAccountType;
 using AccountingBackend.Application.AccountTypes.Models;
 using AccountingBackend.Application.AccountTypes.Queries.GetAccountType;
@@ -81,9 +82,27 @@ namespace AccountingBackend.Api.Controllers.AccountTypes {
             return StatusCode (201, newAccountType);
         }
 
-        [HttpPut]
-        public async Task<ActionResult> UpdateAccountType ([FromBody] UpdateAccountTypeCommand command) {
+        /// <summary>
+        /// updates single instance of account type based on the id provided in the url  and body of the request
+        /// or return 404 status code in the case the account type could not be found
+        /// </summary>
+        /// <param name="command"></param>
+        /// <returns></returns>
+        [HttpPut ("{id}")]
+        public async Task<ActionResult> UpdateAccountType (uint id, [FromBody] UpdateAccountTypeCommand command) {
             await _Mediator.Send (command);
+            return NoContent ();
+        }
+
+        /// <summary>
+        /// deletes a single instance of account type based on the id provided in the url or
+        /// returns 404 status code in the case the account type is not found
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpDelete ("{id}")]
+        public async Task<ActionResult> DeleteAccountType (uint id) {
+            await _Mediator.Send (new DeleteAccountTypeCommand () { Id = id });
             return NoContent ();
         }
 
