@@ -1,3 +1,4 @@
+using System;
 /*
  * @CreateTime: May 15, 2019 10:15 AM
  * @Author:  Mikael Araya
@@ -13,6 +14,10 @@ using MediatR;
 
 namespace AccountingBackend.Application.Reports.Queries.GetSubsidaryLedger {
     public class GetSubsidaryLedgerQuery : ApiQueryString, IRequest<IEnumerable<SubsidaryLedgerModel>> {
-
+        public string Year { get; set; } = DateTime.Now.Year.ToString ();
+        public DateTime? StartDate { get; set; }
+        public DateTime EndDate { get; set; } = DateTime.Now;
+        public string ControlAccountId { get; set; } = "";
+        public string SubsidaryId { get; set; } = "";
     }
 }

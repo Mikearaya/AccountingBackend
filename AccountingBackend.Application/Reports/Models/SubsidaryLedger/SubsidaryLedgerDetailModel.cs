@@ -26,7 +26,7 @@ namespace AccountingBackend.Application.Reports.Models {
                     Date = entry.Ledger.Date,
                     VoucherId = entry.Ledger.VoucherId,
                     Debit = entry.Debit,
-                    Credit = entry.Credit
+                    Credit = entry.Credit,
 
                 };
             }

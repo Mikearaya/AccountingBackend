@@ -6,6 +6,7 @@
  * @Last Modified Time: May 15, 2019 10:19 AM
  * @Description: Modify Here, Please 
  */
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -24,11 +25,48 @@ namespace AccountingBackend.Application.Reports.Queries.GetSubsidaryLedger {
         }
 
         public async Task<IEnumerable<SubsidaryLedgerModel>> Handle (GetSubsidaryLedgerQuery request, CancellationToken cancellationToken) {
-            return await _database.Account
+            var list = _database.Account
+                .Where (x => x.Year == request.Year);
+
+            if (request.ControlAccountId.Trim () != "") {
+                list = list.Where (l => l.ParentAccountNavigation.AccountId == request.ControlAccountId);
+            }
+
+            if (request.SubsidaryId.Trim () != "") {
+                list = list.Where (l => l.AccountId == request.SubsidaryId);
+            }
+            if (request.StartDate != null) {
+
+                list = list.Where (a => a.LedgerEntry
+                    .Any (e => e.Ledger.Date > request.StartDate && e.Ledger.Date < request.EndDate));
+            }
+
+            var filteredList = await list
                 .Select (SubsidaryLedgerModel.Projection)
                 .Skip (request.PageNumber)
                 .Take (request.PageSize)
                 .ToListAsync ();
+
+            List<SubsidaryLedgerModel> adjusted = new List<SubsidaryLedgerModel> ();
+
+            foreach (var item in filteredList) {
+                var balance = item.BBF;
+                SubsidaryLedgerModel mod = new SubsidaryLedgerModel () {
+                    AccountId = item.getAccountId (),
+                    AccountName = item.AccountName,
+                    AccountType = item.AccountType,
+                    BBF = balance
+
+                };
+                foreach (var entry in item.Entries) {
+                    balance = balance + (entry.Debit - entry.Credit);
+                    entry.Balance = balance;
+                    mod.Entries.Add (entry);
+                }
+                adjusted.Add (mod);
+            }
+
+            return adjusted;
         }
     }
 }

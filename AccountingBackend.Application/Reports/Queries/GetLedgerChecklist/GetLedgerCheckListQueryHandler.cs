@@ -25,7 +25,24 @@ namespace AccountingBackend.Application.Reports.Queries {
         }
 
         public async Task<IEnumerable<LedgerChecklistModel>> Handle (GetLedgerCheckListQuery request, CancellationToken cancellationToken) {
-            return await _database.Ledger
+            var list = _database.Ledger
+                .Where (x => x.Date.Year.ToString () == request.Year);
+
+            if (request.FromVoucherId.Trim () != "") {
+                list = list.Where (l => l.VoucherId.CompareTo (request.FromVoucherId) < 0 || l.VoucherId.CompareTo (request.FromVoucherId) == 0);
+            }
+
+            if (request.ToVoucherId.Trim () != "") {
+                list = list.Where (l => l.VoucherId.CompareTo (request.ToVoucherId) > 0 || l.VoucherId.CompareTo (request.ToVoucherId) == 0);
+            }
+
+            if (request.StartDate != null) {
+
+                list = list.Where (a => a.LedgerEntry
+                    .Any (e => e.Ledger.Date > request.StartDate && e.Ledger.Date < request.EndDate));
+            }
+
+            return await list
                 .Select (LedgerChecklistModel.Projection)
                 .Skip (request.PageNumber)
                 .Take (request.PageSize)

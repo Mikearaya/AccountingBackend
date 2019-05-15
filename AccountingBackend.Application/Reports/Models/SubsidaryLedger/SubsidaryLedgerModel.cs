@@ -14,28 +14,34 @@ using AccountingBackend.Domain;
 
 namespace AccountingBackend.Application.Reports.Models {
     public class SubsidaryLedgerModel {
-        public string AccountId {
-            get {
-                return $"{ControlAccountId} {SubAccountId}";
-            }
-        }
+
+        public string AccountId { get; set; }
         private string ControlAccountId { get; set; }
+
+        public string AccountType { get; set; }
         private string SubAccountId { get; set; }
         public string AccountName { get; set; }
-        public decimal Debit { get; set; }
-        public IEnumerable<SubsidaryLedgerDetailModel> Entries { get; set; } = new List<SubsidaryLedgerDetailModel> ();
+        public float? BBF { get; set; }
+        public List<SubsidaryLedgerDetailModel> Entries { get; set; } = new List<SubsidaryLedgerDetailModel> ();
 
         public static Expression<Func<Account, SubsidaryLedgerModel>> Projection {
             get {
                 return entry => new SubsidaryLedgerModel () {
                     ControlAccountId = entry.ParentAccountNavigation.AccountId,
                     SubAccountId = entry.AccountId,
+                    AccountType = entry.Catagory.AccountType.TypeOfNavigation.Type,
                     AccountName = entry.AccountName,
+                    BBF = entry.OpeningBalance,
                     Entries = entry.LedgerEntry
                     .AsQueryable ()
                     .Select (SubsidaryLedgerDetailModel.Projection)
+                    .ToList ()
                 };
             }
+        }
+
+        public string getAccountId () {
+            return $"{ControlAccountId} {SubAccountId}";
         }
 
     }
