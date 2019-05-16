@@ -20,10 +20,9 @@ namespace AccountingBackend.Application.Reports.Models {
         public static Expression<Func<LedgerEntry, TrialBalanceModel>> Projection {
             get {
                 return entry => new TrialBalanceModel () {
-                    AccountId = entry.Account.AccountId,
-                    AccountName = entry.Account.AccountName,
-                    Credit = (decimal?) entry.Account.LedgerEntry.Sum (a => a.Credit),
-                    Debit = (decimal?) entry.Account.LedgerEntry.Sum (a => a.Debit)
+                    AccountId = $"{entry.Account.ParentAccountNavigation.AccountId} parent {entry.Account.ParentAccountNavigation.ParentAccount}",
+                    AccountName = entry.Account.ParentAccountNavigation.AccountName,
+                    Credit = (decimal?) entry.Account.ParentAccountNavigation.InverseParentAccountNavigation.Sum (a => (decimal?) a.LedgerEntry.Sum (e => e.Credit)),
                 };
 
             }

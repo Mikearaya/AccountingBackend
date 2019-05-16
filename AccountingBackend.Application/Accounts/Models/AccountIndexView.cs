@@ -20,7 +20,7 @@ namespace AccountingBackend.Application.Accounts.Models {
             get {
                 return account => new AccountIndexView () {
                     Id = account.Id,
-                    Name = $"{account.AccountId} - {account.AccountName}"
+                    Name = $"{account.ParentAccountNavigation.AccountId}  {account.AccountId} - {account.AccountName}"
                 };
             }
         }

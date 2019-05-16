@@ -6,6 +6,7 @@
  * @Last Modified Time: May 15, 2019 7:09 PM
  * @Description: Modify Here, Please 
  */
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -24,21 +25,35 @@ namespace AccountingBackend.Application.Reports.Queries.GetTrialBalance {
         }
 
         public async Task<IEnumerable<TrialBalanceModel>> Handle (GetConsolidatedTrialBalanceQuery request, CancellationToken cancellationToken) {
-            var trialBalance = _database.LedgerEntry
-                .Where (a => a.Ledger.Date.Year.ToString () == request.Year)
-                .Where (a => a.Account.ParentAccountNavigation == null);
 
-            if (request.StartDate != null) {
-                trialBalance = trialBalance.Where (t => t.Ledger.Date >= request.StartDate);
-            }
+            /*             var d = from at in _database.AccountType
+                        join pt in _database.AccountType on at.Id equals pt.TypeOf
+                        join ac in _database.AccountCatagory on pt.Id equals ac.AccountTypeId
+                        join acc in _database.Account on ac.Id equals acc.CatagoryId
+                        group ac.Id by pt.TypeOf into g
+                        select new {
+                            Count = g.Count (),
+                            Category = g
+                        };
 
-            if (request.EndDate != null) {
-                trialBalance = trialBalance.Where (t => t.Ledger.Date <= request.EndDate);
-            }
+                        Console.WriteLine ("----------GROUP JOIN--------");
 
-            return await trialBalance
-                .Select (TrialBalanceModel.Projection)
-                .ToListAsync ();
+                        foreach (var item in d) {
+                            Console.WriteLine ($"{item.Count} {item.Category} ");
+                        } */
+            return await _database.LedgerEntry.Join (_database.Account, l => l.AccountId, a => a.Id, (l, a) => new {
+                    AccountId = a.ParentAccountNavigation.AccountId,
+                        AccountName = a.ParentAccountNavigation.AccountName,
+                        Credit = a.LedgerEntry.Sum (c => (decimal?) c.Credit),
+                        Debit = a.LedgerEntry.Sum (c => (decimal?) c.Debit)
+                }).GroupBy (a => a.AccountId)
+                .Select (x => new TrialBalanceModel () {
+                    AccountId = x.Key,
+                        Credit = x.Sum (c => c.Credit),
+                        AccountName = x.Select (s => s.AccountName).First (),
+                        Debit = x.Sum (c => c.Debit),
+                }).ToListAsync ();
+
         }
     }
 }

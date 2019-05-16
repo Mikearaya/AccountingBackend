@@ -3,7 +3,7 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: May 15, 2019 6:53 PM
+ * @Last Modified Time: May 15, 2019 7:36 PM
  * @Description: Modify Here, Please 
  */
 using System.Collections.Generic;
@@ -52,6 +52,12 @@ namespace AccountingBackend.Api.Controllers.Reports {
 
         [HttpGet ("trial-balance/consolidated")]
         public async Task<ActionResult<IEnumerable<TrialBalanceModel>>> GetConsolidatedTrialBalance ([FromQuery] GetConsolidatedTrialBalanceQuery query) {
+            var result = await _Mediator.Send (query);
+            return Ok (result);
+        }
+
+        [HttpGet ("trial-balance/detail")]
+        public async Task<ActionResult<IEnumerable<TrialBalanceModel>>> GetDettailedTrialBalance ([FromQuery] GetDetailedTrialBalanceQuery query) {
             var result = await _Mediator.Send (query);
             return Ok (result);
         }

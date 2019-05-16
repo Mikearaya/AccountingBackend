@@ -24,10 +24,12 @@ namespace AccountingBackend.Application.Accounts.Queries.GetAccountsList {
         }
 
         public async Task<IEnumerable<AccountIndexView>> Handle (GetAccountIndexListQuery request, CancellationToken cancellationToken) {
+
             return await _database.Account
+                .Where (a => a.ParentAccountNavigation != null)
+                .Distinct ()
                 .Select (AccountIndexView.Projection)
-                .Where (a => a.Name.Contains (request.SearchString))
-                .Take (request.PageSize)
+                .Where (a => a.Name.Trim ().ToUpper ().Contains (request.SearchString.Trim ().ToUpper ()))
                 .ToListAsync ();
         }
     }
