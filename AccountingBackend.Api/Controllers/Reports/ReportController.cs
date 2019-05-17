@@ -3,13 +3,14 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: May 15, 2019 7:36 PM
+ * @Last Modified Time: May 17, 2019 6:26 PM
  * @Description: Modify Here, Please 
  */
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AccountingBackend.Application.Reports.Models;
 using AccountingBackend.Application.Reports.Queries;
+using AccountingBackend.Application.Reports.Queries.GetIncomeStatement;
 using AccountingBackend.Application.Reports.Queries.GetSubsidaryLedger;
 using AccountingBackend.Application.Reports.Queries.GetTrialBalance;
 using MediatR;
@@ -58,6 +59,12 @@ namespace AccountingBackend.Api.Controllers.Reports {
 
         [HttpGet ("trial-balance/detail")]
         public async Task<ActionResult<IEnumerable<TrialBalanceModel>>> GetDettailedTrialBalance ([FromQuery] GetDetailedTrialBalanceQuery query) {
+            var result = await _Mediator.Send (query);
+            return Ok (result);
+        }
+
+        [HttpGet ("income-statement")]
+        public async Task<ActionResult<IncomeStatementViewModel>> GetIcomeStatement ([FromQuery] GetIncomeStatementQuery query) {
             var result = await _Mediator.Send (query);
             return Ok (result);
         }
