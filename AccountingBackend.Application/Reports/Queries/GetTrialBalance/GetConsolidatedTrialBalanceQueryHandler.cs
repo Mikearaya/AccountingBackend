@@ -26,21 +26,6 @@ namespace AccountingBackend.Application.Reports.Queries.GetTrialBalance {
 
         public async Task<IEnumerable<TrialBalanceModel>> Handle (GetConsolidatedTrialBalanceQuery request, CancellationToken cancellationToken) {
 
-            /*             var d = from at in _database.AccountType
-                        join pt in _database.AccountType on at.Id equals pt.TypeOf
-                        join ac in _database.AccountCatagory on pt.Id equals ac.AccountTypeId
-                        join acc in _database.Account on ac.Id equals acc.CatagoryId
-                        group ac.Id by pt.TypeOf into g
-                        select new {
-                            Count = g.Count (),
-                            Category = g
-                        };
-
-                        Console.WriteLine ("----------GROUP JOIN--------");
-
-                        foreach (var item in d) {
-                            Console.WriteLine ($"{item.Count} {item.Category} ");
-                        } */
             return await _database.LedgerEntry.Join (_database.Account, l => l.AccountId, a => a.Id, (l, a) => new {
                     AccountId = a.ParentAccountNavigation.AccountId,
                         AccountName = a.ParentAccountNavigation.AccountName,

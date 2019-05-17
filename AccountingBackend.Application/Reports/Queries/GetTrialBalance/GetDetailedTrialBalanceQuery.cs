@@ -12,7 +12,7 @@ using AccountingBackend.Application.Reports.Models;
 using MediatR;
 
 namespace AccountingBackend.Application.Reports.Queries.GetTrialBalance {
-    public class GetDetailedTrialBalanceQuery : IRequest<IEnumerable<TrialBalanceDetailModel>> {
+    public class GetDetailedTrialBalanceQuery : IRequest<IList<TrialBalanceDetailModel>> {
         public string Year { get; set; } = DateTime.Now.ToString ();
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }

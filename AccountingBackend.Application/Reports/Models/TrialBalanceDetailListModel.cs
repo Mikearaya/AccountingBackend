@@ -12,8 +12,7 @@ using AccountingBackend.Domain;
  */
 namespace AccountingBackend.Application.Reports.Models {
     public class TrialBalanceDetailListModel {
-        public string ControlAccountId { get; set; }
-        public string SubSidaryId { get; set; }
+        public string AccountId { get; set; }
         public string AccountName { get; set; }
         public decimal? Credit { get; set; }
         public decimal? Debit { get; set; }
@@ -24,8 +23,7 @@ namespace AccountingBackend.Application.Reports.Models {
                     Credit = (decimal?) entry.LedgerEntry.Sum (a => a.Credit),
                     Debit = (decimal?) entry.LedgerEntry.Sum (a => a.Debit),
                     AccountName = entry.AccountName,
-                    ControlAccountId = entry.ParentAccountNavigation.AccountId,
-                    SubSidaryId = entry.AccountId
+
                 };
             }
         }
