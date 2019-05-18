@@ -23,24 +23,39 @@ namespace AccountingBackend.Application.Reports.Queries.GetIncomeStatement {
         }
 
         public Task<IncomeStatementViewModel> Handle (GetIncomeStatementQuery request, CancellationToken cancellationToken) {
-            var x = _database.LedgerEntry.Join (_database.Account,
-                    ledger => ledger.AccountId, account => account.Id, (ledger, account) => new { ledger, account })
-                .Join (_database.AccountCatagory
-                    .Where (a => a.AccountType.TypeOfNavigation.Type.ToUpper () == "EXPENSE" ||
-                        a.AccountType.TypeOfNavigation.Type.ToUpper () == "REVENUE"), cat => cat.account.CatagoryId, account => account.Id, (cat, account) => new { cat, account })
-                .Select (xf => new {
-                    ShowGrouped = xf.cat.account.Catagory.AccountType.IsSummery == 1 ? true : false,
-                        AccountType = xf.cat.account.Catagory.AccountType.Type,
-                        Category = xf.cat.account.Catagory.Catagory,
-                        Credit = (decimal?) xf.cat.ledger.Credit,
-                        Debit = (decimal?) xf.cat.ledger.Debit
-                }).ToList ();
 
-            foreach (var item in x) {
-                Console.WriteLine ($" ------ category {item.Category} ---- ACCOUNT TYPE ---- {item.AccountType} {item.Credit} {item.Debit} ");
-            }
+            var query = (from account_type in _database.AccountType.Where (a => a.TypeOf == 6 || a.TypeOf == 4) join account_category in _database.AccountCatagory on account_type.Id equals account_category.AccountTypeId join account in _database.Account on account_category.Id equals account.CatagoryId join ledger_entry in _database.LedgerEntry on account.Id equals ledger_entry.AccountId select new {
+                    AccountType = account_type,
+                        Category = account_category,
+                        Credit = ledger_entry.Credit,
+                        Debit = ledger_entry.Debit,
+                        type = account_type.TypeOfNavigation.Type
+
+                })
+                .GroupBy (ef => ef.AccountType.IsSummery == 1 ? ef.AccountType.Type : ef.Category.Catagory).ToList ()
+                .Select (g => new {
+                    CreditSum = g.Sum (t => t.Credit),
+                        DebitSum = g.Sum (t => t.Debit),
+
+                        AccountCategory = g.Key,
+                        Type = g.Select (d => d.type)
+                });
 
             IncomeStatementViewModel incomeStateMent = new IncomeStatementViewModel ();
+            foreach (var item in query) {
+
+                if (item.Type.FirstOrDefault ().ToString ().ToUpper () == "REVENUE") {
+                    incomeStateMent.Revenue.Add (new IncomeStatementItemModel () {
+                        AccountType = item.AccountCategory,
+                            Amount = item.DebitSum - item.CreditSum
+                    });
+                } else if (item.Type.FirstOrDefault ().ToString ().ToUpper () == "EXPENSE")
+                    incomeStateMent.Expense.Add (new IncomeStatementItemModel () {
+                        AccountType = item.AccountCategory,
+                            Amount = item.DebitSum - item.CreditSum
+                    });
+
+            }
 
             return Task.FromResult (incomeStateMent);
         }

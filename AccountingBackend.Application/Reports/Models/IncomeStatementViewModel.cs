@@ -10,7 +10,7 @@ using System.Collections.Generic;
 
 namespace AccountingBackend.Application.Reports.Models {
     public class IncomeStatementViewModel {
-        public IList<IncomeStatementItemModel> Expense { get; set; }
-        public IList<IncomeStatementItemModel> Revenue { get; set; }
+        public IList<IncomeStatementItemModel> Expense { get; set; } = new List<IncomeStatementItemModel> ();
+        public IList<IncomeStatementItemModel> Revenue { get; set; } = new List<IncomeStatementItemModel> ();
     }
 }
