@@ -3,7 +3,7 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: May 12, 2019 2:37 PM
+ * @Last Modified Time: May 19, 2019 10:08 AM
  * @Description: Modify Here, Please 
  */
 using System.Collections.Generic;
@@ -89,7 +89,7 @@ namespace AccountingBackend.Api.Controllers.SystemLookups {
         [HttpPut]
         public async Task<ActionResult> UpdateSystemLookup ([FromBody] UpdateSystemLookupCommand model) {
             var result = await _Mediator.Send (model);
-            return StatusCode (204, result);
+            return NoContent ();
         }
 
         /// <summary>
@@ -101,7 +101,7 @@ namespace AccountingBackend.Api.Controllers.SystemLookups {
         [HttpDelete ("{id}")]
         public async Task<ActionResult> DeleteSystemLookup (int id) {
             var result = await _Mediator.Send (new DeleteSystemLookupCommand () { Id = id });
-            return StatusCode (204);
+            return NoContent ();
         }
 
         /// <summary>

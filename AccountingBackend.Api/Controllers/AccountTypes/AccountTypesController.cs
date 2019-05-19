@@ -3,7 +3,7 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: May 14, 2019 1:08 PM
+ * @Last Modified Time: May 19, 2019 10:13 AM
  * @Description: Modify Here, Please 
  */
 using System.Collections.Generic;
@@ -81,15 +81,16 @@ namespace AccountingBackend.Api.Controllers.AccountTypes {
 
             return StatusCode (201, newAccountType);
         }
-
         /// <summary>
         /// updates single instance of account type based on the id provided in the url  and body of the request
         /// or return 404 status code in the case the account type could not be found
         /// </summary>
+        /// <param name="id"></param>
         /// <param name="command"></param>
         /// <returns></returns>
         [HttpPut ("{id}")]
         public async Task<ActionResult> UpdateAccountType (uint id, [FromBody] UpdateAccountTypeCommand command) {
+
             await _Mediator.Send (command);
             return NoContent ();
         }

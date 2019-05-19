@@ -3,9 +3,10 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: May 19, 2019 9:24 AM
+ * @Last Modified Time: May 19, 2019 9:57 AM
  * @Description: Modify Here, Please 
  */
+using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -27,7 +28,7 @@ namespace AccountingBackend.Application.Reports.Queries.GetBalanceSheet {
                     a.TypeOfNavigation.Type.ToUpper () == "CAPITAL" ||
                     a.TypeOfNavigation.Type.ToUpper () == "LIABILITY"
 
-                )) join account_category in _database.AccountCatagory on account_type.Id equals account_category.AccountTypeId join account in _database.Account on account_category.Id equals account.CatagoryId join ledger_entry in _database.LedgerEntry on account.Id equals ledger_entry.AccountId select new {
+                )) join account_category in _database.AccountCatagory on account_type.Id equals account_category.AccountTypeId join account in _database.Account.Where (a => a.Year == request.Year) on account_category.Id equals account.CatagoryId join ledger_entry in _database.LedgerEntry on account.Id equals ledger_entry.AccountId select new {
                     AccountType = account_type,
                         Category = account_category,
                         Credit = ledger_entry.Credit,
@@ -62,14 +63,16 @@ namespace AccountingBackend.Application.Reports.Queries.GetBalanceSheet {
             float? liability = 0;
 
             foreach (var item in result) {
-                if (item.Type.All (a => a.All (c => c.Equals ("ASSET")))) {
+
+                Console.WriteLine ($"{item.AccountCategory}  --- credit --- {item.CreditSum} -- debit --- {item.DebitSum} --");
+                if (item.Type.FirstOrDefault ().ToString ().ToUpper () == "ASSET") {
                     asset = item.DebitSum - item.CreditSum;
                     totalAsset = asset;
                     balanceSheet.Assets.Add (new BalanceSheetItemModel () {
                         AccountCategory = item.AccountCategory,
                             Amount = asset
                     });
-                } else if (item.Type.All (a => a.All (c => c.Equals ("LIABILITY")))) {
+                } else if (item.Type.FirstOrDefault ().ToString ().ToUpper () == "LIABILITY") {
                     liability = item.CreditSum - item.DebitSum;
                     totalLiability = liability;
                     balanceSheet.Liabilities.Add (new BalanceSheetItemModel () {
@@ -77,7 +80,7 @@ namespace AccountingBackend.Application.Reports.Queries.GetBalanceSheet {
                             Amount = liability
                     });
 
-                } else if (item.Type.All (a => a.All (c => c.Equals ("CAPITAL")))) {
+                } else if (item.Type.FirstOrDefault ().ToString ().ToUpper () == "CAPITAL") {
                     capital = item.CreditSum - item.DebitSum;
                     totalCapital = capital;
                     balanceSheet.Capitals.Add (new BalanceSheetItemModel () {
