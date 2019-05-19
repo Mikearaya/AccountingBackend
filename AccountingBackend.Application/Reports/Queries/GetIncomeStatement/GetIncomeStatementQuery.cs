@@ -12,6 +12,7 @@ using MediatR;
 
 namespace AccountingBackend.Application.Reports.Queries.GetIncomeStatement {
     public class GetIncomeStatementQuery : IRequest<IncomeStatementViewModel> {
+        public string Year { get; set; } = "2011";
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
     }

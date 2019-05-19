@@ -24,38 +24,60 @@ namespace AccountingBackend.Application.Reports.Queries.GetIncomeStatement {
 
         public Task<IncomeStatementViewModel> Handle (GetIncomeStatementQuery request, CancellationToken cancellationToken) {
 
-            var query = (from account_type in _database.AccountType.Where (a => a.TypeOf == 6 || a.TypeOf == 4) join account_category in _database.AccountCatagory on account_type.Id equals account_category.AccountTypeId join account in _database.Account on account_category.Id equals account.CatagoryId join ledger_entry in _database.LedgerEntry on account.Id equals ledger_entry.AccountId select new {
+            var query = (from account_type in _database.AccountType
+                .Where (a => a.TypeOfNavigation != null && (a.TypeOfNavigation.Type.ToUpper () == "EXPENSE" || a.TypeOfNavigation.Type.ToUpper () == "REVENUE")) join account_category in _database.AccountCatagory on account_type.Id equals account_category.AccountTypeId join account in _database.Account.Where (a => a.Year == request.Year) on account_category.Id equals account.CatagoryId join ledger_entry in _database.LedgerEntry on account.Id equals ledger_entry.AccountId select new {
                     AccountType = account_type,
                         Category = account_category,
                         Credit = ledger_entry.Credit,
+                        Entry = ledger_entry,
                         Debit = ledger_entry.Debit,
                         type = account_type.TypeOfNavigation.Type
 
-                })
-                .GroupBy (ef => ef.AccountType.IsSummery == 1 ? ef.AccountType.Type : ef.Category.Catagory).ToList ()
+                });
+
+            if (request.StartDate != null) {
+                query = query.Where (q => q.Entry.DateAdded >= request.StartDate);
+            }
+
+            if (request.EndDate != null) {
+                query = query.Where (q => q.Entry.DateAdded <= request.EndDate);
+            }
+
+            var result = query.GroupBy (ef => ef.AccountType.IsSummery == 1 ? ef.AccountType.Type : ef.Category.Catagory).ToList ()
                 .Select (g => new {
                     CreditSum = g.Sum (t => t.Credit),
                         DebitSum = g.Sum (t => t.Debit),
-
                         AccountCategory = g.Key,
                         Type = g.Select (d => d.type)
                 });
 
             IncomeStatementViewModel incomeStateMent = new IncomeStatementViewModel ();
-            foreach (var item in query) {
+
+            float? totalRevenue = 0;
+            float? totalExpence = 0;
+            float? revenue = 0;
+            float? expense = 0;
+            foreach (var item in result) {
 
                 if (item.Type.FirstOrDefault ().ToString ().ToUpper () == "REVENUE") {
+                    revenue = item.CreditSum - item.DebitSum;
+                    totalRevenue += revenue;
                     incomeStateMent.Revenue.Add (new IncomeStatementItemModel () {
                         AccountType = item.AccountCategory,
-                            Amount = item.DebitSum - item.CreditSum
+                            Amount = revenue
                     });
-                } else if (item.Type.FirstOrDefault ().ToString ().ToUpper () == "EXPENSE")
+                } else if (item.Type.FirstOrDefault ().ToString ().ToUpper () == "EXPENSE") {
+                    expense = item.DebitSum - item.CreditSum;
+                    totalExpence += expense;
                     incomeStateMent.Expense.Add (new IncomeStatementItemModel () {
                         AccountType = item.AccountCategory,
-                            Amount = item.DebitSum - item.CreditSum
+                            Amount = expense
                     });
+                }
 
             }
+
+            incomeStateMent.NetSurplus = totalRevenue - totalExpence;
 
             return Task.FromResult (incomeStateMent);
         }

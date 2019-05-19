@@ -18,7 +18,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AccountingBackend.Api.Controllers.Reports {
 
-    [Route ("api/reports")]
+    [Route ("api/report")]
     public class ReportController : Controller {
         private readonly IMediator _Mediator;
 
