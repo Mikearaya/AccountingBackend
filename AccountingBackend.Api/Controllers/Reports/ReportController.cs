@@ -3,7 +3,7 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: May 19, 2019 10:05 AM
+ * @Last Modified Time: May 22, 2019 5:07 PM
  * @Description: Modify Here, Please 
  */
 using System.Collections.Generic;
@@ -104,7 +104,6 @@ namespace AccountingBackend.Api.Controllers.Reports {
         /// </summary>
         /// <param name="query"></param>
         /// <returns></returns>
-
         [HttpGet ("balance-sheet")]
         public async Task<ActionResult<BalanceSheetViewModel>> GetBalanceSheet ([FromQuery] GetBalanceSheetQuery query) {
             var result = await _Mediator.Send (query);

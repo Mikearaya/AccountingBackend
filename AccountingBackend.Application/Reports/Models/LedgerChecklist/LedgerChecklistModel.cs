@@ -17,7 +17,6 @@ namespace AccountingBackend.Application.Reports.Models {
         public string ReferenceNumber { get; set; }
         public DateTime Date { get; set; }
         public string Description { get; set; }
-
         public List<LedgerCheckListDetailModel> Entries { get; set; } = new List<LedgerCheckListDetailModel> ();
 
         public static Expression<Func<Ledger, LedgerChecklistModel>> Projection {

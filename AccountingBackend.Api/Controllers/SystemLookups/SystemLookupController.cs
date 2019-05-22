@@ -3,11 +3,12 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: May 19, 2019 10:08 AM
+ * @Last Modified Time: May 22, 2019 5:06 PM
  * @Description: Modify Here, Please 
  */
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using AccountingBackend.Application.Models;
 using AccountingBackend.Application.SystemLookups.Commands.CreateSystemLookup;
 using AccountingBackend.Application.SystemLookups.Commands.DeleteSystemLookup;
 using AccountingBackend.Application.SystemLookups.Commands.UpdateSystemLookup;
@@ -113,6 +114,19 @@ namespace AccountingBackend.Api.Controllers.SystemLookups {
         public async Task<ActionResult<IEnumerable<SystemLookupCategoryIndexView>>> GetSystemLookupCategories ([FromQuery] GetSystemLookupCategoriesListQuery query) {
             var lookupCategories = await _Mediator.Send (new GetSystemLookupCategoriesListQuery ());
             return Ok (lookupCategories);
+        }
+
+        /// <summary>
+        /// return all of the available system years 
+        /// </summary>
+        /// <returns></returns>
+
+        [HttpGet ("years")]
+        public async Task<ActionResult<IEnumerable<AvailableYearsModel>>> GetAvailableYears () {
+
+            var years = await _Mediator.Send (new GetAvailableYearsQuery ());
+            return StatusCode (200, years);
+
         }
     }
 }

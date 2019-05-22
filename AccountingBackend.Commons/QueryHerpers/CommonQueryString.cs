@@ -11,7 +11,7 @@ namespace AccountingBackend.Commons.QueryHelpers {
         private int _pageNumber = 0;
         private string _searchString = "";
         public string SortBy { get; set; } = "";
-        public string Direction { get; set; } = "Asc";
+        public string SortDirection { get; set; } = "Asc";
         public string SearchString {
             get {
                 return _searchString;
