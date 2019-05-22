@@ -26,6 +26,7 @@ namespace AccountingBackend.Application.Accounts.Queries.GetAccountsList {
 
         public Task<IEnumerable<AccountViewModel>> Handle (GetAccountsListQuery request, CancellationToken cancellationToken) {
             var accountList = _database.Account
+                .Where (a => a.Year == request.Year)
                 .Select (AccountViewModel.Projection)
                 .Select (DynamicQueryHelper.GenerateSelectedColumns<AccountViewModel> (request.SelectedColumns))
                 .Skip (request.PageNumber * request.PageSize)

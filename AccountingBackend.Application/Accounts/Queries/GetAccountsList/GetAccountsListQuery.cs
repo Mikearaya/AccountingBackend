@@ -14,5 +14,7 @@ using MediatR;
 namespace AccountingBackend.Application.Accounts.Queries.GetAccountsList {
     public class GetAccountsListQuery : ApiQueryString, IRequest<IEnumerable<AccountViewModel>> {
 
+        public string Year { get; set; }
+
     }
 }
