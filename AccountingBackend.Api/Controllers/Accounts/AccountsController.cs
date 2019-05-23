@@ -3,7 +3,7 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: May 7, 2019 3:43 PM
+ * @Last Modified Time: May 23, 2019 9:40 AM
  * @Description: Modify Here, Please 
  */
 using System;
@@ -110,6 +110,12 @@ namespace AccountingBackend.Api.Controllers.Accounts {
 
             var index = await _Mediator.Send (query);
             return Ok (index);
+        }
+
+        [HttpPost ("create-new-year")]
+        public async Task<ActionResult> CreateNewFiscalYear () {
+            var result = await _Mediator.Send (new CreateNewYearCommand ());
+            return StatusCode (201);
         }
 
     }
