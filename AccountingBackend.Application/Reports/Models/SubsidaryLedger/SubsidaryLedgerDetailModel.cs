@@ -16,12 +16,14 @@ namespace AccountingBackend.Application.Reports.Models {
         public DateTime Date { get; set; }
         public string VoucherId { get; set; }
         public float? Debit { get; set; }
+        public int Id { get; set; }
         public float? Credit { get; set; }
         public float? Balance { get; set; }
 
         public static Expression<Func<LedgerEntry, SubsidaryLedgerDetailModel>> Projection {
             get {
                 return entry => new SubsidaryLedgerDetailModel () {
+                    Id = entry.AccountId,
                     ReferenceNumber = entry.Ledger.Reference,
                     Date = entry.Ledger.Date,
                     VoucherId = entry.Ledger.VoucherId,

@@ -26,7 +26,8 @@ namespace AccountingBackend.Application.Reports.Queries.GetSubsidaryLedger {
 
         public async Task<IEnumerable<SubsidaryLedgerModel>> Handle (GetSubsidaryLedgerQuery request, CancellationToken cancellationToken) {
             var list = _database.Account
-                .Where (x => x.Year == request.Year);
+                .Where (x => x.ParentAccountNavigation != null)
+                .Where (x => x.Year == request.Year && x.LedgerEntry.Count > 0);
 
             if (request.ControlAccountId.Trim () != "") {
                 list = list.Where (l => l.ParentAccountNavigation.AccountId == request.ControlAccountId);
@@ -53,6 +54,7 @@ namespace AccountingBackend.Application.Reports.Queries.GetSubsidaryLedger {
                 var balance = item.BBF;
                 SubsidaryLedgerModel mod = new SubsidaryLedgerModel () {
                     AccountId = item.getAccountId (),
+                    Id = item.Id,
                     AccountName = item.AccountName,
                     AccountType = item.AccountType,
                     BBF = balance

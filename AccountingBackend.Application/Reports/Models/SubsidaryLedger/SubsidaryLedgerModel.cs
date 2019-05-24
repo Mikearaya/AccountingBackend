@@ -15,6 +15,8 @@ using AccountingBackend.Domain;
 namespace AccountingBackend.Application.Reports.Models {
     public class SubsidaryLedgerModel {
 
+        public int Id { get; set; }
+
         public string AccountId { get; set; }
         private string ControlAccountId { get; set; }
 
@@ -27,6 +29,7 @@ namespace AccountingBackend.Application.Reports.Models {
         public static Expression<Func<Account, SubsidaryLedgerModel>> Projection {
             get {
                 return entry => new SubsidaryLedgerModel () {
+                    Id = entry.Id,
                     ControlAccountId = entry.ParentAccountNavigation.AccountId,
                     SubAccountId = entry.AccountId,
                     AccountType = entry.Catagory.AccountType.TypeOfNavigation.Type,
