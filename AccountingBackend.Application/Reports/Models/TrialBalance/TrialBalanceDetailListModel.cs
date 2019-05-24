@@ -12,6 +12,7 @@ using AccountingBackend.Domain;
  */
 namespace AccountingBackend.Application.Reports.Models {
     public class TrialBalanceDetailListModel {
+        public int? ControlAccountId { get; set; }
         public string AccountId { get; set; }
         public string AccountName { get; set; }
         public decimal? Credit { get; set; }
@@ -20,6 +21,8 @@ namespace AccountingBackend.Application.Reports.Models {
         public static Expression<Func<Account, TrialBalanceDetailListModel>> Projection {
             get {
                 return entry => new TrialBalanceDetailListModel () {
+                    ControlAccountId = entry.ParentAccount,
+                    AccountId = entry.AccountId,
                     Credit = (decimal?) entry.LedgerEntry.Sum (a => a.Credit),
                     Debit = (decimal?) entry.LedgerEntry.Sum (a => a.Debit),
                     AccountName = entry.AccountName,
@@ -28,4 +31,5 @@ namespace AccountingBackend.Application.Reports.Models {
             }
         }
     }
+
 }

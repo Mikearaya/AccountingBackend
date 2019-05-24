@@ -3,7 +3,7 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: May 23, 2019 9:40 AM
+ * @Last Modified Time: May 23, 2019 2:06 PM
  * @Description: Modify Here, Please 
  */
 using System;
@@ -112,6 +112,10 @@ namespace AccountingBackend.Api.Controllers.Accounts {
             return Ok (index);
         }
 
+        /// <summary>
+        /// Creates new accounts for the next fiscal year by transfering their previous account balance
+        /// </summary>
+        /// <returns></returns>
         [HttpPost ("create-new-year")]
         public async Task<ActionResult> CreateNewFiscalYear () {
             var result = await _Mediator.Send (new CreateNewYearCommand ());

@@ -15,6 +15,7 @@ using AccountingBackend.Domain;
 namespace AccountingBackend.Application.Reports.Models {
     public class LedgerChecklistModel {
         public string ReferenceNumber { get; set; }
+        public int LedgerId { get; set; }
         public DateTime Date { get; set; }
         public string Description { get; set; }
         public List<LedgerCheckListDetailModel> Entries { get; set; } = new List<LedgerCheckListDetailModel> ();
@@ -22,6 +23,7 @@ namespace AccountingBackend.Application.Reports.Models {
         public static Expression<Func<Ledger, LedgerChecklistModel>> Projection {
             get {
                 return entry => new LedgerChecklistModel () {
+                    LedgerId = entry.Id,
                     ReferenceNumber = entry.VoucherId,
                     Date = entry.Date,
                     Description = entry.Description,

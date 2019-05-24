@@ -14,6 +14,7 @@ namespace AccountingBackend.Application.Reports.Models {
 
         private string ControlAccount;
         private string SubAccount;
+        public int LedgerId { get; set; }
         public string ControlAccountId {
             get {
                 return ControlAccount == "" ? SubAccount : ControlAccount;
@@ -41,6 +42,7 @@ namespace AccountingBackend.Application.Reports.Models {
                     SubAccountId = entry.Account.AccountId,
                     Credit = entry.Credit,
                     Debit = entry.Debit,
+                    LedgerId = entry.LedgerId,
                     AccountName = entry.Account.AccountName
                 };
             }

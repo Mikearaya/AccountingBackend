@@ -3,7 +3,7 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: May 14, 2019 1:30 PM
+ * @Last Modified Time: May 23, 2019 3:36 PM
  * @Description: Modify Here, Please 
  */
 using System.Collections.Generic;
@@ -25,9 +25,8 @@ namespace AccountingBackend.Application.AccountTypes.Queries.GetAccountTypeList 
         }
 
         public Task<IEnumerable<AccountTypeView>> Handle (GetAccountTypeListQuery request, CancellationToken cancellationToken) {
-            var accountType = _database.AccountType
+            var accountType = _database.AccountType.Where (a => a.TypeOfNavigation != null)
                 .Select (AccountTypeView.Projection)
-                .Where (a => a.TypeOfId != 0 && a.TypeOfId != null)
                 .Select (DynamicQueryHelper.GenerateSelectedColumns<AccountTypeView> (request.SelectedColumns))
                 .Skip (request.PageNumber * request.PageSize)
                 .Take (request.PageSize)
@@ -37,3 +36,4 @@ namespace AccountingBackend.Application.AccountTypes.Queries.GetAccountTypeList 
         }
     }
 }
+

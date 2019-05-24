@@ -14,7 +14,7 @@ using AccountingBackend.Domain;
 
 namespace AccountingBackend.Application.Reports.Models {
     public class TrialBalanceDetailModel {
-
+        public int ControlAccountId { get; set; }
         public string AccountId { get; set; }
         public string AccountName { get; set; }
 
@@ -23,6 +23,7 @@ namespace AccountingBackend.Application.Reports.Models {
         public static Expression<Func<LedgerEntry, TrialBalanceDetailModel>> Projection {
             get {
                 return entry => new TrialBalanceDetailModel () {
+                    ControlAccountId = entry.Account.Id,
                     AccountId = entry.Account.AccountId,
                     AccountName = entry.Account.AccountName,
                     Entries = entry.Account.InverseParentAccountNavigation

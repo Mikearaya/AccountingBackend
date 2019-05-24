@@ -3,7 +3,7 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: May 23, 2019 1:44 PM
+ * @Last Modified Time: May 23, 2019 2:05 PM
  * @Description: Modify Here, Please 
  */
 using System;
@@ -26,11 +26,8 @@ namespace AccountingBackend.Application.Accounts.Commands.CreateAccount {
 
         public async Task<Unit> Handle (CreateNewYearCommand request, CancellationToken cancellationToken) {
 
-            var deletes = _database.Account.Where (y => y.Year == "2012" || y.Year == "2013" || y.Year == "2014");
-            _database.Account.RemoveRange (deletes);
-            await _database.SaveAsync ();
-
             var lastYear = _database.Account.Max (b => b.Year);
+            int lastYearINT = Int32.Parse (lastYear);
             var accounts = await _database.Account.Where (y => y.Year == lastYear)
                 .Include (l => l.LedgerEntry)
                 .Include (a => a.Catagory)
@@ -51,8 +48,6 @@ namespace AccountingBackend.Application.Accounts.Commands.CreateAccount {
 
             IList<Account> accountsList = new List<Account> ();
 
-            int result = Int32.Parse (lastYear);
-
             var grouped = accounts.GroupBy (g => g.Type);
 
             foreach (var item in grouped) {
@@ -65,7 +60,7 @@ namespace AccountingBackend.Application.Accounts.Commands.CreateAccount {
                         CostCenterId = i.CostCenter,
                         CatagoryId = i.Category,
                         OpeningBalance = 0,
-                        Year = (result + 1).ToString ()
+                        Year = (lastYearINT + 1).ToString ()
                     };
 
                     if (item.Key.ToUpper () == "ASSET") {

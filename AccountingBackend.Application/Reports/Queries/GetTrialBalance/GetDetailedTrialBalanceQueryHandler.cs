@@ -39,9 +39,11 @@ namespace AccountingBackend.Application.Reports.Queries.GetTrialBalance {
             var grouped = fromLedger.GroupBy (c => c.ParentAccount)
                 .Select (x => new {
                     ParentName = x.Key.AccountName,
+                        ControlAccountId = x.Key.Id,
                         ParentId = x.Key.AccountId,
                         Subsidaries = x.Select (f => new {
                             AccountName = f.AccountName,
+                                ControlAccountId = f.ParentAccount.Id,
                                 AccountId = f.AccountId,
                                 Credit = (decimal?) f.Credit,
                                 Debit = (decimal?) f.Debit
@@ -52,6 +54,7 @@ namespace AccountingBackend.Application.Reports.Queries.GetTrialBalance {
 
             foreach (var parent in grouped) {
                 TrialBalanceDetailModel temp = new TrialBalanceDetailModel () {
+                    ControlAccountId = parent.ControlAccountId,
                     AccountId = parent.ParentId,
                     AccountName = parent.ParentName
                 };
@@ -60,6 +63,7 @@ namespace AccountingBackend.Application.Reports.Queries.GetTrialBalance {
 
                     temp.Entries.Add (new TrialBalanceDetailListModel () {
                         AccountName = sub.AccountName,
+                            ControlAccountId = sub.ControlAccountId,
                             Credit = sub.Credit,
                             Debit = sub.Debit,
                             AccountId = sub.AccountId
