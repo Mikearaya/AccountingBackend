@@ -7,6 +7,7 @@
  * @Description: Modify Here, Please 
  */
 using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AccountingBackend.Application.Interfaces;
@@ -22,12 +23,14 @@ namespace AccountingBackend.Application.Accounts.Commands.CreateAccount {
         }
 
         public async Task<int> Handle (CreateAccountCommand request, CancellationToken cancellationToken) {
+            var currentYear = _database.Account.Max (a => a.Year);
+
             var account = new Account () {
                 AccountName = request.Name,
                 Active = request.Active,
                 CatagoryId = request.CatagoryId,
                 AccountId = request.AccountId,
-                Year = DateTime.Now.Year.ToString (),
+                Year = currentYear,
                 OpeningBalance = request.OpeningBalance,
                 DateAdded = DateTime.Now,
                 DateUpdated = DateTime.Now

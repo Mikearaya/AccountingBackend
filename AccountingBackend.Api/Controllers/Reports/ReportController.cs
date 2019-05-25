@@ -3,7 +3,7 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: May 22, 2019 5:07 PM
+ * @Last Modified Time: May 25, 2019 5:28 PM
  * @Description: Modify Here, Please 
  */
 using System.Collections.Generic;
@@ -106,6 +106,17 @@ namespace AccountingBackend.Api.Controllers.Reports {
         /// <returns></returns>
         [HttpGet ("balance-sheet")]
         public async Task<ActionResult<BalanceSheetViewModel>> GetBalanceSheet ([FromQuery] GetBalanceSheetQuery query) {
+            var result = await _Mediator.Send (query);
+            return Ok (result);
+        }
+
+        /// <summary>
+        /// returns yearly based balance sheet and filter it using parameters provided ing the query string
+        /// </summary>
+        /// <param name="query"></param>
+        /// <returns></returns>
+        [HttpGet ("dashboard")]
+        public async Task<ActionResult<DashboardViewModel>> GetDashboardSummary ([FromQuery] GetDashboardDataQuery query) {
             var result = await _Mediator.Send (query);
             return Ok (result);
         }

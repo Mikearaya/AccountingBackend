@@ -24,6 +24,7 @@ namespace AccountingBackend.Application.Accounts.Queries.GetAccount {
         }
 
         public async Task<AccountViewModel> Handle (GetAccountQuery request, CancellationToken cancellationToken) {
+
             var account = await _database.Account
                 .Include (x => x.CostCenter)
                 .Include (x => x.Catagory)
