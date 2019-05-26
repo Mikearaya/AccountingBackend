@@ -26,7 +26,16 @@ namespace AccountingBackend.Application.Reports.Queries.GetTrialBalance {
 
         public Task<IList<TrialBalanceDetailModel>> Handle (GetDetailedTrialBalanceQuery request, CancellationToken cancellationToken) {
 
-            var fromLedger = _database.LedgerEntry
+            var fromLedger = _database.LedgerEntry.AsQueryable ();
+
+            if (request.StartDate != null) {
+                fromLedger = fromLedger.Where (d => d.Ledger.Date >= request.StartDate);
+            }
+
+            if (request.EndDate != null) {
+                fromLedger = fromLedger.Where (d => d.Ledger.Date <= request.EndDate);
+            }
+            var result = fromLedger
                 .Join (_database.Account.Where (a => a.Year == request.Year),
                     ledger => ledger.AccountId, account => account.Id, (ledger, account) => new {
                         ParentAccount = account.ParentAccountNavigation,
@@ -34,9 +43,12 @@ namespace AccountingBackend.Application.Reports.Queries.GetTrialBalance {
                             AccountName = $"{account.AccountName}",
                             Credit = (decimal?) account.LedgerEntry.Sum (d => d.Credit),
                             Debit = (decimal?) account.LedgerEntry.Sum (d => d.Debit)
-                    }).ToList ();
+                    })
+                .Take (request.PageSize)
+                .Skip (request.PageNumber)
+                .ToList ();
 
-            var grouped = fromLedger.GroupBy (c => c.ParentAccount)
+            var grouped = result.GroupBy (c => c.ParentAccount)
                 .Select (x => new {
                     ParentName = x.Key.AccountName,
                         ControlAccountId = x.Key.Id,

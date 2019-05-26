@@ -24,27 +24,8 @@ namespace AccountingBackend.Application.Reports.Queries {
         }
 
         public async Task<DashboardViewModel> Handle (GetDashboardDataQuery request, CancellationToken cancellationToken) {
-            /*             var result = _database.Account
 
-                            .Include (d => d.Catagory)
-                            .ThenInclude (e => e.AccountType.TypeOfNavigation)
-
-                            .GroupBy (a => a.Catagory.AccountType.Type)
-                            .Select (f => new {
-                                creditSum = f.Sum (c => (decimal?) c.LedgerEntry.Sum (a => (decimal?) a.Credit)),
-                                    debitSum = f.Sum (c => (decimal?) c.LedgerEntry.Sum (a => (decimal?) a.Debit)),
-                                    openingBalance = f.Sum (c => (decimal?) c.OpeningBalance)
-                            })
-                            .ToList ();
-
-                        foreach (var item in result) {
-
-                            Console.WriteLine ($"{item.creditSum}  {item.debitSum}  {item.openingBalance}");
-
-                        }
-             */
-
-            var result = (from account_type in _database.AccountType.Where (a => a.TypeOfNavigation != null) join account_category in _database.AccountCatagory on account_type.Id equals account_category.AccountTypeId join account in _database.Account on account_category.Id equals account.Id select new {
+            var result = await (from account_type in _database.AccountType.Where (a => a.TypeOfNavigation != null) join account_category in _database.AccountCatagory on account_type.Id equals account_category.AccountTypeId join account in _database.Account on account_category.Id equals account.Id select new {
 
                     accountType = account_type.TypeOfNavigation.Type,
                         creditSum = account_category.Account.Sum (e => (decimal?) e.LedgerEntry.Sum (c => (decimal?) c.Credit)),
@@ -52,7 +33,7 @@ namespace AccountingBackend.Application.Reports.Queries {
                         openingBalance = account_category.Account.Sum (e => (decimal?) e.OpeningBalance)
                 })
                 .GroupBy (c => c.accountType)
-                .ToList ();
+                .ToListAsync ();
 
             DashboardViewModel view = new DashboardViewModel ();
 

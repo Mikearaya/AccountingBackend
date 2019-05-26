@@ -38,11 +38,11 @@ namespace AccountingBackend.Application.Reports.Queries.GetBalanceSheet {
                 });
 
             if (request.StartDate != null) {
-                query = query.Where (l => l.Entry.DateAdded >= request.StartDate);
+                query = query.Where (l => l.Entry.Ledger.Date >= request.StartDate);
             }
 
             if (request.EndDate != null) {
-                query = query.Where (l => l.Entry.DateAdded <= request.EndDate);
+                query = query.Where (l => l.Entry.Ledger.Date <= request.EndDate);
             }
 
             var result = query.GroupBy (ef => ef.AccountType.IsSummery == 1 ? ef.AccountType.Type : ef.Category.Catagory).ToList ()
