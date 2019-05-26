@@ -39,7 +39,13 @@ namespace AccountingBackend.Application.Reports.Queries.GetSubsidaryLedger {
             if (request.StartDate != null) {
 
                 list = list.Where (a => a.LedgerEntry
-                    .Any (e => e.Ledger.Date > request.StartDate && e.Ledger.Date < request.EndDate));
+                    .Any (e => e.Ledger.Date <= request.EndDate));
+            }
+
+            if (request.EndDate != null) {
+
+                list = list.Where (a => a.LedgerEntry
+                    .Any (e => e.Ledger.Date <= request.EndDate));
             }
 
             var filteredList = await list
