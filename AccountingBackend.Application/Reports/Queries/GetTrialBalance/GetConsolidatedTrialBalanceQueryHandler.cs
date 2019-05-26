@@ -26,7 +26,18 @@ namespace AccountingBackend.Application.Reports.Queries.GetTrialBalance {
 
         public async Task<IEnumerable<TrialBalanceModel>> Handle (GetConsolidatedTrialBalanceQuery request, CancellationToken cancellationToken) {
 
-            return await _database.LedgerEntry.Join (_database.Account, l => l.AccountId, a => a.Id, (l, a) => new {
+            var entry = _database.LedgerEntry.AsQueryable ();
+
+            if (request.StartDate != null) {
+                entry = entry.Where (d => d.Ledger.Date >= request.StartDate);
+            }
+
+            if (request.EndDate != null) {
+                entry = entry.Where (d => d.Ledger.Date <= request.EndDate);
+            }
+
+            return await entry
+                .Join (_database.Account.Where (a => a.Year == request.Year), l => l.AccountId, a => a.Id, (l, a) => new {
                     AccountId = a.ParentAccountNavigation.AccountId,
                         AccountName = a.ParentAccountNavigation.AccountName,
                         Credit = a.LedgerEntry.Sum (c => (decimal?) c.Credit),
@@ -37,7 +48,10 @@ namespace AccountingBackend.Application.Reports.Queries.GetTrialBalance {
                         Credit = x.Sum (c => c.Credit),
                         AccountName = x.Select (s => s.AccountName).First (),
                         Debit = x.Sum (c => c.Debit),
-                }).ToListAsync ();
+                })
+                .Skip (request.PageNumber)
+                .Take (request.PageSize)
+                .ToListAsync ();
 
         }
     }

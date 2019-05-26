@@ -9,11 +9,12 @@ using System;
  */
 using System.Collections.Generic;
 using AccountingBackend.Application.Reports.Models;
+using AccountingBackend.Commons.QueryHelpers;
 using MediatR;
 
 namespace AccountingBackend.Application.Reports.Queries.GetTrialBalance {
-    public class GetConsolidatedTrialBalanceQuery : IRequest<IEnumerable<TrialBalanceModel>> {
-        public string Year { get; set; } = DateTime.Now.ToString ();
+    public class GetConsolidatedTrialBalanceQuery : ApiQueryString, IRequest<IEnumerable<TrialBalanceModel>> {
+        public string Year { get; set; } = "";
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
     }
