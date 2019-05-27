@@ -48,6 +48,7 @@ namespace AccountingBackend.Commons.QueryHelpers {
                 .Split (',');
             var search = "";
             uint i = 0;
+
             List<Object> values = new List<Object> ();
             foreach (var word in dict) {
                 if (i != 0) {
@@ -62,5 +63,34 @@ namespace AccountingBackend.Commons.QueryHelpers {
 
         }
 
+        public static IQueryable<TEntity> OrderBy<TEntity> (this IQueryable<TEntity> source, string orderByProperty,
+            bool desc) {
+            string command = desc ? "OrderByDescending" : "OrderBy";
+            var type = typeof (TEntity);
+            var property = type.GetProperty (orderByProperty);
+            var parameter = Expression.Parameter (type, "p");
+            var propertyAccess = Expression.MakeMemberAccess (parameter, property);
+            var orderByExpression = Expression.Lambda (propertyAccess, parameter);
+            var resultExpression = Expression.Call (typeof (Queryable), command, new Type[] { type, property.PropertyType },
+                source.Expression, Expression.Quote (orderByExpression));
+            return source.Provider.CreateQuery<TEntity> (resultExpression);
+        }
+
+        public static Expression<Func<T, bool>> CreateWhereClause<T> (
+            string propertyName, object propertyValue) {
+            var parameter = Expression.Parameter (typeof (T));
+            return Expression.Lambda<Func<T, bool>> (
+                Expression.Equal (
+                    Expression.Property (parameter, propertyName),
+                    Expression.Constant (propertyValue)),
+                parameter);
+        }
+
     }
+
+    public class Filter {
+        public string PropertyName { get; set; }
+        public object Value { get; set; }
+    }
+
 }

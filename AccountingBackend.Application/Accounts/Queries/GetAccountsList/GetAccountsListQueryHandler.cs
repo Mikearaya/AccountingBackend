@@ -12,28 +12,41 @@ using System.Threading;
 using System.Threading.Tasks;
 using AccountingBackend.Application.Accounts.Models;
 using AccountingBackend.Application.Interfaces;
+using AccountingBackend.Application.Models;
 using AccountingBackend.Commons.QueryHelpers;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace AccountingBackend.Application.Accounts.Queries.GetAccountsList {
-    public class GetAccountsListQueryHandler : IRequestHandler<GetAccountsListQuery, IEnumerable<AccountViewModel>> {
+    public class GetAccountsListQueryHandler : IRequestHandler<GetAccountsListQuery, FilterResultModel<AccountViewModel>> {
         private readonly IAccountingDatabaseService _database;
 
         public GetAccountsListQueryHandler (IAccountingDatabaseService database) {
             _database = database;
         }
 
-        public Task<IEnumerable<AccountViewModel>> Handle (GetAccountsListQuery request, CancellationToken cancellationToken) {
+        public Task<FilterResultModel<AccountViewModel>> Handle (GetAccountsListQuery request, CancellationToken cancellationToken) {
+
+            FilterResultModel<AccountViewModel> result = new FilterResultModel<AccountViewModel> ();
             var accountList = _database.Account
                 .Where (a => a.Year == request.Year)
                 .Select (AccountViewModel.Projection)
                 .Select (DynamicQueryHelper.GenerateSelectedColumns<AccountViewModel> (request.SelectedColumns))
-                .Skip (request.PageNumber * request.PageSize)
-                .Take (request.PageSize)
+
+                .AsQueryable ();
+
+            result.Count = accountList.Count ();
+
+            var PageSize = (request.PageSize == 0) ? result.Count : request.PageSize;
+            var PageNumber = (request.PageSize == 0) ? 1 : request.PageNumber;
+
+            result.Items = accountList.OrderBy (request.SortBy.Trim () != "" ? request.SortBy : "AccountName", (request.SortDirection.ToUpper () == "DESCENDING") ? true : false)
+                .Skip (PageSize * (PageNumber - 1))
+                .Take (PageSize)
+
                 .ToList ();
 
-            return Task.FromResult<IEnumerable<AccountViewModel>> (accountList);
+            return Task.FromResult<FilterResultModel<AccountViewModel>> (result);
         }
     }
 }

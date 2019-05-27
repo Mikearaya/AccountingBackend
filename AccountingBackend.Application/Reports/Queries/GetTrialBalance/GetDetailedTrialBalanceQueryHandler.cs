@@ -45,7 +45,7 @@ namespace AccountingBackend.Application.Reports.Queries.GetTrialBalance {
                             Debit = (decimal?) account.LedgerEntry.Sum (d => d.Debit)
                     })
                 .Take (request.PageSize)
-                .Skip (request.PageNumber)
+                .Skip (request.PageSize * (request.PageNumber - 1))
                 .ToList ();
 
             var grouped = result.GroupBy (c => c.ParentAccount)

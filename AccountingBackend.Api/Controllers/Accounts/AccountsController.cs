@@ -15,6 +15,7 @@ using AccountingBackend.Application.Accounts.Commands.UpdateAccount;
 using AccountingBackend.Application.Accounts.Models;
 using AccountingBackend.Application.Accounts.Queries.GetAccount;
 using AccountingBackend.Application.Accounts.Queries.GetAccountsList;
+using AccountingBackend.Application.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -53,7 +54,7 @@ namespace AccountingBackend.Api.Controllers.Accounts {
         /// </summary>
         /// <returns >AccountViewModel</returns>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<AccountViewModel>>> GetAccountsList ([FromQuery] GetAccountsListQuery query) {
+        public async Task<ActionResult<FilterResultModel<AccountViewModel>>> GetAccountsList ([FromQuery] GetAccountsListQuery query) {
 
             var result = await _Mediator.Send (query);
             return StatusCode (200, result);

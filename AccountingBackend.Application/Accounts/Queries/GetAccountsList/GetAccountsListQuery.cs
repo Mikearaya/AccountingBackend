@@ -8,11 +8,12 @@
  */
 using System.Collections.Generic;
 using AccountingBackend.Application.Accounts.Models;
+using AccountingBackend.Application.Models;
 using AccountingBackend.Commons.QueryHelpers;
 using MediatR;
 
 namespace AccountingBackend.Application.Accounts.Queries.GetAccountsList {
-    public class GetAccountsListQuery : ApiQueryString, IRequest<IEnumerable<AccountViewModel>> {
+    public class GetAccountsListQuery : ApiQueryString, IRequest<FilterResultModel<AccountViewModel>> {
 
         public string Year { get; set; }
 
