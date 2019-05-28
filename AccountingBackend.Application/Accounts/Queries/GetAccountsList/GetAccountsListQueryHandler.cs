@@ -6,6 +6,7 @@
  * @Last Modified Time: May 3, 2019 11:05 AM
  * @Description: Modify Here, Please 
  */
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -14,6 +15,7 @@ using AccountingBackend.Application.Accounts.Models;
 using AccountingBackend.Application.Interfaces;
 using AccountingBackend.Application.Models;
 using AccountingBackend.Commons.QueryHelpers;
+using AccountingBackend.Domain;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -27,12 +29,17 @@ namespace AccountingBackend.Application.Accounts.Queries.GetAccountsList {
 
         public Task<FilterResultModel<AccountViewModel>> Handle (GetAccountsListQuery request, CancellationToken cancellationToken) {
 
+            var whereDelegate = DynamicQueryHelper.BuildWhere<AccountViewModel> (request.Filter).Compile ();
+            var sortBy = request.SortBy.Trim () != "" ? request.SortBy : "AccountName";
+            var sortDirection = (request.SortDirection.ToUpper () == "DESCENDING") ? true : false;
+
             FilterResultModel<AccountViewModel> result = new FilterResultModel<AccountViewModel> ();
             var accountList = _database.Account
+                .AsQueryable ()
                 .Where (a => a.Year == request.Year)
                 .Select (AccountViewModel.Projection)
                 .Select (DynamicQueryHelper.GenerateSelectedColumns<AccountViewModel> (request.SelectedColumns))
-
+                .Where (whereDelegate)
                 .AsQueryable ();
 
             result.Count = accountList.Count ();
@@ -40,7 +47,7 @@ namespace AccountingBackend.Application.Accounts.Queries.GetAccountsList {
             var PageSize = (request.PageSize == 0) ? result.Count : request.PageSize;
             var PageNumber = (request.PageSize == 0) ? 1 : request.PageNumber;
 
-            result.Items = accountList.OrderBy (request.SortBy.Trim () != "" ? request.SortBy : "AccountName", (request.SortDirection.ToUpper () == "DESCENDING") ? true : false)
+            result.Items = accountList.OrderBy (sortBy, sortDirection)
                 .Skip (PageSize * (PageNumber - 1))
                 .Take (PageSize)
 
@@ -49,4 +56,5 @@ namespace AccountingBackend.Application.Accounts.Queries.GetAccountsList {
             return Task.FromResult<FilterResultModel<AccountViewModel>> (result);
         }
     }
+
 }

@@ -12,6 +12,7 @@ using AccountingBackend.Application.Accounts.Models;
  * @Description: Modify Here, Please 
  */
 using AccountingBackend.Application.Accounts.Queries.GetAccountsList;
+using AccountingBackend.Application.Models;
 using Xunit;
 
 namespace AccountingBackend.Application.Test.Accounts.Queries.GetAccountList {
@@ -30,8 +31,8 @@ namespace AccountingBackend.Application.Test.Accounts.Queries.GetAccountList {
             var result = await handler.Handle (query, CancellationToken.None);
             // Assert
 
-            Assert.IsType<List<AccountViewModel>> (result);
-            Assert.True ((result as List<AccountViewModel>).Count () > 0);
+            Assert.IsType<FilterResultModel<AccountViewModel>> (result);
+            Assert.True ((result as FilterResultModel<AccountViewModel>).Items.Count () > 0);
         }
     }
 }

@@ -6,6 +6,8 @@
  * @Last Modified Time: May 4, 2019 7:53 AM
  * @Description: Modify Here, Please 
  */
+using System.Collections.Generic;
+
 namespace AccountingBackend.Commons.QueryHelpers {
     public class ApiQueryString {
         private int _pageNumber = 0;
@@ -32,6 +34,8 @@ namespace AccountingBackend.Commons.QueryHelpers {
         }
 
         public string SelectedColumns { get; set; } = "";
+
+        public IList<Filter> Filter { get; set; } = new List<Filter> ();
 
     }
 }
