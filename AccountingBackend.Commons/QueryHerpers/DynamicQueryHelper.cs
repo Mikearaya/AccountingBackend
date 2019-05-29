@@ -3,7 +3,7 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: May 4, 2019 7:53 AM
+ * @Last Modified Time: May 28, 2019 3:04 PM
  * @Description: Modify Here, Please 
  */
 using System;
@@ -14,6 +14,8 @@ using System.Reflection;
 
 namespace AccountingBackend.Commons.QueryHelpers {
     public static class DynamicQueryHelper {
+
+        private static MethodInfo toLowerMethod = typeof (String).GetMethod ("ToLower", Type.EmptyTypes);
         private static MethodInfo containsMethod = typeof (string).GetMethod ("Contains", new [] { typeof (string) });
         private static MethodInfo startsWithMethod =
             typeof (string).GetMethod ("StartsWith", new Type[] { typeof (string) });
@@ -130,6 +132,10 @@ namespace AccountingBackend.Commons.QueryHelpers {
             ConstantExpression constant = Expression.Constant (filter.Value);
             UnaryExpression converted = Expression.Convert (constant, member.Type);
 
+            Expression dynamicExpression = null;
+            ConstantExpression loweredConstant;
+            UnaryExpression convertedConstant;
+
             switch (filter.Operation) {
                 case Op.Equals:
                     return Expression.Equal (member, converted);
@@ -147,13 +153,23 @@ namespace AccountingBackend.Commons.QueryHelpers {
                     return Expression.LessThanOrEqual (member, converted);
 
                 case Op.Contains:
-                    return Expression.Call (member, containsMethod, converted);
+                    dynamicExpression = Expression.Call (member, toLowerMethod);
+                    loweredConstant = Expression.Constant (filter.Value.ToString ().ToLower ());
+                    convertedConstant = Expression.Convert (constant, loweredConstant.Type);
+                    return Expression.Call (dynamicExpression, containsMethod, convertedConstant);
+                    // return Expression.Call (member, containsMethod, converted);
 
                 case Op.StartsWith:
-                    return Expression.Call (member, startsWithMethod, converted);
+                    dynamicExpression = Expression.Call (member, toLowerMethod);
+                    loweredConstant = Expression.Constant (filter.Value.ToString ().ToLower ());
+                    convertedConstant = Expression.Convert (constant, loweredConstant.Type);
+                    return Expression.Call (dynamicExpression, startsWithMethod, convertedConstant);
 
                 case Op.EndsWith:
-                    return Expression.Call (member, endsWithMethod, converted);
+                    dynamicExpression = Expression.Call (member, toLowerMethod);
+                    loweredConstant = Expression.Constant (filter.Value.ToString ().ToLower ());
+                    convertedConstant = Expression.Convert (constant, loweredConstant.Type);
+                    return Expression.Call (member, endsWithMethod, convertedConstant);
             }
 
             return null;

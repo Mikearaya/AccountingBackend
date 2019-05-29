@@ -29,17 +29,14 @@ namespace AccountingBackend.Application.Accounts.Queries.GetAccountsList {
 
         public Task<FilterResultModel<AccountViewModel>> Handle (GetAccountsListQuery request, CancellationToken cancellationToken) {
 
-            var whereDelegate = DynamicQueryHelper.BuildWhere<AccountViewModel> (request.Filter).Compile ();
             var sortBy = request.SortBy.Trim () != "" ? request.SortBy : "AccountName";
             var sortDirection = (request.SortDirection.ToUpper () == "DESCENDING") ? true : false;
 
             FilterResultModel<AccountViewModel> result = new FilterResultModel<AccountViewModel> ();
             var accountList = _database.Account
-                .AsQueryable ()
                 .Where (a => a.Year == request.Year)
                 .Select (AccountViewModel.Projection)
                 .Select (DynamicQueryHelper.GenerateSelectedColumns<AccountViewModel> (request.SelectedColumns))
-                .Where (whereDelegate)
                 .AsQueryable ();
 
             result.Count = accountList.Count ();
@@ -50,7 +47,6 @@ namespace AccountingBackend.Application.Accounts.Queries.GetAccountsList {
             result.Items = accountList.OrderBy (sortBy, sortDirection)
                 .Skip (PageSize * (PageNumber - 1))
                 .Take (PageSize)
-
                 .ToList ();
 
             return Task.FromResult<FilterResultModel<AccountViewModel>> (result);

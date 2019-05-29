@@ -3,7 +3,7 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: Apr 26, 2019 9:28 PM
+ * @Last Modified Time: May 28, 2019 1:48 PM
  * @Description: Modify Here, Please 
  */
 using System;
@@ -149,6 +149,7 @@ namespace AccountingBackend.Api {
 
             services.AddMvc (
                     options => {
+                        options.ModelBinderProviders.Insert (0, new CustomModelBinderProvider ());
                         options.Filters.Add (typeof (CustomExceptionFilterAttribute));
                         options.OutputFormatters.Clear (); // Disables recurrsive reference of entity framework get requests
                         options.OutputFormatters.Add (new JsonOutputFormatter (new JsonSerializerSettings () {

@@ -3,12 +3,13 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: May 23, 2019 2:06 PM
+ * @Last Modified Time: May 28, 2019 2:09 PM
  * @Description: Modify Here, Please 
  */
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using AccountingBackend.Api.Commons;
 using AccountingBackend.Application.Accounts.Commands.CreateAccount;
 using AccountingBackend.Application.Accounts.Commands.DeleteAccount;
 using AccountingBackend.Application.Accounts.Commands.UpdateAccount;
@@ -54,8 +55,8 @@ namespace AccountingBackend.Api.Controllers.Accounts {
         /// returns array of account view model 
         /// </summary>
         /// <returns >AccountViewModel</returns>
-        [HttpPost ("filter")]
-        public async Task<ActionResult<FilterResultModel<AccountViewModel>>> GetAccountsList ([FromBody] GetAccountsListQuery query) {
+        [HttpGet]
+        public async Task<ActionResult<FilterResultModel<AccountViewModel>>> GetAccountsList ([FromQuery] GetAccountsListQuery query) {
 
             var result = await _Mediator.Send (query);
             return StatusCode (200, result);
