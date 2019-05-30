@@ -55,8 +55,8 @@ namespace AccountingBackend.Api.Controllers.Accounts {
         /// returns array of account view model 
         /// </summary>
         /// <returns >AccountViewModel</returns>
-        [HttpGet]
-        public async Task<ActionResult<FilterResultModel<AccountViewModel>>> GetAccountsList ([FromQuery] GetAccountsListQuery query) {
+        [HttpPost ("filter")]
+        public async Task<ActionResult<FilterResultModel<AccountViewModel>>> GetAccountsList ([FromBody] GetAccountsListQuery query) {
 
             var result = await _Mediator.Send (query);
             return StatusCode (200, result);

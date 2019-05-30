@@ -39,13 +39,19 @@ namespace AccountingBackend.Application.Accounts.Queries.GetAccountsList {
                 .Select (DynamicQueryHelper.GenerateSelectedColumns<AccountViewModel> (request.SelectedColumns))
                 .AsQueryable ();
 
+            if (request.Filter.Count () > 0) {
+                accountList = accountList
+                    .Where (DynamicQueryHelper
+                        .BuildWhere<AccountViewModel> (request.Filter)).AsQueryable ();
+            }
+
             result.Count = accountList.Count ();
 
             var PageSize = (request.PageSize == 0) ? result.Count : request.PageSize;
             var PageNumber = (request.PageSize == 0) ? 1 : request.PageNumber;
 
             result.Items = accountList.OrderBy (sortBy, sortDirection)
-                .Skip (PageSize * (PageNumber - 1))
+                .Skip (PageNumber - 1)
                 .Take (PageSize)
                 .ToList ();
 

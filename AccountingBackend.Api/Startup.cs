@@ -149,7 +149,8 @@ namespace AccountingBackend.Api {
 
             services.AddMvc (
                     options => {
-                        options.ModelBinderProviders.Insert (0, new CustomModelBinderProvider ());
+
+                        /* options.ModelBinderProviders.Insert (0, new CustomModelBinderProvider ()); */
                         options.Filters.Add (typeof (CustomExceptionFilterAttribute));
                         options.OutputFormatters.Clear (); // Disables recurrsive reference of entity framework get requests
                         options.OutputFormatters.Add (new JsonOutputFormatter (new JsonSerializerSettings () {

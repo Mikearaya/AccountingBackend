@@ -15,7 +15,5 @@ using MediatR;
 namespace AccountingBackend.Application.Accounts.Queries.GetAccountsList {
     public class GetAccountsListQuery : ApiQueryString, IRequest<FilterResultModel<AccountViewModel>> {
 
-        public string Year { get; set; }
-
     }
 }

@@ -21,9 +21,9 @@ namespace AccountingBackend.Commons.QueryHelpers {
             typeof (string).GetMethod ("StartsWith", new Type[] { typeof (string) });
         private static MethodInfo endsWithMethod =
             typeof (string).GetMethod ("EndsWith", new Type[] { typeof (string) });
-        public static Func<T, T> GenerateSelectedColumns<T> (string Fields = "") {
+        public static Func<T, T> GenerateSelectedColumns<T> (string[] Fields = null) {
             string[] EntityFields;
-            if (String.IsNullOrEmpty (Fields)) {
+            if (Fields == null) {
 
                 EntityFields = typeof (T).GetProperties ()
                     .Where (d => d.GetGetMethod ().IsStatic == false)
@@ -31,7 +31,7 @@ namespace AccountingBackend.Commons.QueryHelpers {
                     .ToArray ();
 
             } else {
-                EntityFields = Fields.Split (',');
+                EntityFields = Fields;
             }
             var xParameter = Expression.Parameter (typeof (T), "o");
             var xNew = Expression.New (typeof (T));
@@ -51,8 +51,7 @@ namespace AccountingBackend.Commons.QueryHelpers {
         }
 
         public static string GenerateFilterString (ApiQueryString query) {
-            var dict = query.SelectedColumns
-                .Split (',');
+            var dict = query.SelectedColumns;
             var search = "";
             uint i = 0;
 
@@ -137,7 +136,7 @@ namespace AccountingBackend.Commons.QueryHelpers {
             UnaryExpression convertedConstant;
 
             switch (filter.Operation) {
-                case Op.Equals:
+                case Op.Equal:
                     return Expression.Equal (member, converted);
 
                 case Op.GreaterThan:
@@ -148,6 +147,8 @@ namespace AccountingBackend.Commons.QueryHelpers {
 
                 case Op.LessThan:
                     return Expression.LessThan (member, converted);
+                case Op.NotEqual:
+                    return Expression.NotEqual (member, converted);
 
                 case Op.LessThanOrEqual:
                     return Expression.LessThanOrEqual (member, converted);
@@ -157,19 +158,18 @@ namespace AccountingBackend.Commons.QueryHelpers {
                     loweredConstant = Expression.Constant (filter.Value.ToString ().ToLower ());
                     convertedConstant = Expression.Convert (constant, loweredConstant.Type);
                     return Expression.Call (dynamicExpression, containsMethod, convertedConstant);
-                    // return Expression.Call (member, containsMethod, converted);
-
                 case Op.StartsWith:
                     dynamicExpression = Expression.Call (member, toLowerMethod);
                     loweredConstant = Expression.Constant (filter.Value.ToString ().ToLower ());
                     convertedConstant = Expression.Convert (constant, loweredConstant.Type);
+
                     return Expression.Call (dynamicExpression, startsWithMethod, convertedConstant);
 
                 case Op.EndsWith:
                     dynamicExpression = Expression.Call (member, toLowerMethod);
                     loweredConstant = Expression.Constant (filter.Value.ToString ().ToLower ());
                     convertedConstant = Expression.Convert (constant, loweredConstant.Type);
-                    return Expression.Call (member, endsWithMethod, convertedConstant);
+                    return Expression.Call (dynamicExpression, endsWithMethod, convertedConstant);
             }
 
             return null;
@@ -191,13 +191,14 @@ namespace AccountingBackend.Commons.QueryHelpers {
     }
 
     public enum Op {
-        Equals,
+        Equal,
         GreaterThan,
         LessThan,
         GreaterThanOrEqual,
         LessThanOrEqual,
         Contains,
         StartsWith,
-        EndsWith
+        EndsWith,
+        NotEqual
     }
 }

@@ -11,6 +11,8 @@ using System.Collections.Generic;
 namespace AccountingBackend.Commons.QueryHelpers {
     public class ApiQueryString {
         private int _pageNumber = 0;
+
+        public string Year { get; set; } = "";
         private string _searchString = "";
         public string SortBy { get; set; } = "";
         public string SortDirection { get; set; } = "Asc";
@@ -33,7 +35,7 @@ namespace AccountingBackend.Commons.QueryHelpers {
             }
         }
 
-        public string SelectedColumns { get; set; } = "";
+        public string[] SelectedColumns { get; set; } = null;
 
         public IList<Filter> Filter { get; set; } = new List<Filter> ();
 
