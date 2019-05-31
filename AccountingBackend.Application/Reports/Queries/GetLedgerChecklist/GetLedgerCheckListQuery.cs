@@ -8,14 +8,14 @@ using System;
  * @Description: Modify Here, Please 
  */
 using System.Collections.Generic;
+using AccountingBackend.Application.Models;
 using AccountingBackend.Application.Reports.Models;
-using AccountingBackend.Application.Reports.Queries.GetLedgerChecklist;
 using AccountingBackend.Commons.QueryHelpers;
 using MediatR;
 
 namespace AccountingBackend.Application.Reports.Queries {
-    public class GetLedgerCheckListQuery : ApiQueryString, IRequest<LedgerChecklistView> {
-        public string Year { get; set; } = DateTime.Now.Year.ToString ();
+    public class GetLedgerCheckListQuery : ApiQueryString, IRequest<FilterResultModel<LedgerChecklistModel>> {
+
         public string FromVoucherId { get; set; } = "";
         public string ToVoucherId { get; set; } = "";
         public DateTime? StartDate { get; set; }

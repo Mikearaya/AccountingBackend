@@ -8,6 +8,7 @@
  */
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using AccountingBackend.Application.Models;
 using AccountingBackend.Application.Reports.Models;
 using AccountingBackend.Application.Reports.Queries;
 using AccountingBackend.Application.Reports.Queries.GetBalanceSheet;
@@ -46,8 +47,8 @@ namespace AccountingBackend.Api.Controllers.Reports {
         /// </summary>
         /// <param name="query"></param>
         /// <returns></returns>
-        [HttpGet ("ledger-checklists")]
-        public async Task<ActionResult<IEnumerable<LedgerChecklistModel>>> GetLedgerEntryCheckList ([FromQuery] GetLedgerCheckListQuery query) {
+        [HttpPost ("ledger-checklists")]
+        public async Task<ActionResult<FilterResultModel<LedgerChecklistModel>>> GetLedgerEntryCheckList ([FromBody] GetLedgerCheckListQuery query) {
             var result = await _Mediator.Send (query);
             return Ok (result);
 

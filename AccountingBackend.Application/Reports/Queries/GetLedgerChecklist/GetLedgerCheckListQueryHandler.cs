@@ -11,13 +11,14 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AccountingBackend.Application.Interfaces;
+using AccountingBackend.Application.Models;
 using AccountingBackend.Application.Reports.Models;
-using AccountingBackend.Application.Reports.Queries.GetLedgerChecklist;
+using AccountingBackend.Commons.QueryHelpers;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace AccountingBackend.Application.Reports.Queries {
-    public class GetLedgerCheckListQueryHandler : IRequestHandler<GetLedgerCheckListQuery, LedgerChecklistView> {
+    public class GetLedgerCheckListQueryHandler : IRequestHandler<GetLedgerCheckListQuery, FilterResultModel<LedgerChecklistModel>> {
         private readonly IAccountingDatabaseService _database;
 
         public GetLedgerCheckListQueryHandler (IAccountingDatabaseService database) {
@@ -25,34 +26,52 @@ namespace AccountingBackend.Application.Reports.Queries {
 
         }
 
-        public async Task<LedgerChecklistView> Handle (GetLedgerCheckListQuery request, CancellationToken cancellationToken) {
+        public async Task<FilterResultModel<LedgerChecklistModel>> Handle (GetLedgerCheckListQuery request, CancellationToken cancellationToken) {
 
-            LedgerChecklistView view = new LedgerChecklistView ();
+            var sortBy = request.SortBy.Trim () != "" ? request.SortBy : "LedgerId";
+            var sortDirection = (request.SortDirection.ToUpper () == "DESCENDING") ? true : false;
+
+            FilterResultModel<LedgerChecklistModel> result = new FilterResultModel<LedgerChecklistModel> ();
+
             var list = _database.Ledger
-                .Where (x => x.Date.Year.ToString () == request.Year);
+                .Where (x => x.Date.Year.ToString () == "2019");
 
             if (request.FromVoucherId.Trim () != "") {
-                list = list.Where (l => l.VoucherId.CompareTo (request.FromVoucherId) > 0 || l.VoucherId.CompareTo (request.FromVoucherId) == 0);
+                list = list.Where (l => l.VoucherId.CompareTo (request.FromVoucherId) > 0 || l.VoucherId.CompareTo (request.FromVoucherId) == 0)
+                    .AsQueryable ();
             }
 
             if (request.ToVoucherId.Trim () != "") {
-                list = list.Where (l => l.VoucherId.CompareTo (request.ToVoucherId) < 0 || l.VoucherId.CompareTo (request.ToVoucherId) == 0);
+                list = list.Where (l => l.VoucherId.CompareTo (request.ToVoucherId) < 0 || l.VoucherId.CompareTo (request.ToVoucherId) == 0)
+                    .AsQueryable ();
             }
 
             if (request.StartDate != null) {
-
                 list = list.Where (a => a.LedgerEntry
-                    .Any (e => e.Ledger.Date > request.StartDate && e.Ledger.Date < request.EndDate));
+                        .Any (e => e.Ledger.Date > request.StartDate && e.Ledger.Date < request.EndDate))
+                    .AsQueryable ();
             }
-            view.Count = list.Count ();
-            view.Items = await list
-                .Select (LedgerChecklistModel.Projection)
 
-                .Skip (request.PageNumber)
-                .Take (request.PageSize)
-                .ToListAsync ();
+            var filtered = list.Select (LedgerChecklistModel.Projection)
+                .Select (DynamicQueryHelper.GenerateSelectedColumns<LedgerChecklistModel> (request.SelectedColumns))
+                .AsQueryable ();
 
-            return view;
+            if (request.Filter.Count () > 0) {
+                filtered = filtered
+                    .Where (DynamicQueryHelper
+                        .BuildWhere<LedgerChecklistModel> (request.Filter)).AsQueryable ();
+            }
+
+            var PageSize = (request.PageSize == 0) ? result.Count : request.PageSize;
+            var PageNumber = (request.PageSize == 0) ? 1 : request.PageNumber;
+
+            result.Count = filtered.Count ();
+            result.Items = filtered.OrderBy (sortBy, sortDirection)
+                .Skip (PageNumber - 1)
+                .Take (PageSize)
+                .ToList ();
+
+            return result;
         }
 
     }
