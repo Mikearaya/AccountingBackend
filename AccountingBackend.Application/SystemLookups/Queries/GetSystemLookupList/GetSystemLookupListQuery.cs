@@ -7,10 +7,11 @@
  * @Description: Modify Here, Please 
  */
 using System.Collections.Generic;
+using AccountingBackend.Application.Models;
 using AccountingBackend.Application.SystemLookups.Models;
 using AccountingBackend.Commons.QueryHelpers;
 using MediatR;
 
 namespace AccountingBackend.Application.SystemLookups.Queries.GetSystemLookupList {
-    public class GetSystemLookupListQuery : ApiQueryString, IRequest<IEnumerable<SystemLookupViewModel>> { }
+    public class GetSystemLookupListQuery : ApiQueryString, IRequest<FilterResultModel<SystemLookupViewModel>> { }
 }
