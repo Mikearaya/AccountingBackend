@@ -8,11 +8,12 @@
  */
 using System.Collections.Generic;
 using AccountingBackend.Application.AccountTypes.Models;
+using AccountingBackend.Application.Models;
 using AccountingBackend.Commons.QueryHelpers;
 using MediatR;
 
 namespace AccountingBackend.Application.AccountTypes.Queries.GetAccountTypeList {
-    public class GetAccountTypeListQuery : ApiQueryString, IRequest<IEnumerable<AccountTypeView>> {
+    public class GetAccountTypeListQuery : ApiQueryString, IRequest<FilterResultModel<AccountTypeView>> {
 
     }
 }

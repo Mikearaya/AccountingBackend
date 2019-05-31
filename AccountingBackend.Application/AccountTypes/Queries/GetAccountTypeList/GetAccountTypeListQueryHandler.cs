@@ -13,27 +13,40 @@ using System.Threading.Tasks;
 using AccountingBackend.Application.AccountCategories.Models;
 using AccountingBackend.Application.AccountTypes.Models;
 using AccountingBackend.Application.Interfaces;
+using AccountingBackend.Application.Models;
 using AccountingBackend.Commons.QueryHelpers;
 using MediatR;
 
 namespace AccountingBackend.Application.AccountTypes.Queries.GetAccountTypeList {
-    public class GetAccountTypeListQueryHandler : IRequestHandler<GetAccountTypeListQuery, IEnumerable<AccountTypeView>> {
+    public class GetAccountTypeListQueryHandler : IRequestHandler<GetAccountTypeListQuery, FilterResultModel<AccountTypeView>> {
         private readonly IAccountingDatabaseService _database;
 
         public GetAccountTypeListQueryHandler (IAccountingDatabaseService database) {
             _database = database;
         }
 
-        public Task<IEnumerable<AccountTypeView>> Handle (GetAccountTypeListQuery request, CancellationToken cancellationToken) {
+        public Task<FilterResultModel<AccountTypeView>> Handle (GetAccountTypeListQuery request, CancellationToken cancellationToken) {
+            var sortBy = request.SortBy.Trim () != "" ? request.SortBy : "Type";
+            var sortDirection = (request.SortDirection.ToUpper () == "DESCENDING") ? true : false;
+
+            FilterResultModel<AccountTypeView> result = new FilterResultModel<AccountTypeView> ();
             var accountType = _database.AccountType.Where (a => a.TypeOfNavigation != null)
                 .Select (AccountTypeView.Projection)
                 .Select (DynamicQueryHelper.GenerateSelectedColumns<AccountTypeView> (request.SelectedColumns))
-                .Skip (request.PageNumber * request.PageSize)
+                .AsQueryable ();
+
+            if (request.Filter.Count () > 0) {
+                accountType = accountType
+                    .Where (DynamicQueryHelper
+                        .BuildWhere<AccountTypeView> (request.Filter)).AsQueryable ();
+            }
+            result.Count = accountType.Count ();
+
+            result.Items = accountType.OrderBy (sortBy, sortDirection).Skip (request.PageNumber)
                 .Take (request.PageSize)
                 .ToList ();
 
-            return Task.FromResult<IEnumerable<AccountTypeView>> (accountType);
+            return Task.FromResult<FilterResultModel<AccountTypeView>> (result);
         }
     }
 }
-
