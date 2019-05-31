@@ -16,6 +16,7 @@ using AccountingBackend.Application.AccountCategories.Models;
 using AccountingBackend.Application.AccountCategories.Queries.GetAccountCategory;
 using AccountingBackend.Application.AccountCategories.Queries.GetAccountCategoryList;
 using AccountingBackend.Application.Exceptions;
+using AccountingBackend.Application.Models;
 using AccountingBackend.API.Commons;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -59,8 +60,8 @@ namespace AccountingBackend.Api.Controllers.AccountCategories {
         /// gets list of account categories list based on the filter criterias provided by query string
         /// </summary>
         /// <returns>AccountCategoryView</returns>
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<AccountCategoryView>>> GetAccountCategoryList ([FromQuery] GetAccountCategoryListQuery query) {
+        [HttpPost ("filter")]
+        public async Task<ActionResult<FilterResultModel<AccountCategoryView>>> GetAccountCategoryList ([FromBody] GetAccountCategoryListQuery query) {
 
             var result = await _Mediator.Send (query);
             return Ok (result);
