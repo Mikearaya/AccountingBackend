@@ -14,6 +14,7 @@ using AccountingBackend.Application.Ledgers.Commands.UpdateLedgerEntry;
 using AccountingBackend.Application.Ledgers.Models;
 using AccountingBackend.Application.Ledgers.Queries.GetLedgerEntry;
 using AccountingBackend.Application.Ledgers.Queries.GetLedgerEntryList;
+using AccountingBackend.Application.Models;
 using AccountingBackend.Commons.QueryHelpers;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -52,8 +53,8 @@ namespace AccountingBackend.Api.Controllers.Ledgers {
         /// </summary>
         /// <param name="query"></param>
         /// <returns></returns>
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<JornalEntryListView>>> GetLedgerEntryList ([FromQuery] GetJornalEntryListQuery query) {
+        [HttpPost ("filter")]
+        public async Task<ActionResult<FilterResultModel<JornalEntryListView>>> GetLedgerEntryList ([FromBody] GetJornalEntryListQuery query) {
 
             var entryList = await _Mediator.Send (query);
             return StatusCode (200, entryList);

@@ -8,11 +8,12 @@
  */
 using System.Collections.Generic;
 using AccountingBackend.Application.Ledgers.Models;
+using AccountingBackend.Application.Models;
 using AccountingBackend.Commons.QueryHelpers;
 using MediatR;
 
 namespace AccountingBackend.Application.Ledgers.Queries.GetLedgerEntryList {
-    public class GetJornalEntryListQuery : ApiQueryString, IRequest<IEnumerable<JornalEntryListView>> {
+    public class GetJornalEntryListQuery : ApiQueryString, IRequest<FilterResultModel<JornalEntryListView>> {
 
     }
 }
