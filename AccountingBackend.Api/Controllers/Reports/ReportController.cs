@@ -72,8 +72,8 @@ namespace AccountingBackend.Api.Controllers.Reports {
         /// <param name="query"></param>
         /// <returns></returns>
 
-        [HttpGet ("trial-balance/consolidated")]
-        public async Task<ActionResult<IEnumerable<TrialBalanceModel>>> GetConsolidatedTrialBalance ([FromQuery] GetConsolidatedTrialBalanceQuery query) {
+        [HttpPost ("trial-balance/consolidated")]
+        public async Task<ActionResult<IEnumerable<TrialBalanceModel>>> GetConsolidatedTrialBalance ([FromBody] GetConsolidatedTrialBalanceQuery query) {
             var result = await _Mediator.Send (query);
             return Ok (result);
         }
@@ -83,8 +83,8 @@ namespace AccountingBackend.Api.Controllers.Reports {
         /// </summary>
         /// <param name="query"></param>
         /// <returns></returns>
-        [HttpGet ("trial-balance/detail")]
-        public async Task<ActionResult<IEnumerable<TrialBalanceModel>>> GetDettailedTrialBalance ([FromQuery] GetDetailedTrialBalanceQuery query) {
+        [HttpPost ("trial-balance/detail")]
+        public async Task<ActionResult<FilterResultModel<TrialBalanceDetailModel>>> GetDettailedTrialBalance ([FromBody] GetDetailedTrialBalanceQuery query) {
             var result = await _Mediator.Send (query);
             return Ok (result);
         }
