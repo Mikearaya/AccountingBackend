@@ -18,10 +18,10 @@ namespace AccountingBackend.Application.Reports.Models {
         public int Id { get; set; }
 
         public string AccountId { get; set; }
-        private string ControlAccountId { get; set; }
+        public string ControlAccountId { get; set; }
 
         public string AccountType { get; set; }
-        private string SubAccountId { get; set; }
+        public string SubAccountId { get; set; }
         public string AccountName { get; set; }
         public float? BBF { get; set; }
         public List<SubsidaryLedgerDetailModel> Entries { get; set; } = new List<SubsidaryLedgerDetailModel> ();
@@ -44,7 +44,7 @@ namespace AccountingBackend.Application.Reports.Models {
         }
 
         public string getAccountId () {
-            return $"{ControlAccountId} {SubAccountId}";
+            return $"{ControlAccountId} - {SubAccountId}";
         }
 
     }

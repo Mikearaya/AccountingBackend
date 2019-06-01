@@ -60,8 +60,8 @@ namespace AccountingBackend.Api.Controllers.Reports {
         /// </summary>
         /// <param name="query"></param>
         /// <returns></returns>
-        [HttpGet ("subsidary-ledgers")]
-        public async Task<ActionResult<IEnumerable<SubsidaryLedgerModel>>> GetSubsidaryLedger ([FromQuery] GetSubsidaryLedgerQuery query) {
+        [HttpPost ("subsidary-ledgers")]
+        public async Task<ActionResult<IEnumerable<SubsidaryLedgerModel>>> GetSubsidaryLedger ([FromBody] GetSubsidaryLedgerQuery query) {
             var result = await _Mediator.Send (query);
             return Ok (result);
         }
