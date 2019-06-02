@@ -13,6 +13,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using AccountingBackend.Application.Exceptions;
 using AccountingBackend.Application.Interfaces;
+using AccountingBackend.Commons;
 using AccountingBackend.Domain;
 using FluentValidation.Results;
 using MediatR;
@@ -36,6 +37,8 @@ namespace AccountingBackend.Application.Ledgers.Commands.CreateLedgerEntry {
                 validationFailures.Add (new ValidationFailure ("VoucherId", "Voucher Id provided has already been used for anouther entry, use another Id"));
             }
 
+            CustomDateConverter c = new CustomDateConverter ();
+
             Ledger ledger = new Ledger () {
                 Description = request.Description,
                 Date = request.Date,
@@ -43,7 +46,9 @@ namespace AccountingBackend.Application.Ledgers.Commands.CreateLedgerEntry {
                 IsPosted = request.Posted,
                 Reference = request.Reference.Trim (),
                 DateAdded = DateTime.Now,
-                DateUpdated = DateTime.Now
+                DateUpdated = DateTime.Now,
+                DateEt = c.GregorianToEthiopic (request.Date)
+
             };
 
             float? totalCredit = 0;

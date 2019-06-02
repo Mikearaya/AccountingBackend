@@ -1,3 +1,4 @@
+using System;
 /*
  * @CreateTime: May 4, 2019 7:50 AM
  * @Author:  Mikael Araya
@@ -10,9 +11,10 @@ using System.Collections.Generic;
 
 namespace AccountingBackend.Commons.QueryHelpers {
     public class ApiQueryString {
+
         private int _pageNumber = 0;
 
-        public string Year { get; set; } = "";
+        public string Year { get; set; } = new EthiopicDateTime (DateTime.Now).Year.ToString ();
         private string _searchString = "";
         public string SortBy { get; set; } = "";
         public string SortDirection { get; set; } = "Asc";

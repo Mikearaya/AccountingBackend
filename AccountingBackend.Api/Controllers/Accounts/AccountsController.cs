@@ -17,6 +17,7 @@ using AccountingBackend.Application.Accounts.Models;
 using AccountingBackend.Application.Accounts.Queries.GetAccount;
 using AccountingBackend.Application.Accounts.Queries.GetAccountsList;
 using AccountingBackend.Application.Models;
+using AccountingBackend.Commons;
 using AccountingBackend.Commons.QueryHelpers;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -110,6 +111,14 @@ namespace AccountingBackend.Api.Controllers.Accounts {
         /// <returns></returns>
         [HttpGet ("index")]
         public async Task<ActionResult<IEnumerable<AccountIndexView>>> GetAccountIndex ([FromQuery] GetAccountIndexListQuery query) {
+
+            CustomDateConverter c = new CustomDateConverter ();
+            DateTime f = DateTime.Now;
+            var g = c.GregorianToEthiopic (f);
+
+            Console.WriteLine (c.GregorianToEthiopic (f));
+            Console.WriteLine ("Ethiopian to Gregorian");
+            Console.WriteLine (c.EthiopicToGregorian (c.GregorianToEthiopic (f)));
 
             var index = await _Mediator.Send (query);
             return Ok (index);
