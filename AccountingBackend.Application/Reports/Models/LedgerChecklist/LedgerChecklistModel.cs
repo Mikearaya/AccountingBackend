@@ -18,7 +18,7 @@ namespace AccountingBackend.Application.Reports.Models {
         public int LedgerId { get; set; }
         public DateTime Date { get; set; }
         public string Description { get; set; }
-        public List<LedgerCheckListDetailModel> Entries { get; set; } = new List<LedgerCheckListDetailModel> ();
+        public IEnumerable<LedgerCheckListDetailModel> Entries { get; set; } = new List<LedgerCheckListDetailModel> ();
 
         public static Expression<Func<Ledger, LedgerChecklistModel>> Projection {
             get {
@@ -30,7 +30,7 @@ namespace AccountingBackend.Application.Reports.Models {
                     Entries = entry.LedgerEntry
                     .AsQueryable ()
                     .Select (LedgerCheckListDetailModel.Projection)
-                    .ToList ()
+
                 };
             }
         }

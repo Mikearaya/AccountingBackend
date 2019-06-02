@@ -24,7 +24,7 @@ namespace AccountingBackend.Application.Reports.Models {
         public string SubAccountId { get; set; }
         public string AccountName { get; set; }
         public float? BBF { get; set; }
-        public List<SubsidaryLedgerDetailModel> Entries { get; set; } = new List<SubsidaryLedgerDetailModel> ();
+        public IEnumerable<SubsidaryLedgerDetailModel> Entries { get; set; } = new List<SubsidaryLedgerDetailModel> ();
 
         public static Expression<Func<Account, SubsidaryLedgerModel>> Projection {
             get {
@@ -38,7 +38,7 @@ namespace AccountingBackend.Application.Reports.Models {
                     Entries = entry.LedgerEntry
                     .AsQueryable ()
                     .Select (SubsidaryLedgerDetailModel.Projection)
-                    .ToList ()
+
                 };
             }
         }

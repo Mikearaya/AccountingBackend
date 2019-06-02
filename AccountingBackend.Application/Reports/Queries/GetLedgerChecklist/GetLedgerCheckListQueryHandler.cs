@@ -37,19 +37,16 @@ namespace AccountingBackend.Application.Reports.Queries {
                 .Where (x => x.Date.Year.ToString () == "2019");
 
             if (request.FromVoucherId.Trim () != "") {
-                list = list.Where (l => l.VoucherId.CompareTo (request.FromVoucherId) > 0 || l.VoucherId.CompareTo (request.FromVoucherId) == 0)
-                    .AsQueryable ();
+                list = list.Where (l => l.VoucherId.CompareTo (request.FromVoucherId) > 0 || l.VoucherId.CompareTo (request.FromVoucherId) == 0);
             }
 
             if (request.ToVoucherId.Trim () != "") {
-                list = list.Where (l => l.VoucherId.CompareTo (request.ToVoucherId) < 0 || l.VoucherId.CompareTo (request.ToVoucherId) == 0)
-                    .AsQueryable ();
+                list = list.Where (l => l.VoucherId.CompareTo (request.ToVoucherId) < 0 || l.VoucherId.CompareTo (request.ToVoucherId) == 0);
             }
 
             if (request.StartDate != null) {
                 list = list.Where (a => a.LedgerEntry
-                        .Any (e => e.Ledger.Date > request.StartDate && e.Ledger.Date < request.EndDate))
-                    .AsQueryable ();
+                    .Any (e => e.Ledger.Date > request.StartDate && e.Ledger.Date < request.EndDate));
             }
 
             var filtered = list.Select (LedgerChecklistModel.Projection)
@@ -59,7 +56,7 @@ namespace AccountingBackend.Application.Reports.Queries {
             if (request.Filter.Count () > 0) {
                 filtered = filtered
                     .Where (DynamicQueryHelper
-                        .BuildWhere<LedgerChecklistModel> (request.Filter)).AsQueryable ();
+                        .BuildWhere<LedgerChecklistModel> (request.Filter));
             }
 
             var PageSize = (request.PageSize == 0) ? result.Count : request.PageSize;

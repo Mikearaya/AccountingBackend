@@ -90,7 +90,7 @@ namespace AccountingBackend.Application.Reports.Queries.GetSubsidaryLedger {
                 foreach (var entry in item.Entries) {
                     balance = balance + (entry.Debit - entry.Credit);
                     entry.Balance = balance;
-                    mod.Entries.Add (entry);
+                    ((IList<SubsidaryLedgerDetailModel>) mod.Entries).Add (entry);
                 }
                 adjusted.Add (mod);
             }

@@ -18,7 +18,7 @@ namespace AccountingBackend.Application.Reports.Models {
         public string AccountId { get; set; }
         public string AccountName { get; set; }
 
-        public List<TrialBalanceDetailListModel> Entries = new List<TrialBalanceDetailListModel> ();
+        public IEnumerable<TrialBalanceDetailListModel> Entries = new List<TrialBalanceDetailListModel> ();
 
         public static Expression<Func<LedgerEntry, TrialBalanceDetailModel>> Projection {
             get {
@@ -30,7 +30,6 @@ namespace AccountingBackend.Application.Reports.Models {
                     .Where (a => a.ParentAccountNavigation != null).AsQueryable ()
                     .Select (TrialBalanceDetailListModel.Projection)
                     .Where (e => e.Credit != null || e.Debit != null)
-                    .ToList ()
                 };
             }
         }

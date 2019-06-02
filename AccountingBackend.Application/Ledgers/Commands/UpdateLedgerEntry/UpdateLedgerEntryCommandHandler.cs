@@ -1,3 +1,4 @@
+using System.Data;
 using System.Linq;
 /*
  * @CreateTime: May 8, 2019 2:15 PM
@@ -45,6 +46,10 @@ namespace AccountingBackend.Application.Ledgers.Commands.UpdateLedgerEntry {
             }
 
             CustomDateConverter c = new CustomDateConverter ();
+            var dd = c.CopticToGregorian (1983, 2, 25);
+
+            Console.WriteLine ("Date Convertedsdjkfjkdjkdjdjddjjddjdjdjjdjdjdj");
+            Console.WriteLine (dd.ToString ());
 
             entry.VoucherId = request.VoucherId;
             entry.Description = request.Description;

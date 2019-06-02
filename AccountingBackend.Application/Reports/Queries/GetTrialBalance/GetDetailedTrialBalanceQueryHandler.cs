@@ -88,7 +88,7 @@ namespace AccountingBackend.Application.Reports.Queries.GetTrialBalance {
 
                 foreach (var sub in parent.Entries) {
 
-                    temp.Entries.Add (new TrialBalanceDetailListModel () {
+                    ((IList<TrialBalanceDetailListModel>) temp.Entries).Add (new TrialBalanceDetailListModel () {
                         AccountName = sub.AccountName,
                             ControlAccountId = sub.ControlAccountId,
                             Credit = sub.Credit,
