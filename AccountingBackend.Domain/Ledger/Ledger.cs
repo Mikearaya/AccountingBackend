@@ -18,6 +18,7 @@ namespace AccountingBackend.Domain {
         public int Id { get; set; }
         public string Description { get; set; }
         public DateTime Date { get; set; }
+        public string DateEt { get; set; }
         public string Reference { get; set; }
         public sbyte? IsPosted { get; set; }
         public DateTime? DateAdded { get; set; }

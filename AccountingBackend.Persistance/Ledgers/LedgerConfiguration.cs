@@ -15,6 +15,10 @@ namespace AccountingBackend.Persistance.Ledgers {
         public void Configure (EntityTypeBuilder<Ledger> builder) {
             builder.ToTable ("ledger");
 
+            builder.HasIndex (e => e.VoucherId)
+                .HasName ("ledger_UN")
+                .IsUnique ();
+
             builder.Property (e => e.Id).HasColumnType ("int(11)");
 
             builder.Property (e => e.Date)
@@ -25,6 +29,11 @@ namespace AccountingBackend.Persistance.Ledgers {
                 .HasColumnName ("date_added")
                 .HasColumnType ("datetime")
                 .HasDefaultValueSql ("'CURRENT_TIMESTAMP'");
+
+            builder.Property (e => e.DateEt)
+                .IsRequired ()
+                .HasColumnName ("date_et")
+                .HasColumnType ("varchar(10)");
 
             builder.Property (e => e.DateUpdated)
                 .HasColumnName ("date_updated")
@@ -37,23 +46,19 @@ namespace AccountingBackend.Persistance.Ledgers {
                 .HasColumnName ("description")
                 .HasColumnType ("varchar(100)");
 
-            builder.HasIndex (e => e.VoucherId)
-                .HasName ("ledger_UN")
-                .IsUnique ();
-
             builder.Property (e => e.IsPosted)
                 .HasColumnName ("is_posted")
                 .HasColumnType ("tinyint(4)")
                 .HasDefaultValueSql ("'0'");
 
+            builder.Property (e => e.Reference)
+                .HasColumnName ("reference")
+                .HasColumnType ("varchar(100)");
+
             builder.Property (e => e.VoucherId)
                 .IsRequired ()
                 .HasColumnName ("voucher_id")
                 .HasColumnType ("varchar(50)");
-
-            builder.Property (e => e.Reference)
-                .HasColumnName ("reference")
-                .HasColumnType ("varchar(100)");
         }
     }
 }

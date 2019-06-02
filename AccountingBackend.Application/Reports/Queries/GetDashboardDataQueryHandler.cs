@@ -41,8 +41,6 @@ namespace AccountingBackend.Application.Reports.Queries {
                 var CreditSum = item.Sum (c => (decimal?) c.creditSum);
                 var DebitSum = item.Sum (c => (decimal?) c.debitSum);
                 var OpeningBalanceSum = item.Sum (o => (decimal?) o.openingBalance);
-                var credit = 0;
-                var debit = 0;
                 var openingBalance = 0;
 
                 if (item.Key.ToUpper () == "LIABILITY") {
@@ -63,6 +61,9 @@ namespace AccountingBackend.Application.Reports.Queries {
                 }
 
             }
+
+            view.UnpostedEntries = _database.Ledger.Count (l => l.IsPosted == 0);
+
             return view;
         }
     }

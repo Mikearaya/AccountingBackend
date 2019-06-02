@@ -13,5 +13,6 @@ namespace AccountingBackend.Application.Reports.Models {
         public decimal? TotalCapital { get; set; }
         public decimal? TotalExpense { get; set; }
         public decimal? TotalRevenue { get; set; }
+        public int UnpostedEntries { get; set; }
     }
 }
