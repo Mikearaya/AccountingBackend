@@ -27,7 +27,6 @@ namespace AccountingBackend.Application.AccountCategories.Queries.GetAccountCate
             return await _database.AccountCatagory
                 .Select (AccountCategoryIndexView.Projection)
                 .Where (a => a.Name.Contains (request.SearchString))
-                .Take (request.PageSize)
                 .ToListAsync ();
         }
     }
