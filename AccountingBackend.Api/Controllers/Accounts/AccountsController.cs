@@ -112,14 +112,6 @@ namespace AccountingBackend.Api.Controllers.Accounts {
         [HttpGet ("index")]
         public async Task<ActionResult<IEnumerable<AccountIndexView>>> GetAccountIndex ([FromQuery] GetAccountIndexListQuery query) {
 
-            CustomDateConverter e = new CustomDateConverter ();
-            var dd = e.CopticToGregorian ((int) 2001, (int) 2, (int) 25);
-
-            Console.WriteLine (dd.ToString ());
-            CustomDateConverter c = new CustomDateConverter ();
-            DateTime f = DateTime.Now;
-            var g = c.GregorianToEthiopic (f);
-
             var index = await _Mediator.Send (query);
             return Ok (index);
         }

@@ -29,7 +29,7 @@ namespace AccountingBackend.Application.Test.AccountCategories.Queries.GetAccoun
             var result = await handler.Handle (query, CancellationToken.None);
 
             // Assert
-            Assert.True (result.Count () > 0);
+            Assert.True (result.Items.Count () > 0);
         }
     }
 }

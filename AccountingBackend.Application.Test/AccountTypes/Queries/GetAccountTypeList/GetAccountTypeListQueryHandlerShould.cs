@@ -14,6 +14,7 @@ using AccountingBackend.Application.AccountTypes.Models;
 using AccountingBackend.Application.AccountTypes.Queries.GetAccountType;
 using AccountingBackend.Application.AccountTypes.Queries.GetAccountTypeList;
 using AccountingBackend.Application.Exceptions;
+using AccountingBackend.Application.Models;
 using Xunit;
 
 namespace AccountingBackend.Application.Test.AccountTypes.Queries.GetAccountTypeList {
@@ -32,8 +33,8 @@ namespace AccountingBackend.Application.Test.AccountTypes.Queries.GetAccountType
             var result = await handler.Handle (query, CancellationToken.None);
 
             // Assert
-            Assert.IsType<List<AccountTypeView>> (result);
-            Assert.True ((result as List<AccountTypeView>).Count () > 0);
+            Assert.IsType<FilterResultModel<AccountTypeView>> (result);
+            Assert.True (result.Items.Count () > 0);
         }
 
         /// <summary>
@@ -49,7 +50,7 @@ namespace AccountingBackend.Application.Test.AccountTypes.Queries.GetAccountType
             var result = await handler.Handle (query, CancellationToken.None);
 
             // Assert
-            Assert.False (result.Any (a => a.TypeOfId == 0));
+            Assert.False (result.Items.Any (a => a.TypeOfId == 0));
         }
 
     }

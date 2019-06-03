@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using AccountingBackend.Application.Models;
 using AccountingBackend.Application.SystemLookups.Models;
 /*
  * @CreateTime: May 10, 2019 3:27 PM
@@ -29,8 +30,8 @@ namespace AccountingBackend.Application.Test.SystemLookups.Queries.GetSystemLook
             var result = await handler.Handle (query, CancellationToken.None);
 
             // Assert
-            Assert.IsType<List<SystemLookupViewModel>> (result);
-            Assert.True ((result as List<SystemLookupViewModel>).Count () > 0);
+            Assert.IsType<FilterResultModel<SystemLookupViewModel>> (result);
+            Assert.True (result.Items.Count () > 0);
         }
     }
 }
