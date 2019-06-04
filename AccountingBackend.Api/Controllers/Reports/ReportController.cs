@@ -3,7 +3,7 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: May 25, 2019 5:28 PM
+ * @Last Modified Time: Jun 4, 2019 2:45 PM
  * @Description: Modify Here, Please 
  */
 using System.Collections.Generic;
@@ -118,6 +118,12 @@ namespace AccountingBackend.Api.Controllers.Reports {
         /// <returns></returns>
         [HttpGet ("dashboard")]
         public async Task<ActionResult<DashboardViewModel>> GetDashboardSummary ([FromQuery] GetDashboardDataQuery query) {
+            var result = await _Mediator.Send (query);
+            return Ok (result);
+        }
+
+        [HttpPost ("schedule")]
+        public async Task<ActionResult<FilterResultModel<AccountScheduleModel>>> GetAccountSchedule ([FromBody] GetAccountScheduleQuery query) {
             var result = await _Mediator.Send (query);
             return Ok (result);
         }
