@@ -3,7 +3,7 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: Jun 4, 2019 2:45 PM
+ * @Last Modified Time: Jun 5, 2019 1:52 PM
  * @Description: Modify Here, Please 
  */
 using System.Collections.Generic;
@@ -12,6 +12,7 @@ using AccountingBackend.Application.Models;
 using AccountingBackend.Application.Reports.Models;
 using AccountingBackend.Application.Reports.Queries;
 using AccountingBackend.Application.Reports.Queries.GetBalanceSheet;
+using AccountingBackend.Application.Reports.Queries.GetCostOfGoodsSold;
 using AccountingBackend.Application.Reports.Queries.GetIncomeStatement;
 using AccountingBackend.Application.Reports.Queries.GetSubsidaryLedger;
 using AccountingBackend.Application.Reports.Queries.GetTrialBalance;
@@ -124,6 +125,12 @@ namespace AccountingBackend.Api.Controllers.Reports {
 
         [HttpPost ("schedule")]
         public async Task<ActionResult<FilterResultModel<AccountScheduleModel>>> GetAccountSchedule ([FromBody] GetAccountScheduleQuery query) {
+            var result = await _Mediator.Send (query);
+            return Ok (result);
+        }
+
+        [HttpGet ("cost-of-goods-sold")]
+        public async Task<ActionResult<FilterResultModel<CostofGoodsSoldModel>>> GetCostOfGoodsSold ([FromQuery] GetCostOfGoodsSoldQuery query) {
             var result = await _Mediator.Send (query);
             return Ok (result);
         }
