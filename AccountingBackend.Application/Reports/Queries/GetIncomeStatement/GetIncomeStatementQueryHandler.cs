@@ -25,7 +25,7 @@ namespace AccountingBackend.Application.Reports.Queries.GetIncomeStatement {
         public Task<IncomeStatementViewModel> Handle (GetIncomeStatementQuery request, CancellationToken cancellationToken) {
 
             var query = (from account_type in _database.AccountType
-                .Where (a => a.TypeOfNavigation != null && (a.TypeOfNavigation.Type.ToUpper () == "EXPENSE" || a.TypeOfNavigation.Type.ToUpper () == "REVENUE")) join account_category in _database.AccountCatagory on account_type.Id equals account_category.AccountTypeId join account in _database.Account.Where (a => a.Year == request.Year) on account_category.Id equals account.CatagoryId join ledger_entry in _database.LedgerEntry on account.Id equals ledger_entry.AccountId select new {
+                .Where (a => a.TypeOfNavigation != null && (a.TypeOfNavigation.Type.ToUpper () == "EXPENSE" || a.TypeOfNavigation.Type.ToUpper () == "REVENUE" || a.TypeOfNavigation.Type.ToUpper () == "COST OF GOODS SOLD")) join account_category in _database.AccountCatagory on account_type.Id equals account_category.AccountTypeId join account in _database.Account.Where (a => a.Year == request.Year) on account_category.Id equals account.CatagoryId join ledger_entry in _database.LedgerEntry on account.Id equals ledger_entry.AccountId select new {
                     AccountType = account_type,
                         Category = account_category,
                         Credit = ledger_entry.Credit,
@@ -73,6 +73,8 @@ namespace AccountingBackend.Application.Reports.Queries.GetIncomeStatement {
                         AccountType = item.AccountCategory,
                             Amount = expense
                     });
+                } else {
+                    incomeStateMent.CostOfGoodsSold = item.CreditSum - item.DebitSum;
                 }
 
             }

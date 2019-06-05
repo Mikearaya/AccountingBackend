@@ -15,6 +15,8 @@ using AccountingBackend.Domain;
 namespace AccountingBackend.Application.Reports.Models {
     public class AccountScheduleModel {
 
+        private decimal? Credit { get; set; }
+        private decimal? Debit { get; set; }
         public string ControlAccountId { get; set; }
         public string ControlAccount { get; set; }
         public string SubsidaryId { get; set; }
@@ -22,8 +24,8 @@ namespace AccountingBackend.Application.Reports.Models {
         public string AccountType { get; set; }
         public string Subsidary { get; set; }
         public DateTime? Date { get; set; }
-        public decimal? TotalCredit { get; set; }
-        public decimal? TotalDebit { get; set; }
+        public decimal? TotalCredit { get { return Credit; } set { Credit = value == null ? 0 : value; } }
+        public decimal? TotalDebit { get { return Debit; } set { Debit = value == null ? 0 : value; } }
 
         public decimal? Balance {
             get {

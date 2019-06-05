@@ -11,6 +11,8 @@ using System.Collections.Generic;
 namespace AccountingBackend.Application.Reports.Models {
     public class IncomeStatementViewModel {
         public IList<IncomeStatementItemModel> Expense { get; set; } = new List<IncomeStatementItemModel> ();
+
+        public float? CostOfGoodsSold { get; set; }
         public IList<IncomeStatementItemModel> Revenue { get; set; } = new List<IncomeStatementItemModel> ();
 
         public float? NetSurplus { get; set; }

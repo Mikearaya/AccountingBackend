@@ -40,7 +40,7 @@ namespace AccountingBackend.Application.Reports.Queries {
             var result = _database.Account.Where (a => a.ParentAccountNavigation != null).Where (y => y.Year == request.Year)
                 .Select (AccountScheduleModel.Projection);
 
-            if (request.ControlAccountId != null) {
+            if (request.ControlAccountId != null && request.ControlAccountId.Trim () != "") {
                 result = result.Where (d => d.ControlAccountId == request.ControlAccountId);
             }
             if (request.StartDate != null) {
