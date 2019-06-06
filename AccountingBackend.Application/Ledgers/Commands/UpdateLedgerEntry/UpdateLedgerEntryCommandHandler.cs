@@ -45,20 +45,6 @@ namespace AccountingBackend.Application.Ledgers.Commands.UpdateLedgerEntry {
                 validationFailures.Add (new ValidationFailure ("Ledger Posted", "Can't update posted ledger entry"));
             }
 
-            CustomDateConverter c = new CustomDateConverter ();
-            var dd = c.CopticToGregorian (1983, 2, 25);
-
-            Console.WriteLine ("Date Convertedsdjkfjkdjkdjdjddjjddjdjdjjdjdjdj");
-            Console.WriteLine (dd.ToString ());
-
-            entry.VoucherId = request.VoucherId;
-            entry.Description = request.Description;
-            entry.Date = request.Date;
-            entry.IsPosted = request.Posted;
-            entry.Reference = request.Reference;
-            entry.DateUpdated = DateTime.Now;
-            entry.DateEt = c.GregorianToEthiopic (request.Date);
-
             float? totalCredit = 0;
             float? totalDebit = 0;
 

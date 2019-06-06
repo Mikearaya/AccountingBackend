@@ -64,16 +64,15 @@ namespace AccountingBackend.Application.Reports.Queries.GetBalanceSheet {
 
             foreach (var item in result) {
 
-                Console.WriteLine ($"{item.AccountCategory}  --- credit --- {item.CreditSum} -- debit --- {item.DebitSum} --");
                 if (item.Type.FirstOrDefault ().ToString ().ToUpper () == "ASSET") {
-                    asset = item.DebitSum - item.CreditSum;
+                    asset = item.CreditSum - item.DebitSum;
                     totalAsset = asset;
                     balanceSheet.Assets.Add (new BalanceSheetItemModel () {
                         AccountCategory = item.AccountCategory,
                             Amount = asset
                     });
                 } else if (item.Type.FirstOrDefault ().ToString ().ToUpper () == "LIABILITY") {
-                    liability = item.CreditSum - item.DebitSum;
+                    liability = item.DebitSum - item.CreditSum;
                     totalLiability = liability;
                     balanceSheet.Liabilities.Add (new BalanceSheetItemModel () {
                         AccountCategory = item.AccountCategory,
@@ -81,7 +80,7 @@ namespace AccountingBackend.Application.Reports.Queries.GetBalanceSheet {
                     });
 
                 } else if (item.Type.FirstOrDefault ().ToString ().ToUpper () == "CAPITAL") {
-                    capital = item.CreditSum - item.DebitSum;
+                    capital = item.DebitSum - item.CreditSum;
                     totalCapital = capital;
                     balanceSheet.Capitals.Add (new BalanceSheetItemModel () {
                         AccountCategory = item.AccountCategory,
