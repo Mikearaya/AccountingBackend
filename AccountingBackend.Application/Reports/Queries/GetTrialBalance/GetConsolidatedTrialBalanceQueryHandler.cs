@@ -32,28 +32,28 @@ namespace AccountingBackend.Application.Reports.Queries.GetTrialBalance {
             var sortDirection = (request.SortDirection.ToUpper () == "DESCENDING") ? true : false;
 
             FilterResultModel<TrialBalanceModel> result = new FilterResultModel<TrialBalanceModel> ();
-            var entry = _database.LedgerEntry.AsQueryable ();
+            var entry = _database.LedgerEntry.Join (_database.Account.Where (a => a.Year == request.Year && a.ParentAccountNavigation != null), l => l.AccountId, a => a.Id, (l, a) => new {
+                AccountId = a.ParentAccountNavigation.AccountId,
+                    AccountName = a.ParentAccountNavigation.AccountName,
+                    Credit = l.Credit,
+                    Debit = l.Debit,
+                    ledger = l
+            });
 
             if (request.StartDate != null) {
-                entry = entry.Where (d => d.Ledger.Date >= request.StartDate);
+                entry = entry.Where (d => d.ledger.Ledger.Date >= request.StartDate);
             }
 
             if (request.EndDate != null) {
-                entry = entry.Where (d => d.Ledger.Date <= request.EndDate);
+                entry = entry.Where (d => d.ledger.Ledger.Date <= request.EndDate);
             }
 
-            var filtered = entry
-                .Join (_database.Account.Where (a => a.Year == request.Year), l => l.AccountId, a => a.Id, (l, a) => new {
-                    AccountId = a.ParentAccountNavigation.AccountId,
-                        AccountName = a.ParentAccountNavigation.AccountName,
-                        Credit = a.LedgerEntry.Sum (c => (decimal?) c.Credit),
-                        Debit = a.LedgerEntry.Sum (c => (decimal?) c.Debit)
-                }).GroupBy (a => a.AccountId)
+            var filtered = entry.GroupBy (a => a.AccountId)
                 .Select (x => new TrialBalanceModel () {
                     AccountId = x.Key,
-                        Credit = x.Sum (c => c.Credit),
+                        Credit = x.Sum (c => (decimal?) c.Credit),
                         AccountName = x.Select (s => s.AccountName).First (),
-                        Debit = x.Sum (c => c.Debit),
+                        Debit = x.Sum (c => (decimal?) c.Debit),
                 }).AsQueryable ();
 
             if (request.Filter.Count () > 0) {
@@ -62,10 +62,10 @@ namespace AccountingBackend.Application.Reports.Queries.GetTrialBalance {
                         .BuildWhere<TrialBalanceModel> (request.Filter)).AsQueryable ();
             }
 
-            result.Count = filtered.Count ();
-
             var PageSize = (request.PageSize == 0) ? result.Count : request.PageSize;
             var PageNumber = (request.PageSize == 0) ? 1 : request.PageNumber;
+
+            result.Count = filtered.Count ();
 
             result.Items = filtered.OrderBy (sortBy, sortDirection)
                 .Skip (PageNumber - 1)
