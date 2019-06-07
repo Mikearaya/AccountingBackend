@@ -3,13 +3,14 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: Apr 26, 2019 9:27 PM
+ * @Last Modified Time: Jun 7, 2019 6:00 PM
  * @Description: Modify Here, Please 
  */
 using System;
 using System.Threading.Tasks;
 using AccountingBackend.Application.Interfaces;
 using BackendSecurity.Domain.Identity;
+using BackendSecurity.Domain.SmartSystems;
 using BackendSecurity.Persistance.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -27,6 +28,18 @@ namespace BackendSecurity.Persistance {
         public new DbSet<AspNetUserRoles> UserRoles { get; set; }
         public new DbSet<ApplicationUser> Users { get; set; }
         public new DbSet<AspNetUserTokens> UserTokens { get; set; }
+        public DbSet<CiSessions> CiSessions { get; set; }
+        public DbSet<Denomination> Denomination { get; set; }
+        public DbSet<DepartmentGroupRole> DepartmentGroupRole { get; set; }
+        public DbSet<Documents> Documents { get; set; }
+        public DbSet<GroupRole> GroupRole { get; set; }
+        public DbSet<Log> Log { get; set; }
+        public DbSet<Lookup> Lookup { get; set; }
+        public DbSet<Messages> Messages { get; set; }
+        public DbSet<MyReport> MyReport { get; set; }
+        public DbSet<News> News { get; set; }
+        public DbSet<UserGroup> UserGroup { get; set; }
+        public DbSet<Users> SystemUsers { get; set; }
         protected override void OnConfiguring (DbContextOptionsBuilder optionBuilder) {
 
             if (!optionBuilder.IsConfigured) {
@@ -36,13 +49,7 @@ namespace BackendSecurity.Persistance {
 
         protected override void OnModelCreating (ModelBuilder builder) {
             base.OnModelCreating (builder);
-            builder.ApplyConfiguration (new AspNetUserConfiguration ());
-            builder.ApplyConfiguration (new AspNetRoleClaimsConfiguration ());
-            builder.ApplyConfiguration (new AspNetRolesConfiguration ());
-            builder.ApplyConfiguration (new AspNetUserClaimsConfiguration ());
-            builder.ApplyConfiguration (new AspNetUserLoginsConfiguration ());
-            builder.ApplyConfiguration (new AspNetUserRolesConfiguration ());
-            builder.ApplyConfiguration (new AspNetUserTokensConfiguration ());
+            builder.ApplyConfigurationsFromAssembly (typeof (SecurityDatabaseService).Assembly);
         }
 
         public void Save () {

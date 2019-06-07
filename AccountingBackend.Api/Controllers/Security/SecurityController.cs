@@ -153,7 +153,9 @@ namespace AccountingBackend.Api.Controllers.Security {
 
             try {
 
-                list = _database.UserClaims.Where (u => u.UserId == authUser.Id).ToList ();
+                list = _database.UserClaims
+                    .Where (u => u.UserId == authUser.Id)
+                    .ToList ();
 
             } catch (Exception ex) {
                 throw new Exception ("Exception trying toretrive user claims", ex);

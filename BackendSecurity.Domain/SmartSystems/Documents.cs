@@ -1,0 +1,17 @@
+/*
+ * @CreateTime: Jun 7, 2019 5:35 PM
+ * @Author:  Mikael Araya
+ * @Contact: MikaelAraya12@gmail.com
+ * @Last Modified By:  Mikael Araya
+ * @Last Modified Time: Jun 7, 2019 5:35 PM
+ * @Description: Modify Here, Please 
+ */
+namespace BackendSecurity.Domain.SmartSystems {
+    public class Documents {
+        public uint Id { get; set; }
+        public string DocumentType { get; set; }
+        public string Title { get; set; }
+        public string Path { get; set; }
+        public string Description { get; set; }
+    }
+}
