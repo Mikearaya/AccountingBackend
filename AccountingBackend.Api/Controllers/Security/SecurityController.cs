@@ -3,7 +3,7 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: Apr 28, 2019 2:36 PM
+ * @Last Modified Time: Jun 7, 2019 4:59 PM
  * @Description: Modify Here, Please 
  */
 using System;
@@ -130,7 +130,7 @@ namespace AccountingBackend.Api.Controllers.Security {
         protected AppUserAuth BuildUserAuthObject (ApplicationUser authUser) {
             AppUserAuth ret = new AppUserAuth ();
 
-            List<AspNetUserClaims> claims = new List<AspNetUserClaims> ();
+            List<ApplicationUserClaims> claims = new List<ApplicationUserClaims> ();
 
             ret.UserName = authUser.UserName;
             ret.IsAuthenticated = true;
@@ -147,9 +147,9 @@ namespace AccountingBackend.Api.Controllers.Security {
         /// </summary>
         /// <param name="authUser"></param>
         /// <returns>AspNetUserClaims</returns>
-        protected List<AspNetUserClaims> GetUserClaims (ApplicationUser authUser) {
+        protected List<ApplicationUserClaims> GetUserClaims (ApplicationUser authUser) {
 
-            List<AspNetUserClaims> list = new List<AspNetUserClaims> ();
+            List<ApplicationUserClaims> list = new List<ApplicationUserClaims> ();
 
             try {
 

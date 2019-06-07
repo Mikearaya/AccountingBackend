@@ -13,9 +13,9 @@ using Xunit;
 namespace BackendSecurity.Domain.Test.Identity {
     public class AspNetUserClaimShould {
 
-        private readonly AspNetUserClaims _userClaims;
+        private readonly ApplicationUserClaims _userClaims;
         public AspNetUserClaimShould () {
-            _userClaims = new AspNetUserClaims ();
+            _userClaims = new ApplicationUserClaims ();
         }
 
         [Fact]

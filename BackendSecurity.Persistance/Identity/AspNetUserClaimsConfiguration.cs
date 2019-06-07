@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace BackendSecurity.Persistance.Identity {
-    public class AspNetUserClaimsConfiguration : IEntityTypeConfiguration<AspNetUserClaims> {
-        public void Configure (EntityTypeBuilder<AspNetUserClaims> builder) {
+    public class AspNetUserClaimsConfiguration : IEntityTypeConfiguration<ApplicationUserClaims> {
+        public void Configure (EntityTypeBuilder<ApplicationUserClaims> builder) {
 
             builder.HasIndex (e => e.UserId);
 

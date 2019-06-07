@@ -3,7 +3,7 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: May 15, 2019 7:35 PM
+ * @Last Modified Time: Jun 7, 2019 1:52 PM
  * @Description: Modify Here, Please 
  */
 using System;
@@ -35,35 +35,36 @@ namespace AccountingBackend.Application.Reports.Queries.GetTrialBalance {
             var PageSize = request.PageSize;
             var PageNumber = (request.PageSize == 0) ? 1 : request.PageNumber;
 
-            var fromLedger = _database.LedgerEntry.AsQueryable ();
+            var fromLedger = _database.LedgerEntry
+                .Join (_database.Account.Where (a => a.Year == request.Year && a.ParentAccountNavigation != null),
+                    ledger => ledger.AccountId, account => account.Id, (ledger, account) => new SampleModel () {
+                        Date = ledger.Ledger.Date,
+                            ParentAccount = account.ParentAccountNavigation,
+                            AccountId = $"{account.ParentAccountNavigation.AccountId} {account.AccountId}",
+                            AccountName = $"{account.AccountName}",
+                            Credit = account.LedgerEntry.Sum (d => (decimal?) d.Credit),
+                            Debit = account.LedgerEntry.Sum (d => (decimal?) d.Debit)
+                    }).AsQueryable ();
 
             if (request.StartDate != null) {
-                fromLedger = fromLedger.Where (d => d.Ledger.Date >= request.StartDate);
+                fromLedger = fromLedger.Where (d => d.Date >= request.StartDate);
             }
 
             if (request.EndDate != null) {
-                fromLedger = fromLedger.Where (d => d.Ledger.Date <= request.EndDate);
+                fromLedger = fromLedger.Where (d => d.Date <= request.EndDate);
             }
-            var filtered = fromLedger
-                .Join (_database.Account.Where (a => a.Year == request.Year),
-                    ledger => ledger.AccountId, account => account.Id, (ledger, account) => new SampleModel () {
-                        ParentAccount = account.ParentAccountNavigation,
-                            AccountId = $"{account.ParentAccountNavigation.AccountId} {account.AccountId}",
-                            AccountName = $"{account.AccountName}",
-                            Credit = (decimal?) account.LedgerEntry.Sum (d => d.Credit),
-                            Debit = (decimal?) account.LedgerEntry.Sum (d => d.Debit)
-                    });
 
             if (request.Filter.Count () > 0) {
-                filtered = filtered
+                fromLedger = fromLedger
                     .Where (DynamicQueryHelper
                         .BuildWhere<SampleModel> (request.Filter)).AsQueryable ();
             }
 
-            var grouped = filtered.OrderBy (sortBy, sortDirection)
+            var grouped = fromLedger.OrderBy (sortBy, sortDirection)
                 .Skip (PageNumber - 1)
                 .Take (PageSize)
-                .ToList ().GroupBy (c => c.ParentAccount)
+                .GroupBy (c => c.ParentAccount)
+                .ToList ()
                 .Select (x => new TrialBalanceDetailModel () {
                     AccountName = x.Key.AccountName,
                         ControlAccountId = x.Key.Id,
@@ -103,7 +104,7 @@ namespace AccountingBackend.Application.Reports.Queries.GetTrialBalance {
             }
 
             finalResult.Items = detail;
-            finalResult.Count = filtered.Count ();
+            finalResult.Count = fromLedger.Count ();
 
             return Task.FromResult (finalResult);
 

@@ -16,13 +16,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
 namespace BackendSecurity.Persistance {
-    public class SecurityDatabaseService : IdentityDbContext<ApplicationUser, ApplicationRole, string, AspNetUserClaims, AspNetUserRoles, AspNetUserLogins, AspNetRoleClaims, AspNetUserTokens>, ISecurityDatabaseService {
+    public class SecurityDatabaseService : IdentityDbContext<ApplicationUser, ApplicationRole, string, ApplicationUserClaims, AspNetUserRoles, AspNetUserLogins, AspNetRoleClaims, AspNetUserTokens>, ISecurityDatabaseService {
 
         public SecurityDatabaseService () { }
         public SecurityDatabaseService (DbContextOptions<SecurityDatabaseService> options) : base (options) { }
         public new DbSet<AspNetRoleClaims> RoleClaims { get; set; }
         public new DbSet<ApplicationRole> Roles { get; set; }
-        public new DbSet<AspNetUserClaims> UserClaims { get; set; }
+        public new DbSet<ApplicationUserClaims> UserClaims { get; set; }
         public new DbSet<AspNetUserLogins> UserLogins { get; set; }
         public new DbSet<AspNetUserRoles> UserRoles { get; set; }
         public new DbSet<ApplicationUser> Users { get; set; }

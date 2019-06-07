@@ -14,7 +14,7 @@ namespace AccountingBackend.Application.Interfaces {
     public interface ISecurityDatabaseService {
         DbSet<AspNetRoleClaims> RoleClaims { get; set; }
         DbSet<ApplicationRole> Roles { get; set; }
-        DbSet<AspNetUserClaims> UserClaims { get; set; }
+        DbSet<ApplicationUserClaims> UserClaims { get; set; }
         DbSet<AspNetUserLogins> UserLogins { get; set; }
         DbSet<AspNetUserRoles> UserRoles { get; set; }
         DbSet<ApplicationUser> Users { get; set; }

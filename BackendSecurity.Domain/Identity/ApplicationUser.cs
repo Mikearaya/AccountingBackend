@@ -13,13 +13,13 @@ using Microsoft.AspNetCore.Identity;
 namespace BackendSecurity.Domain.Identity {
     public class ApplicationUser : IdentityUser<string> {
         public ApplicationUser () {
-            AspNetUserClaims = new HashSet<AspNetUserClaims> ();
+            AspNetUserClaims = new HashSet<ApplicationUserClaims> ();
             AspNetUserLogins = new HashSet<AspNetUserLogins> ();
             AspNetUserRoles = new HashSet<AspNetUserRoles> ();
             AspNetUserTokens = new HashSet<AspNetUserTokens> ();
         }
 
-        public ICollection<AspNetUserClaims> AspNetUserClaims { get; set; }
+        public ICollection<ApplicationUserClaims> AspNetUserClaims { get; set; }
         public ICollection<AspNetUserLogins> AspNetUserLogins { get; set; }
         public ICollection<AspNetUserRoles> AspNetUserRoles { get; set; }
         public ICollection<AspNetUserTokens> AspNetUserTokens { get; set; }

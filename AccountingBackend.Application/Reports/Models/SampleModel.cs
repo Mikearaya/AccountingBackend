@@ -1,3 +1,4 @@
+using System;
 using AccountingBackend.Domain;
 
 namespace AccountingBackend.Application.Reports.Models {
@@ -7,5 +8,6 @@ namespace AccountingBackend.Application.Reports.Models {
         public Account ParentAccount { get; set; }
         public decimal? Credit { get; set; }
         public decimal? Debit { get; set; }
+        public DateTime Date { get; set; }
     }
 }

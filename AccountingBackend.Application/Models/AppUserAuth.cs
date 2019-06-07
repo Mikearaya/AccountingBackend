@@ -3,7 +3,7 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: Apr 25, 2019 2:34 PM
+ * @Last Modified Time: Jun 7, 2019 4:51 PM
  * @Description: Modify Here, Please 
  */
 using System.Collections.Generic;
@@ -19,7 +19,7 @@ namespace AccountingBackend.Application.Models {
         public string UserName { get; set; }
         public string BearerToken { get; set; }
         public bool IsAuthenticated { get; set; }
-        public List<AspNetUserClaims> Claims { get; set; }
+        public List<ApplicationUserClaims> Claims { get; set; }
 
     }
 }
