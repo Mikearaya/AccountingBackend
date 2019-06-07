@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace BackendSecurity.Domain.SmartSystems {
     public class UserGroup {
         public UserGroup () {

@@ -3,7 +3,7 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: Jun 7, 2019 5:57 PM
+ * @Last Modified Time: Jun 7, 2019 6:09 PM
  * @Description: Modify Here, Please 
  */
 using BackendSecurity.Domain.SmartSystems;
@@ -37,8 +37,7 @@ namespace BackendSecurity.Persistance.SmartSystems {
 
             builder.Property (e => e.Time)
                 .HasColumnName ("time")
-                .HasColumnType ("timestamp")
-                .HasDefaultValueSql ("'CURRENT_TIMESTAMP'");
+                .HasColumnType ("datetime");
 
             builder.Property (e => e.UniqueId)
                 .HasColumnName ("unique_id")

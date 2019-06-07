@@ -3,7 +3,7 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: Jun 7, 2019 6:00 PM
+ * @Last Modified Time: Jun 7, 2019 6:01 PM
  * @Description: Modify Here, Please 
  */
 using System;
@@ -43,7 +43,7 @@ namespace BackendSecurity.Persistance {
         protected override void OnConfiguring (DbContextOptionsBuilder optionBuilder) {
 
             if (!optionBuilder.IsConfigured) {
-                optionBuilder.UseMySql ("server=localhost;user=admin;password=admin;port=3306;database=smart_security;");
+                optionBuilder.UseMySql ("server=localhost;user=admin;password=admin;port=3306;database=smart_systems;");
             }
         }
 

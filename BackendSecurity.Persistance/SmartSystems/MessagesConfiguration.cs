@@ -3,7 +3,7 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: Jun 7, 2019 5:48 PM
+ * @Last Modified Time: Jun 7, 2019 6:10 PM
  * @Description: Modify Here, Please 
  */
 using BackendSecurity.Domain.SmartSystems;
@@ -24,8 +24,7 @@ namespace BackendSecurity.Persistance.SmartSystems {
 
             builder.Property (e => e.DateOfSent)
                 .HasColumnName ("date_of_sent")
-                .HasColumnType ("timestamp")
-                .HasDefaultValueSql ("'CURRENT_TIMESTAMP'")
+                .HasColumnType ("datetime")
                 .ValueGeneratedOnAddOrUpdate ();
 
             builder.Property (e => e.Draft)
