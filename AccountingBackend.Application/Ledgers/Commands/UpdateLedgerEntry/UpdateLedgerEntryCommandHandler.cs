@@ -1,5 +1,3 @@
-using System.Data;
-using System.Linq;
 /*
  * @CreateTime: May 8, 2019 2:15 PM
  * @Author:  Mikael Araya
@@ -8,8 +6,11 @@ using System.Linq;
  * @Last Modified Time: May 12, 2019 3:12 PM
  * @Description: Modify Here, Please 
  */
+
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AccountingBackend.Application.Exceptions;
@@ -40,10 +41,9 @@ namespace AccountingBackend.Application.Ledgers.Commands.UpdateLedgerEntry {
                 throw new NotFoundException ("Ledger", request.Id);
             }
 
-            if (entry.IsPosted != 0) {
-                hasError = true;
-                validationFailures.Add (new ValidationFailure ("Ledger Posted", "Can't update posted ledger entry"));
-            }
+
+
+            entry.IsPosted = request.Posted;
 
             float? totalCredit = 0;
             float? totalDebit = 0;
@@ -81,9 +81,9 @@ namespace AccountingBackend.Application.Ledgers.Commands.UpdateLedgerEntry {
                 totalDebit += item.Debit;
             }
 
-            if (totalCredit != totalDebit) {
+            if (totalCredit != totalDebit && request.Posted != 0) {
                 hasError = true;
-                validationFailures.Add (new ValidationFailure ("Balance", "Credit and debit amount for this are not balanced"));
+                validationFailures.Add (new ValidationFailure ("Balance", "Can not post unbalanced entry"));
             }
 
             if (hasError) {
