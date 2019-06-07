@@ -62,7 +62,7 @@ namespace AccountingBackend.Application.Reports.Queries.GetTrialBalance {
                         .BuildWhere<TrialBalanceModel> (request.Filter)).AsQueryable ();
             }
 
-            var PageSize = (request.PageSize == 0) ? result.Count : request.PageSize;
+            var PageSize = request.PageSize;
             var PageNumber = (request.PageSize == 0) ? 1 : request.PageNumber;
 
             result.Count = filtered.Count ();

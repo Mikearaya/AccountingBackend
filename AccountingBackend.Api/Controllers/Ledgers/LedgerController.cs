@@ -3,7 +3,7 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: May 9, 2019 8:36 AM
+ * @Last Modified Time: Jun 7, 2019 1:09 PM
  * @Description: Modify Here, Please 
  */
 using System.Collections.Generic;
@@ -55,6 +55,18 @@ namespace AccountingBackend.Api.Controllers.Ledgers {
         /// <returns></returns>
         [HttpPost ("filter")]
         public async Task<ActionResult<FilterResultModel<JornalEntryListView>>> GetLedgerEntryList ([FromBody] GetJornalEntryListQuery query) {
+
+            var entryList = await _Mediator.Send (query);
+            return StatusCode (200, entryList);
+        }
+
+        /// <summary>
+        /// returns list of jornal entries
+        /// </summary>
+        /// <param name="query"></param>
+        /// <returns></returns>
+        [HttpPost ("unposted")]
+        public async Task<ActionResult<FilterResultModel<JornalEntryListView>>> GetUnpostedEntries ([FromBody] GetUnpostedLedgerEntriesQuery query) {
 
             var entryList = await _Mediator.Send (query);
             return StatusCode (200, entryList);
