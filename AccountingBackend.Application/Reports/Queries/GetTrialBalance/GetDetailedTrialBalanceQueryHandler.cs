@@ -3,7 +3,7 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: Jun 7, 2019 1:52 PM
+ * @Last Modified Time: Jun 9, 2019 2:48 PM
  * @Description: Modify Here, Please 
  */
 using System;
@@ -27,7 +27,7 @@ namespace AccountingBackend.Application.Reports.Queries.GetTrialBalance {
         }
 
         public Task<FilterResultModel<TrialBalanceDetailModel>> Handle (GetDetailedTrialBalanceQuery request, CancellationToken cancellationToken) {
-            var sortBy = request.SortBy.Trim () != "" ? request.SortBy : "AccountName";
+            var sortBy = request.SortBy.Trim () != "" ? request.SortBy : "AccountId";
             var sortDirection = (request.SortDirection.ToUpper () == "DESCENDING") ? true : false;
 
             FilterResultModel<TrialBalanceDetailModel> finalResult = new FilterResultModel<TrialBalanceDetailModel> ();
@@ -35,16 +35,18 @@ namespace AccountingBackend.Application.Reports.Queries.GetTrialBalance {
             var PageSize = request.PageSize;
             var PageNumber = (request.PageSize == 0) ? 1 : request.PageNumber;
 
-            var fromLedger = _database.LedgerEntry
-                .Join (_database.Account.Where (a => a.Year == request.Year && a.ParentAccountNavigation != null),
-                    ledger => ledger.AccountId, account => account.Id, (ledger, account) => new SampleModel () {
-                        Date = ledger.Ledger.Date,
-                            ParentAccount = account.ParentAccountNavigation,
-                            AccountId = $"{account.ParentAccountNavigation.AccountId} {account.AccountId}",
-                            AccountName = $"{account.AccountName}",
-                            Credit = account.LedgerEntry.Sum (d => (decimal?) d.Credit),
-                            Debit = account.LedgerEntry.Sum (d => (decimal?) d.Debit)
-                    }).AsQueryable ();
+            var fromLedger = _database.Account.Where (a => a.ParentAccountNavigation != null && a.Year == request.Year)
+                .Join (_database.LedgerEntry, a => a.Id, d => d.AccountId, (a, d) => new SampleModel () {
+
+                    Parent = a.ParentAccountNavigation,
+                        Account = a,
+                        Id = a.Id,
+                        AccountName = a.AccountName,
+                        AccountId = a.ParentAccountNavigation.AccountId,
+                        Credit = d.Credit,
+                        Debit = d.Debit,
+                        Date = d.Ledger.Date
+                });
 
             if (request.StartDate != null) {
                 fromLedger = fromLedger.Where (d => d.Date >= request.StartDate);
@@ -61,39 +63,39 @@ namespace AccountingBackend.Application.Reports.Queries.GetTrialBalance {
             }
 
             var grouped = fromLedger.OrderBy (sortBy, sortDirection)
-                .Skip (PageNumber - 1)
+
+                .GroupBy (a => new { a.Id, a.Account, a.Parent })
+                .Select (d => new {
+                    AccountName = d.Key.Account.AccountName,
+                        AccountId = d.Key.Account.AccountId,
+                        ControlAccountId = d.Key.Parent.AccountId,
+                        ControlAccountName = d.Key.Parent.AccountName,
+                        CreditSum = d.Sum (c => (decimal?) c.Credit),
+                        DebitSum = d.Sum (c => (decimal?) c.Debit)
+
+                })
+                .GroupBy (s => new { s.ControlAccountId, s.ControlAccountName })
+                .Skip (PageNumber)
                 .Take (PageSize)
-                .GroupBy (c => c.ParentAccount)
-                .ToList ()
-                .Select (x => new TrialBalanceDetailModel () {
-                    AccountName = x.Key.AccountName,
-                        ControlAccountId = x.Key.Id,
-                        AccountId = x.Key.AccountId,
-                        Entries = x.Select (f => new TrialBalanceDetailListModel () {
-                            AccountName = f.AccountName,
-                                ControlAccountId = f.ParentAccount.Id,
-                                AccountId = f.AccountId,
-                                Credit = (decimal?) f.Credit,
-                                Debit = (decimal?) f.Debit
-                        }).ToList ()
-                });
+                .ToList ();
 
             IList<TrialBalanceDetailModel> detail = new List<TrialBalanceDetailModel> ();
 
             foreach (var parent in grouped) {
                 TrialBalanceDetailModel temp = new TrialBalanceDetailModel () {
-                    ControlAccountId = parent.ControlAccountId,
-                    AccountId = parent.AccountId,
-                    AccountName = parent.AccountName
+
+                    AccountId = parent.Key.ControlAccountId,
+                    AccountName = parent.Key.ControlAccountName,
+                    ControlAccountId = parent.Key.ControlAccountId
                 };
 
-                foreach (var sub in parent.Entries) {
+                foreach (var sub in parent) {
 
                     ((IList<TrialBalanceDetailListModel>) temp.Entries).Add (new TrialBalanceDetailListModel () {
                         AccountName = sub.AccountName,
-                            ControlAccountId = sub.ControlAccountId,
-                            Credit = sub.Credit,
-                            Debit = sub.Debit,
+                            ControlAccountId = parent.Key.ControlAccountId,
+                            Credit = sub.CreditSum,
+                            Debit = sub.DebitSum,
                             AccountId = sub.AccountId
                     });
 
