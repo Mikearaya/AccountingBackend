@@ -60,21 +60,21 @@ namespace AccountingBackend.Application.Reports.Queries.GetIncomeStatement {
             foreach (var item in result) {
 
                 if (item.Type.FirstOrDefault ().ToString ().ToUpper () == "REVENUE") {
-                    revenue = item.DebitSum - item.CreditSum;
+                    revenue = item.CreditSum - item.DebitSum;
                     totalRevenue += revenue;
                     incomeStateMent.Revenue.Add (new IncomeStatementItemModel () {
                         AccountType = item.AccountCategory,
                             Amount = revenue
                     });
                 } else if (item.Type.FirstOrDefault ().ToString ().ToUpper () == "EXPENSE") {
-                    expense = item.CreditSum - item.DebitSum;
+                    expense = item.DebitSum - item.CreditSum;
                     totalExpence += expense;
                     incomeStateMent.Expense.Add (new IncomeStatementItemModel () {
                         AccountType = item.AccountCategory,
                             Amount = expense
                     });
                 } else {
-                    incomeStateMent.CostOfGoodsSold = item.CreditSum - item.DebitSum;
+                    incomeStateMent.CostOfGoodsSold = item.DebitSum - item.CreditSum;
                 }
 
             }

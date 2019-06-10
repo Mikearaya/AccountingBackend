@@ -3,7 +3,7 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: May 3, 2019 11:05 AM
+ * @Last Modified Time: Jun 9, 2019 3:04 PM
  * @Description: Modify Here, Please 
  */
 using System;
@@ -36,6 +36,7 @@ namespace AccountingBackend.Application.Accounts.Queries.GetAccountsList {
             var accountList = _database.Account
                 .Where (a => a.Year == request.Year)
                 .Select (AccountViewModel.Projection)
+
                 .Select (DynamicQueryHelper.GenerateSelectedColumns<AccountViewModel> (request.SelectedColumns))
                 .AsQueryable ();
 
