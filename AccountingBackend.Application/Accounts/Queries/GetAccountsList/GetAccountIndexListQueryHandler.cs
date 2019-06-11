@@ -29,7 +29,7 @@ namespace AccountingBackend.Application.Accounts.Queries.GetAccountsList {
                 .Where (a => a.ParentAccountNavigation != null)
                 .Distinct ()
                 .Select (AccountIndexView.Projection)
-                .Where (a => a.Name.Trim ().ToUpper ().Contains (request.SearchString.Trim ().ToUpper ()))
+                .Where (a => a.Name.ToUpper ().Contains (request.SearchString.ToUpper ()))
                 .ToListAsync ();
         }
     }

@@ -56,7 +56,7 @@ namespace AccountingBackend.Application.Reports.Queries.GetCostOfGoodsSold {
 
             foreach (var item in result) {
                 ((IList<CostOfGoodsSoldItemsModel>) filter.Accounts).Add (new CostOfGoodsSoldItemsModel () {
-                    Value = item.CreditSum - item.DebitSum,
+                    Value = item.DebitSum - item.CreditSum,
                         AccountName = item.AccountCategory
                 });
             }
