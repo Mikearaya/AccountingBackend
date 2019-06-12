@@ -1,3 +1,5 @@
+using System.ComponentModel;
+using System.Globalization;
 /*
  * @CreateTime: Apr 30, 2019 1:51 PM
  * @Author:  Mikael Araya
@@ -14,8 +16,10 @@ namespace AccountingBackend.Application.AccountCategories.Models {
     public class AccountCategoryView {
         public int Id { get; set; }
         public string AccountType { get; set; }
+        public uint AccountTypeId { get; set; }
         public string CategoryName { get; set; }
         public DateTime DateAdded { get; set; }
+
         public DateTime DateUpdated { get; set; }
 
         public static Expression<Func<AccountCatagory, AccountCategoryView>> Projection {
@@ -23,6 +27,7 @@ namespace AccountingBackend.Application.AccountCategories.Models {
                 return category => new AccountCategoryView () {
                     Id = category.Id,
                     AccountType = category.AccountType.Type,
+                    AccountTypeId = category.AccountTypeId,
                     CategoryName = category.Catagory,
                     DateAdded = (DateTime) category.DateAdded,
                     DateUpdated = (DateTime) category.DateUpdated

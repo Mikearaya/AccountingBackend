@@ -25,6 +25,7 @@ namespace AccountingBackend.Application.AccountTypes.Queries.GetAccountTypeList 
 
         public async Task<IEnumerable<AccountTypeIndexView>> Handle (GetAccountTypeIndexQuery request, CancellationToken cancellationToken) {
             var accountTypeIndex = _database.AccountType
+                .Where (a => a.TypeOfNavigation == null)
                 .Select (AccountTypeIndexView.Projection);
 
             if (request.Main) {

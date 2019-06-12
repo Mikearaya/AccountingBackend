@@ -26,7 +26,7 @@ namespace AccountingBackend.Application.Accounts.Commands.CreateAccount {
             var currentYear = _database.Account.Max (a => a.Year);
 
             var account = new Account () {
-                AccountName = request.Name,
+                AccountName = request.AccountName,
                 Active = request.Active,
                 CatagoryId = request.CatagoryId,
                 AccountId = request.AccountId,

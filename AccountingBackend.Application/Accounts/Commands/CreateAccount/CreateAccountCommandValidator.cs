@@ -13,7 +13,7 @@ namespace AccountingBackend.Application.Accounts.Commands.CreateAccount {
         public CreateAccountCommandValidator () {
             RuleFor (x => x.AccountId).MinimumLength (4).NotEmpty ().NotNull ();
             RuleFor (x => x.Active).NotNull ().NotNull ();
-            RuleFor (x => x.Name).NotNull ().NotEmpty ();
+            RuleFor (x => x.AccountName).NotNull ().NotEmpty ();
 
             RuleFor (x => x.CatagoryId).NotEmpty ().NotNull ();
         }

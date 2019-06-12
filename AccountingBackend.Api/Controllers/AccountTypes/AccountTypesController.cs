@@ -52,8 +52,8 @@ namespace AccountingBackend.Api.Controllers.AccountTypes {
         /// <param name="query"></param>
         /// <returns></returns>
         [HttpGet ("{id}")]
-        public async Task<ActionResult<AccountTypeView>> FindAccountTypeById ([FromQuery] GetAccountTypeQuery query) {
-            var accountTypeList = await _Mediator.Send (query);
+        public async Task<ActionResult<AccountTypeView>> FindAccountTypeById (uint id) {
+            var accountTypeList = await _Mediator.Send (new GetAccountTypeQuery () { Id = id });
             return Ok (accountTypeList);
         }
 

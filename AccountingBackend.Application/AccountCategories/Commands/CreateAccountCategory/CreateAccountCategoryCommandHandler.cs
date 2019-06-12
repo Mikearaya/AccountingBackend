@@ -22,6 +22,7 @@ namespace AccountingBackend.Application.AccountCategories.Commands.CreateAccount
         }
 
         public async Task<int> Handle (CreateAccountCategoryCommand request, CancellationToken cancellationToken) {
+
             AccountCatagory category = new AccountCatagory () {
                 Catagory = request.CategoryName,
                 AccountTypeId = request.AccountType,
@@ -32,6 +33,8 @@ namespace AccountingBackend.Application.AccountCategories.Commands.CreateAccount
             _database.AccountCatagory.Add (category);
 
             await _database.SaveAsync ();
+
+        
 
             return category.Id;
         }

@@ -13,7 +13,7 @@ namespace AccountingBackend.Application.Accounts.Commands.CreateAccount {
         public string AccountId { get; set; }
         public int? ParentAccount { get; set; }
         public int CatagoryId { get; set; }
-        public string Name { get; set; }
+        public string AccountName { get; set; }
         public sbyte Active { get; set; }
         public int? CostCenterId { get; set; }
         public float? OpeningBalance { get; set; }

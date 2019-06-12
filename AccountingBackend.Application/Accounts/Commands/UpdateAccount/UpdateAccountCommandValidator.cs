@@ -13,7 +13,7 @@ namespace AccountingBackend.Application.Accounts.Commands.UpdateAccount {
         public UpdateAccountCommandValidator () {
 
             RuleFor (x => x.Id).NotEmpty ().NotNull ();
-            RuleFor (x => x.Name).NotEmpty ().NotNull ();
+            RuleFor (x => x.AccountName).NotEmpty ().NotNull ();
             RuleFor (x => x.AccountId).MinimumLength (4).NotEmpty ().NotNull ();
 
         }

@@ -29,7 +29,7 @@ namespace AccountingBackend.Application.Accounts.Commands.UpdateAccount {
                 throw new NotFoundException ("Account", request.Id);
             }
 
-            account.AccountName = request.Name;
+            account.AccountName = request.AccountName;
             account.AccountId = request.AccountId;
             account.Active = request.Active;
             account.ParentAccount = request.ParentAccount;
