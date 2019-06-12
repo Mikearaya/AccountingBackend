@@ -27,7 +27,7 @@ namespace AccountingBackend.Application.AccountTypes.Commands.UpdateAccountType 
                 throw new NotFoundException ("AccountType", request.Id);
             }
 
-            accountType.IsSummery = request.SummerizeReport;
+            accountType.IsSummery = request.IsSummary;
             accountType.Type = request.Type;
             accountType.TypeOf = request.IsTypeOf;
 

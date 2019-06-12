@@ -25,7 +25,7 @@ namespace AccountingBackend.Application.AccountTypes.Commands.CreateAccountType 
 
             AccountType newAccountType = new AccountType () {
                 Type = request.Type,
-                IsSummery = request.SummerizeReport,
+                IsSummery = request.IsSummary,
                 TypeOf = request.IsTypeOf
             };
             _database.AccountType.Add (newAccountType);

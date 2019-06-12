@@ -28,15 +28,6 @@ namespace AccountingBackend.Application.AccountTypes.Queries.GetAccountTypeList 
                 .Where (a => a.TypeOfNavigation == null)
                 .Select (AccountTypeIndexView.Projection);
 
-            if (request.Main) {
-                accountTypeIndex = accountTypeIndex.Where (a => a.TypeOf == 0 || a.TypeOf == null);
-            } else {
-                accountTypeIndex = accountTypeIndex.Where (a => a.TypeOf != 0 && a.TypeOf != null);
-            }
-            if (request.TypeOf != 0) {
-                accountTypeIndex.Where (a => a.TypeOf == request.TypeOf);
-            }
-
             return await accountTypeIndex.ToListAsync ();
         }
     }

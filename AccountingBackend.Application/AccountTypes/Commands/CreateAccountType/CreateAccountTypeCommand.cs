@@ -13,7 +13,7 @@ namespace AccountingBackend.Application.AccountTypes.Commands.CreateAccountType 
 
         public uint IsTypeOf { get; set; }
         public string Type { get; set; }
-        public sbyte SummerizeReport { get; set; }
+        public sbyte IsSummary { get; set; }
 
     }
 }

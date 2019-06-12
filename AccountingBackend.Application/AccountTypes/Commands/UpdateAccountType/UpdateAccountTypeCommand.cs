@@ -15,7 +15,7 @@ namespace AccountingBackend.Application.AccountTypes.Commands.UpdateAccountType 
         public uint Id { get; set; }
         public uint IsTypeOf { get; set; }
         public string Type { get; set; }
-        public sbyte SummerizeReport { get; set; }
+        public sbyte IsSummary { get; set; }
 
     }
 }
