@@ -29,6 +29,7 @@ namespace AccountingBackend.Application.AccountCategories.Commands.UpdateAccount
 
             catagory.Catagory = request.CategoryName;
             catagory.AccountTypeId = request.AccountType;
+            catagory.OverflowAccount = request.OverFlowAccount;
 
             _database.AccountCatagory.Update (catagory);
 

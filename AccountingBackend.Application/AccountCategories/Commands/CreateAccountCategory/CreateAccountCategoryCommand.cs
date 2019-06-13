@@ -14,5 +14,6 @@ namespace AccountingBackend.Application.AccountCategories.Commands.CreateAccount
 
         public string CategoryName { get; set; }
         public uint AccountType { get; set; }
+        public int? OverFlowAccount { get; set; }
     }
 }

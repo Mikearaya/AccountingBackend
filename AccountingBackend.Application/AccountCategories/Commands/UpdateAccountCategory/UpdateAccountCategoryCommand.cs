@@ -16,5 +16,6 @@ namespace AccountingBackend.Application.AccountCategories.Commands.UpdateAccount
         public int Id { get; set; }
         public uint AccountType { get; set; }
         public string CategoryName { get; set; }
+        public int? OverFlowAccount { get; set; }
     }
 }

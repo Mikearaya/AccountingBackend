@@ -27,14 +27,13 @@ namespace AccountingBackend.Application.AccountCategories.Commands.CreateAccount
                 Catagory = request.CategoryName,
                 AccountTypeId = request.AccountType,
                 DateAdded = DateTime.Now,
-                DateUpdated = DateTime.Now
+                DateUpdated = DateTime.Now,
+                OverflowAccount = request.OverFlowAccount,
             };
 
             _database.AccountCatagory.Add (category);
 
             await _database.SaveAsync ();
-
-        
 
             return category.Id;
         }

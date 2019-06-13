@@ -19,6 +19,8 @@ namespace AccountingBackend.Application.AccountCategories.Models {
         public uint AccountTypeId { get; set; }
         public string CategoryName { get; set; }
         public DateTime DateAdded { get; set; }
+        public int? OverFlowAccountId { get; set; }
+        public string OverFlowAccount { get; set; }
 
         public DateTime DateUpdated { get; set; }
 
@@ -30,6 +32,8 @@ namespace AccountingBackend.Application.AccountCategories.Models {
                     AccountTypeId = category.AccountTypeId,
                     CategoryName = category.Catagory,
                     DateAdded = (DateTime) category.DateAdded,
+                    OverFlowAccountId = category.OverflowAccount,
+                    OverFlowAccount = category.OverflowAccountNavigation != null ? category.OverflowAccountNavigation.Catagory : "",
                     DateUpdated = (DateTime) category.DateUpdated
                 };
             }
