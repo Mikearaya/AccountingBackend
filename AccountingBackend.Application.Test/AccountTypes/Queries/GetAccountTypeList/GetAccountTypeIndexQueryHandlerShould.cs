@@ -30,7 +30,7 @@ namespace AccountingBackend.Application.Test.AccountTypes.Queries.GetAccountType
             var result = await handler.Handle (query, CancellationToken.None);
 
             // Assert
-            Assert.False (result.Any (a => a.TypeOf == 0));
+            Assert.False (result.FirstOrDefault (a => a.TypeOf == 0) != null);
         }
 
         /// <summary>
@@ -47,7 +47,7 @@ namespace AccountingBackend.Application.Test.AccountTypes.Queries.GetAccountType
             var result = await handler.Handle (query, CancellationToken.None);
 
             // Assert
-            Assert.False (result.Any (a => a.TypeOf != 0));
+            Assert.False (result.FirstOrDefault (a => a.TypeOf != 0) != null);
 
         }
 

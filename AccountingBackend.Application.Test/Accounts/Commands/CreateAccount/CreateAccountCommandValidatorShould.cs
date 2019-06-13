@@ -41,13 +41,13 @@ namespace AccountingBackend.Application.Test.Accounts.Commands.CreateAccount {
 
         [Fact]
         public void HaveErrorWhenNameIsNullOrEmpty () {
-            validator.ShouldHaveValidationErrorFor (c => c.Name, null as string);
-            validator.ShouldHaveValidationErrorFor (c => c.Name, "");
+            validator.ShouldHaveValidationErrorFor (c => c.AccountName, null as string);
+            validator.ShouldHaveValidationErrorFor (c => c.AccountName, "");
         }
 
         [Fact]
         public void NotHaveErrorWhenNameIsNotNullOrEmpty () {
-            validator.ShouldNotHaveValidationErrorFor (c => c.Name, "0101");
+            validator.ShouldNotHaveValidationErrorFor (c => c.AccountName, "0101");
         }
 
     }

@@ -14,6 +14,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using AccountingBackend.Api.Test.Commons;
 using AccountingBackend.Application.Ledgers.Models;
+using AccountingBackend.Application.Models;
 using Xunit;
 
 namespace AccountingBackend.Api.Test.Controllers.Ledgers {
@@ -64,13 +65,13 @@ namespace AccountingBackend.Api.Test.Controllers.Ledgers {
         [Fact]
         public async Task ReturnsListsOfJornalEntriesSuccessfully () {
             // Arrange
-            var response = await _client.GetAsync (_ApiUrl);
+            var response = await _client.PostAsync ($"{_ApiUrl}/filter", Utilities.GetStringContent (new { }));
             response.EnsureSuccessStatusCode ();
             // Act
-            var entries = await Utilities.GetResponseContent<List<JornalEntryListView>> (response);
+            var entries = await Utilities.GetResponseContent<FilterResultModel<JornalEntryListView>> (response);
 
             // Assert
-            Assert.True (entries.Count () > 0);
+            Assert.True (((FilterResultModel<JornalEntryListView>) entries).Items.Count () > 0);
             Assert.Equal (HttpStatusCode.OK, response.StatusCode);
         }
 
@@ -207,7 +208,7 @@ namespace AccountingBackend.Api.Test.Controllers.Ledgers {
                 VoucherId = "JV/005",
                 Date = DateTime.Now,
                 Reference = "CH-01",
-                Posted = 0,
+                Posted = 1,
                 Entries = new [] {
                 new { Id = 10, AccountId = 10, Credit = 100, Debit = 0 },
                 new { Id = 11, AccountId = 11, Credit = 0, Debit = 200 }
@@ -219,7 +220,7 @@ namespace AccountingBackend.Api.Test.Controllers.Ledgers {
 
             //Then
             var responseString = await response.Content.ReadAsStringAsync ();
-            Assert.Contains ("not balanced", responseString);
+            Assert.Contains ("unbalanced", responseString);
             Assert.Equal (HttpStatusCode.UnprocessableEntity, response.StatusCode);
         }
 

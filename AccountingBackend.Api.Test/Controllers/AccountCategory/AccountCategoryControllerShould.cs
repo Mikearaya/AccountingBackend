@@ -16,6 +16,7 @@ using System.Threading.Tasks;
 using AccountingBackend.Api.Test.Commons;
 using AccountingBackend.Application.AccountCategories.Models;
 using AccountingBackend.Application.Exceptions;
+using AccountingBackend.Application.Models;
 using Newtonsoft.Json;
 using Xunit;
 
@@ -35,13 +36,13 @@ namespace AccountingBackend.Api.Test.Controllers {
         [Fact]
         public async Task ReturnListOfAccountCategoriesSuccessSuccessfuly () {
             // Arrange
-            var response = await _client.GetAsync (_ApiUrl);
+            var response = await _client.PostAsync ($"{_ApiUrl}/filter", Utilities.GetStringContent (new { }));
 
             response.EnsureSuccessStatusCode ();
-            var categories = await Utilities.GetResponseContent<IEnumerable<AccountCategoryView>> (response);
+            var categories = await Utilities.GetResponseContent<FilterResultModel<AccountCategoryView>> (response);
 
-            Assert.IsAssignableFrom<List<AccountCategoryView>> (categories);
-            Assert.True (categories.Count () > 0);
+            Assert.IsAssignableFrom<FilterResultModel<AccountCategoryView>> (categories);
+            Assert.True (((FilterResultModel<AccountCategoryView>) categories).Items.Count () > 0);
 
             // Assert
         }

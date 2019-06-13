@@ -26,7 +26,7 @@ namespace AccountingBackend.Application.Test.Accounts.Commands.UpdateAccount {
             UpdateAccountCommand updateCommand = new UpdateAccountCommand () {
                 Id = 10,
                 AccountId = "0000",
-                Name = "Account Payable Update",
+                AccountName = "Account Payable Update",
                 Active = 1,
                 ParentAccount = 1,
             };
@@ -44,7 +44,7 @@ namespace AccountingBackend.Application.Test.Accounts.Commands.UpdateAccount {
             UpdateAccountCommand updateCommand = new UpdateAccountCommand () {
                 Id = 2,
                 AccountId = "0000",
-                Name = "Account Payable Update",
+                AccountName = "Account Payable Update",
                 Active = 1,
                 ParentAccount = 1,
             };

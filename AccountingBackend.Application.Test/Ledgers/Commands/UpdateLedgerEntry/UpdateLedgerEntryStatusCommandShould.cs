@@ -19,22 +19,10 @@ using Xunit;
 
 namespace AccountingBackend.Application.Test.Ledgers.Commands.UpdateLedgerEntry {
 
-    public class UpdateLedgerEntryStatusCommandShould {
-        private readonly Mock<IAccountingDatabaseService> Mockdatabase;
+    public class UpdateLedgerEntryStatusCommandShould : DatabaseTestBase {
         private UpdateLedgerStatusCommandHandler handler;
         public UpdateLedgerEntryStatusCommandShould () {
-            Mockdatabase = new Mock<IAccountingDatabaseService> ();
-            Mockdatabase.Setup (c => c.SaveAsync ()).Returns (Task.CompletedTask);
-            Mockdatabase.Setup (c => c.Ledger.Update (new Ledger ()));
 
-            Mockdatabase.Setup (c => c.Ledger.FindAsync (1)).ReturnsAsync (new Ledger () {
-                Id = 1,
-                    Description = "Ledger Description",
-                    VoucherId = "JV/001",
-                    Reference = "CH-111",
-                    Date = DateTime.Now,
-                    IsPosted = 0
-            });
         }
 
         /// <summary>
@@ -44,9 +32,9 @@ namespace AccountingBackend.Application.Test.Ledgers.Commands.UpdateLedgerEntry 
         [Fact]
         public async Task UpdateLedgerEntryStatusSuccessfuly () {
             // Arrange
-            handler = new UpdateLedgerStatusCommandHandler (Mockdatabase.Object);
+            handler = new UpdateLedgerStatusCommandHandler (_Database);
             UpdateLedgerStatusCommand command = new UpdateLedgerStatusCommand () {
-                Id = 1,
+                Id = 10,
                 Posted = 1
             };
             // Act
@@ -63,7 +51,7 @@ namespace AccountingBackend.Application.Test.Ledgers.Commands.UpdateLedgerEntry 
         [Fact]
         public void ThrowNotFoundExceptionWhenProvidedInvalidId () {
             // Arrange
-            handler = new UpdateLedgerStatusCommandHandler (Mockdatabase.Object);
+            handler = new UpdateLedgerStatusCommandHandler (_Database);
             UpdateLedgerStatusCommand command = new UpdateLedgerStatusCommand () {
                 Id = 2,
                 Posted = 1

@@ -24,7 +24,7 @@ namespace AccountingBackend.Application.Test.AccountTypes.Commands.CreateAccount
             CreateAccountTypeCommand command = new CreateAccountTypeCommand () {
                 IsTypeOf = 2,
                 Type = "Account Recievable",
-                SummerizeReport = 1
+                IsSummary = 1
 
             };
             CreateAccountTypeCommandHandler handler = new CreateAccountTypeCommandHandler (_Database);

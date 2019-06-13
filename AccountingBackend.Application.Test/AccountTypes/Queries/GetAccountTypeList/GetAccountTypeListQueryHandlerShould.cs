@@ -50,7 +50,7 @@ namespace AccountingBackend.Application.Test.AccountTypes.Queries.GetAccountType
             var result = await handler.Handle (query, CancellationToken.None);
 
             // Assert
-            Assert.False (result.Items.Any (a => a.TypeOfId == 0));
+            Assert.True (result.Items.FirstOrDefault (a => a.TypeOfId != 0) != null);
         }
 
     }

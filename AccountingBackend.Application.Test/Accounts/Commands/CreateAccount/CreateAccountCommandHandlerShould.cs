@@ -26,7 +26,7 @@ namespace AccountingBackend.Application.Test.Accounts.Commands.CreateAccount {
             handler = new CreateAccountCommandHandler (_Database);
             accountModel = new CreateAccountCommand () {
                 AccountId = "0000",
-                Name = "Cash",
+                AccountName = "Cash",
                 Active = 0,
                 CatagoryId = 1,
                 OpeningBalance = 100,

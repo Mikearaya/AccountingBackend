@@ -11,6 +11,7 @@ using AccountingBackend.Application.Ledgers.Models;
  * @Description: Modify Here, Please 
  */
 using AccountingBackend.Application.Ledgers.Queries.GetLedgerEntryList;
+using AccountingBackend.Application.Models;
 using Xunit;
 
 namespace AccountingBackend.Application.Test.Ledgers.Queries.GetLedgerEntryList {
@@ -31,7 +32,7 @@ namespace AccountingBackend.Application.Test.Ledgers.Queries.GetLedgerEntryList 
 
             var result = await handler.Handle (query, CancellationToken.None);
 
-            Assert.IsType<List<JornalEntryListView>> (result);
+            Assert.IsType<FilterResultModel<JornalEntryListView>> (result);
 
         }
 

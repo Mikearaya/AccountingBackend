@@ -13,6 +13,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using AccountingBackend.Api.Test.Commons;
 using AccountingBackend.Application.Accounts.Models;
+using AccountingBackend.Application.Models;
 using AccountingBackend.Application.SystemLookups.Models;
 using MediatR;
 using Moq;
@@ -40,16 +41,16 @@ namespace AccountingBackend.Api.Test.Controllers.SystemLookups {
         [Fact]
         public async Task ReturnListOfSystemlookupsSuccessfuly () {
             // Arrange
-            var response = await _client.GetAsync (_ApiUrl);
+            var response = await _client.PostAsync ($"{_ApiUrl}/filter", Utilities.GetStringContent (new { }));
             // Act
 
             response.EnsureSuccessStatusCode ();
             // Assert
-            var lookups = await Utilities.GetResponseContent<IEnumerable<SystemLookupViewModel>> (response);
+            var lookups = await Utilities.GetResponseContent<FilterResultModel<SystemLookupViewModel>> (response);
 
             // Assert
 
-            Assert.IsType<List<SystemLookupViewModel>> (lookups);
+            Assert.IsType<FilterResultModel<SystemLookupViewModel>> (lookups);
 
         }
 

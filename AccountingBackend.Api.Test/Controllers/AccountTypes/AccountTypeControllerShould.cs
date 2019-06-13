@@ -14,6 +14,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using AccountingBackend.Api.Test.Commons;
 using AccountingBackend.Application.AccountTypes.Models;
+using AccountingBackend.Application.Models;
 using Xunit;
 
 namespace AccountingBackend.Api.Test.Controllers.AccountTypes {
@@ -28,14 +29,14 @@ namespace AccountingBackend.Api.Test.Controllers.AccountTypes {
         [Fact]
         public async Task ReturnListOfAccountTypesSuccessfuly () {
             // Arrange
-            var response = await _client.GetAsync (_ApiUrl);
+            var response = await _client.PostAsync ($"{_ApiUrl}/filter", Utilities.GetStringContent (new { }));
             // Act
             response.EnsureSuccessStatusCode ();
-            var accountType = await Utilities.GetResponseContent<IEnumerable<AccountTypeView>> (response);
+            var accountType = await Utilities.GetResponseContent<FilterResultModel<AccountTypeView>> (response);
             // Assert
             Assert.Equal (HttpStatusCode.OK, response.StatusCode);
 
-            Assert.IsAssignableFrom<IEnumerable<AccountTypeView>> (accountType);
+            Assert.IsAssignableFrom<FilterResultModel<AccountTypeView>> (accountType);
 
         }
 
@@ -61,7 +62,7 @@ namespace AccountingBackend.Api.Test.Controllers.AccountTypes {
             var accountTypeIndex = await Utilities.GetResponseContent<IEnumerable<AccountTypeIndexView>> (response);
             // Assert
             Assert.Equal (HttpStatusCode.OK, response.StatusCode);
-            Assert.False (accountTypeIndex.Any (a => a.TypeOf == null));
+            Assert.False (accountTypeIndex.FirstOrDefault (a => a.TypeOf == null) != null);
             Assert.IsAssignableFrom<IEnumerable<AccountTypeIndexView>> (accountTypeIndex);
         }
 

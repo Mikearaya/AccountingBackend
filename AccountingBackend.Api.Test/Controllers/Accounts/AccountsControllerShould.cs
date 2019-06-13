@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 using AccountingBackend.Api.Test.Commons;
 using AccountingBackend.Application.Accounts.Models;
 using AccountingBackend.Application.Exceptions;
+using AccountingBackend.Application.Models;
 using Xunit;
 
 namespace AccountingBackend.Api.Test.Controllers.Accounts {
@@ -33,14 +34,14 @@ namespace AccountingBackend.Api.Test.Controllers.Accounts {
         public async Task ReturnListOfAccountsSuccessfuly () {
 
             // Actions
-            var response = await _client.GetAsync (_ApiUrl);
+            var response = await _client.PostAsync ($"{_ApiUrl}/filter", Utilities.GetStringContent (new { }));
 
             response.EnsureSuccessStatusCode ();
-            var account = await Utilities.GetResponseContent<IEnumerable<AccountViewModel>> (response);
+            var account = await Utilities.GetResponseContent<FilterResultModel<AccountViewModel>> (response);
 
             // Assert
 
-            Assert.IsAssignableFrom<List<AccountViewModel>> (account);
+            Assert.IsAssignableFrom<FilterResultModel<AccountViewModel>> (account);
         }
 
         /// <summary>
@@ -83,7 +84,7 @@ namespace AccountingBackend.Api.Test.Controllers.Accounts {
                 accountId = "5330",
                 parentAccount = 0,
                 catagoryId = 3,
-                name = "string",
+                AccountName = "string",
                 active = 1,
                 organizationId = 2,
                 openingBalance = 4000,
@@ -117,7 +118,7 @@ namespace AccountingBackend.Api.Test.Controllers.Accounts {
                 accountId = "5330",
                 parentAccount = 0,
                 catagoryId = 3,
-                name = "string",
+                AccountName = "string",
                 active = 1,
                 organizationId = 2,
                 openingBalance = 4000,
@@ -149,7 +150,7 @@ namespace AccountingBackend.Api.Test.Controllers.Accounts {
                 Body = new {
                 accountId = "5330",
                 catagoryId = 3,
-                name = "string",
+                AccountName = "string",
                 active = 1,
                 organizationId = 2,
                 openingBalance = 4000,
@@ -182,7 +183,7 @@ namespace AccountingBackend.Api.Test.Controllers.Accounts {
             var request = new {
                 Body = new {
                 Id = 10,
-                Name = "Account Recievable",
+                AccountName = "Account Recievable",
                 AccountId = "5444",
                 Active = 0
                 }
@@ -207,7 +208,7 @@ namespace AccountingBackend.Api.Test.Controllers.Accounts {
             var request = new {
                 Body = new {
                 Id = 1000,
-                Name = "Account Recievable",
+                AccountName = "Account Recievable",
                 AccountId = "5444",
                 Active = 0
                 }

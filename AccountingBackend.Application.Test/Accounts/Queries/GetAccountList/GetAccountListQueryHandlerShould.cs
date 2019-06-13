@@ -32,7 +32,7 @@ namespace AccountingBackend.Application.Test.Accounts.Queries.GetAccountList {
             // Assert
 
             Assert.IsType<FilterResultModel<AccountViewModel>> (result);
-            Assert.True ((result as FilterResultModel<AccountViewModel>).Items.Count () > 0);
+
         }
     }
 }

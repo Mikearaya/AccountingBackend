@@ -42,13 +42,13 @@ namespace AccountingBackend.Application.Test.Accounts.Commands.UpdateAccount {
 
         [Fact]
         public void HaveErrorWhenNameIsEmptyOrNull () {
-            validator.ShouldHaveValidationErrorFor (a => a.Name, "");
-            validator.ShouldHaveValidationErrorFor (a => a.Name, null as string);
+            validator.ShouldHaveValidationErrorFor (a => a.AccountName, "");
+            validator.ShouldHaveValidationErrorFor (a => a.AccountName, null as string);
         }
 
         [Fact]
         public void NotHaveErrorWhenNameIsNotEmptyOrNull () {
-            validator.ShouldNotHaveValidationErrorFor (a => a.Name, "Cash");
+            validator.ShouldNotHaveValidationErrorFor (a => a.AccountName, "Cash");
         }
     }
 }

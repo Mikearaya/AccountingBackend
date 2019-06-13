@@ -22,7 +22,6 @@ using Xunit;
 namespace AccountingBackend.Application.Test.Ledgers.Commands.UpdateLedgerEntry {
     public class UpdateLedgerEntryCommandHandlerShould : DatabaseTestBase {
 
-        private readonly Mock<IAccountingDatabaseService> Mockdatabase;
         private UpdateLedgerEntryCommandHandler handler;
 
         /// <summary>
@@ -37,7 +36,7 @@ namespace AccountingBackend.Application.Test.Ledgers.Commands.UpdateLedgerEntry 
                 Id = 11,
                 Description = "updated Description",
                 Date = DateTime.Now,
-                Posted = 1,
+                Posted = 0,
                 VoucherId = "JV/001",
                 Reference = "CH--11",
                 Entries = new List<UpdatedLedgerEntryModel> () {
@@ -88,11 +87,11 @@ namespace AccountingBackend.Application.Test.Ledgers.Commands.UpdateLedgerEntry 
                 Id = 10,
                 Description = "updated Description",
                 Date = DateTime.Now,
-                Posted = 0,
+                Posted = 1,
                 VoucherId = "JV/001",
                 Reference = "CH--11",
                 Entries = new List<UpdatedLedgerEntryModel> () {
-                new UpdatedLedgerEntryModel () { Id = 20, Debit = 110, Credit = 0, AccountId = 10 },
+                new UpdatedLedgerEntryModel () { Id = 20, Debit = 117, Credit = 0, AccountId = 10 },
                 new UpdatedLedgerEntryModel () { Id = 21, Debit = 0, Credit = 110, AccountId = 11 }
                 }
             };
@@ -114,7 +113,7 @@ namespace AccountingBackend.Application.Test.Ledgers.Commands.UpdateLedgerEntry 
                 Id = 11,
                 Description = "updated Description",
                 Date = DateTime.Now,
-                Posted = 0,
+                Posted = 1,
                 VoucherId = "JV/001",
                 Reference = "CH--11",
                 Entries = new List<UpdatedLedgerEntryModel> () {
