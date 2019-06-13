@@ -26,7 +26,6 @@ namespace AccountingBackend.Application.Accounts.Queries.GetAccountsList {
         public async Task<IEnumerable<AccountIndexView>> Handle (GetAccountIndexListQuery request, CancellationToken cancellationToken) {
 
             return await _database.Account
-                .Where (a => a.ParentAccountNavigation == null)
                 .Distinct ()
                 .Select (AccountIndexView.Projection)
                 .Where (a => a.Name.ToUpper ().Contains (request.SearchString.ToString ().ToUpper ()))
