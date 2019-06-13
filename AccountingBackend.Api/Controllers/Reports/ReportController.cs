@@ -123,11 +123,23 @@ namespace AccountingBackend.Api.Controllers.Reports {
             return Ok (result);
         }
 
+        /// <summary>
+        /// returns account schedule report base on the filters provided in the query string
+        /// </summary>
+        /// <param name="query"></param>
+        /// <returns></returns>
+
         [HttpPost ("schedule")]
         public async Task<ActionResult<FilterResultModel<AccountScheduleModel>>> GetAccountSchedule ([FromBody] GetAccountScheduleQuery query) {
             var result = await _Mediator.Send (query);
             return Ok (result);
         }
+
+        /// <summary>
+        /// returns cost of goods sold report based on the filter values provided in the request body
+        /// </summary>
+        /// <param name="query"></param>
+        /// <returns></returns>
 
         [HttpGet ("cost-of-goods-sold")]
         public async Task<ActionResult<FilterResultModel<CostofGoodsSoldModel>>> GetCostOfGoodsSold ([FromQuery] GetCostOfGoodsSoldQuery query) {

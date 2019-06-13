@@ -34,7 +34,7 @@ namespace AccountingBackend.Application.Security {
                 list = _securityDatabase.UserClaims
                     .Where (a => a.UserId == authUser.Id)
                     .ToList ();
-            } catch (Exception e) {
+            } catch (Exception) {
 
             }
 

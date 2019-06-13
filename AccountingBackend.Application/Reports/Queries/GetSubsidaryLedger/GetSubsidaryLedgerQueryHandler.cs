@@ -26,7 +26,7 @@ namespace AccountingBackend.Application.Reports.Queries.GetSubsidaryLedger {
             _database = database;
         }
 
-        public async Task<FilterResultModel<SubsidaryLedgerModel>> Handle (GetSubsidaryLedgerQuery request, CancellationToken cancellationToken) {
+        public Task<FilterResultModel<SubsidaryLedgerModel>> Handle (GetSubsidaryLedgerQuery request, CancellationToken cancellationToken) {
 
             var sortBy = request.SortBy.Trim () != "" ? request.SortBy : "AccountName";
             var sortDirection = (request.SortDirection.ToUpper () == "DESCENDING") ? true : false;
@@ -97,7 +97,7 @@ namespace AccountingBackend.Application.Reports.Queries.GetSubsidaryLedger {
             finalResult.Items = adjusted;
             finalResult.Count = filtered.Count ();
 
-            return finalResult;
+            return Task.FromResult<FilterResultModel<SubsidaryLedgerModel>> (finalResult);
         }
     }
 }

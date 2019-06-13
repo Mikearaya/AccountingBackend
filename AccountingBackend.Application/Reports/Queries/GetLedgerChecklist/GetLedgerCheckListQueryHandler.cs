@@ -26,7 +26,7 @@ namespace AccountingBackend.Application.Reports.Queries {
 
         }
 
-        public async Task<FilterResultModel<LedgerChecklistModel>> Handle (GetLedgerCheckListQuery request, CancellationToken cancellationToken) {
+        public Task<FilterResultModel<LedgerChecklistModel>> Handle (GetLedgerCheckListQuery request, CancellationToken cancellationToken) {
 
             var sortBy = request.SortBy.Trim () != "" ? request.SortBy : "LedgerId";
             var sortDirection = (request.SortDirection.ToUpper () == "DESCENDING") ? true : false;
@@ -68,7 +68,7 @@ namespace AccountingBackend.Application.Reports.Queries {
                 .Take (PageSize)
                 .ToList ();
 
-            return result;
+            return Task.FromResult<FilterResultModel<LedgerChecklistModel>> (result);
         }
 
     }

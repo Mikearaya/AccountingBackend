@@ -15,7 +15,7 @@ using MediatR;
 
 namespace AccountingBackend.Application.Reports.Queries.GetSubsidaryLedger {
     public class GetSubsidaryLedgerQuery : ApiQueryString, IRequest<FilterResultModel<SubsidaryLedgerModel>> {
-        public string Year { get; set; } = DateTime.Now.Year.ToString ();
+
         public DateTime? StartDate { get; set; }
         public DateTime EndDate { get; set; } = DateTime.Now;
         public string ControlAccountId { get; set; } = "";

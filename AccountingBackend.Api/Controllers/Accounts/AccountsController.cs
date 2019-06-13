@@ -60,7 +60,7 @@ namespace AccountingBackend.Api.Controllers.Accounts {
         public async Task<ActionResult<FilterResultModel<AccountViewModel>>> GetAccountsList ([FromBody] GetAccountsListQuery query) {
 
             var result = await _Mediator.Send (query);
-            return StatusCode (200, result);
+            return Ok (result);
         }
 
         /// <summary>

@@ -49,7 +49,7 @@ namespace AccountingBackend.Api.Controllers.AccountTypes {
         /// returns a single instance of account type based on the id provided in the url
         /// or return not found status code if the account type doesnt exist
         /// </summary>
-        /// <param name="query"></param>
+        /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet ("{id}")]
         public async Task<ActionResult<AccountTypeView>> FindAccountTypeById (uint id) {
