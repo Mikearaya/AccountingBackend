@@ -13,14 +13,18 @@ using System.Threading.Tasks;
 using AccountingBackend.Application.Interfaces;
 using AccountingBackend.Application.Models;
 using AccountingBackend.Application.Reports.Models;
+using AccountingBackend.Commons;
 using MediatR;
 
 namespace AccountingBackend.Application.Reports.Queries.GetCostOfGoodsSold {
     public class GetCostOfGoodsSoldQueryHandler : IRequestHandler<GetCostOfGoodsSoldQuery, CostofGoodsSoldModel> {
         private readonly IAccountingDatabaseService _database;
 
+        public CustomDateConverter dateConverter { get; }
+
         public GetCostOfGoodsSoldQueryHandler (IAccountingDatabaseService database) {
             _database = database;
+            dateConverter = new CustomDateConverter ();
         }
 
         public Task<CostofGoodsSoldModel> Handle (GetCostOfGoodsSoldQuery request, CancellationToken cancellationToken) {
@@ -36,12 +40,12 @@ namespace AccountingBackend.Application.Reports.Queries.GetCostOfGoodsSold {
 
                 });
 
-            if (request.StartDate != null) {
-                query = query.Where (q => q.Entry.DateAdded >= request.StartDate);
+            if (request.StartDate.Trim () != "") {
+                query = query.Where (q => q.Entry.DateAdded >= dateConverter.EthiopicToGregorian (request.StartDate));
             }
 
-            if (request.EndDate != null) {
-                query = query.Where (q => q.Entry.DateAdded <= request.EndDate);
+            if (request.EndDate.Trim () != "") {
+                query = query.Where (q => q.Entry.DateAdded <= dateConverter.EthiopicToGregorian (request.EndDate));
             }
 
             var result = query.GroupBy (ef => ef.Category.Catagory).ToList ()

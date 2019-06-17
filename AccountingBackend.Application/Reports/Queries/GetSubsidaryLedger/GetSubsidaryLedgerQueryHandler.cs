@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using AccountingBackend.Application.Interfaces;
 using AccountingBackend.Application.Models;
 using AccountingBackend.Application.Reports.Models;
+using AccountingBackend.Commons;
 using AccountingBackend.Commons.QueryHelpers;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -21,9 +22,11 @@ using Microsoft.EntityFrameworkCore;
 namespace AccountingBackend.Application.Reports.Queries.GetSubsidaryLedger {
     public class GetSubsidaryLedgerQueryHandler : IRequestHandler<GetSubsidaryLedgerQuery, FilterResultModel<SubsidaryLedgerModel>> {
         private readonly IAccountingDatabaseService _database;
+        private readonly CustomDateConverter dateConverter;
 
         public GetSubsidaryLedgerQueryHandler (IAccountingDatabaseService database) {
             _database = database;
+            dateConverter = new CustomDateConverter ();
         }
 
         public Task<FilterResultModel<SubsidaryLedgerModel>> Handle (GetSubsidaryLedgerQuery request, CancellationToken cancellationToken) {
@@ -50,13 +53,13 @@ namespace AccountingBackend.Application.Reports.Queries.GetSubsidaryLedger {
             if (request.StartDate != null) {
 
                 list = list.Where (a => a.LedgerEntry
-                    .Any (e => e.Ledger.Date <= request.EndDate));
+                    .Any (e => e.Ledger.Date <= dateConverter.EthiopicToGregorian (request.EndDate)));
             }
 
             if (request.EndDate != null) {
 
                 list = list.Where (a => a.LedgerEntry
-                    .Any (e => e.Ledger.Date <= request.EndDate));
+                    .Any (e => e.Ledger.Date <= dateConverter.EthiopicToGregorian (request.EndDate)));
             }
 
             var filtered = list.Select (SubsidaryLedgerModel.Projection)

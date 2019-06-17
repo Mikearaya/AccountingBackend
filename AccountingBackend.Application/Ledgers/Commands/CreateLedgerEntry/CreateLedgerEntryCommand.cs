@@ -18,7 +18,7 @@ namespace AccountingBackend.Application.Ledgers.Commands.CreateLedgerEntry {
         }
 
         public string Description { get; set; }
-        public DateTime Date { get; set; }
+        public string Date { get; set; }
         public string Reference { get; set; }
         public string VoucherId { get; set; }
         public sbyte Posted { get; set; }

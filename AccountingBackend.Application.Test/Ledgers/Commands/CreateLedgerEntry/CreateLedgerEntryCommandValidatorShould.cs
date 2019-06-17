@@ -41,7 +41,7 @@ namespace AccountingBackend.Application.Test.Ledgers.Commands.CreateLedgerEntry 
 
         [Fact]
         public void NotHaveValidationErrorWhenDateIsNotNullOrEmpty () {
-            validator.ShouldNotHaveValidationErrorFor (x => x.Date, DateTime.Now);
+            validator.ShouldNotHaveValidationErrorFor (x => x.Date, DateTime.Now.ToString ());
         }
 
         [Fact]
@@ -51,7 +51,7 @@ namespace AccountingBackend.Application.Test.Ledgers.Commands.CreateLedgerEntry 
 
         [Fact]
         public void NotHaveValidationErrorWhenIsNotNullOrEmpty () {
-            validator.ShouldNotHaveValidationErrorFor (x => x.Date, DateTime.Now);
+            validator.ShouldNotHaveValidationErrorFor (x => x.Date, DateTime.Now.ToString ());
         }
 
     }

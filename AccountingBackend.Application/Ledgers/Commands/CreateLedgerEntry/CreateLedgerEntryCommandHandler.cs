@@ -41,13 +41,13 @@ namespace AccountingBackend.Application.Ledgers.Commands.CreateLedgerEntry {
 
             Ledger ledger = new Ledger () {
                 Description = request.Description,
-                Date = request.Date,
+                Date = c.EthiopicToGregorian (request.Date),
                 VoucherId = request.VoucherId.Trim (),
                 IsPosted = request.Posted,
                 Reference = request.Reference.Trim (),
                 DateAdded = DateTime.Now,
                 DateUpdated = DateTime.Now,
-                DateEt = c.GregorianToEthiopic (request.Date)
+                DateEt = request.Date
 
             };
 

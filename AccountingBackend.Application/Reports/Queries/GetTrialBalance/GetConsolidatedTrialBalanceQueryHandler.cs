@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using AccountingBackend.Application.Interfaces;
 using AccountingBackend.Application.Models;
 using AccountingBackend.Application.Reports.Models;
+using AccountingBackend.Commons;
 using AccountingBackend.Commons.QueryHelpers;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -22,8 +23,12 @@ namespace AccountingBackend.Application.Reports.Queries.GetTrialBalance {
     public class GetConsolidatedTrialBalanceQueryHandler : IRequestHandler<GetConsolidatedTrialBalanceQuery, FilterResultModel<TrialBalanceModel>> {
         private readonly IAccountingDatabaseService _database;
 
+        public CustomDateConverter dateConverter { get; }
+
         public GetConsolidatedTrialBalanceQueryHandler (IAccountingDatabaseService database) {
             _database = database;
+            dateConverter = new CustomDateConverter ();
+
         }
 
         public Task<FilterResultModel<TrialBalanceModel>> Handle (GetConsolidatedTrialBalanceQuery request, CancellationToken cancellationToken) {
@@ -41,11 +46,11 @@ namespace AccountingBackend.Application.Reports.Queries.GetTrialBalance {
             });
 
             if (request.StartDate != null) {
-                entry = entry.Where (d => d.ledger.Ledger.Date >= request.StartDate);
+                entry = entry.Where (d => d.ledger.Ledger.Date >= dateConverter.EthiopicToGregorian (request.StartDate));
             }
 
             if (request.EndDate != null) {
-                entry = entry.Where (d => d.ledger.Ledger.Date <= request.EndDate);
+                entry = entry.Where (d => d.ledger.Ledger.Date <= dateConverter.EthiopicToGregorian (request.EndDate));
             }
 
             var filtered = entry.GroupBy (a => a.AccountId)

@@ -42,7 +42,7 @@ namespace AccountingBackend.Application.Test.Ledgers.Commands.CreateLedgerEntry 
                 Description = "Testing Ledger entry working",
                 Reference = "",
                 VoucherId = "JV/088",
-                Date = DateTime.Now,
+                Date = DateTime.Now.ToString (),
                 Posted = 0,
                 Entries = new List<NewLedgerEntryModel> () {
                 new NewLedgerEntryModel () { Credit = 100, Debit = 0, AccountId = 1 },
@@ -68,7 +68,7 @@ namespace AccountingBackend.Application.Test.Ledgers.Commands.CreateLedgerEntry 
                 Description = "Testing Ledger entry working",
                 Reference = "",
                 VoucherId = "JV/001",
-                Date = DateTime.Now,
+                Date = DateTime.Now.ToString (),
                 Posted = 0,
                 Entries = new List<NewLedgerEntryModel> () {
                 new NewLedgerEntryModel () { Credit = 100, Debit = 0, AccountId = 1 },
@@ -93,7 +93,7 @@ namespace AccountingBackend.Application.Test.Ledgers.Commands.CreateLedgerEntry 
                 Description = "Testing Ledger entry working",
                 Reference = "",
                 VoucherId = "JV/090",
-                Date = DateTime.Now,
+                Date = DateTime.Now.ToString (),
                 Posted = 0,
                 Entries = new List<NewLedgerEntryModel> () {
                 new NewLedgerEntryModel () { Credit = 100, Debit = 0, AccountId = 1 },
@@ -117,7 +117,7 @@ namespace AccountingBackend.Application.Test.Ledgers.Commands.CreateLedgerEntry 
                 Description = "Testing Ledger entry working",
                 Reference = "",
                 VoucherId = "JV/090",
-                Date = DateTime.Now,
+                Date = DateTime.Now.ToString (),
                 Posted = 0,
                 Entries = new List<NewLedgerEntryModel> () {
                 new NewLedgerEntryModel () { Credit = 100, Debit = 0, AccountId = 1 },

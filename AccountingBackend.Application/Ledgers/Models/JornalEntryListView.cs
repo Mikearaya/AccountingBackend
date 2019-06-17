@@ -14,7 +14,8 @@ namespace AccountingBackend.Application.Ledgers.Models {
     public class JornalEntryListView {
         public int Id { get; set; }
         public string Description { get; set; }
-        public DateTime Date { get; set; }
+        public string Date { get; set; }
+        public DateTime DateGreg { get; set; }
         public string Reference { get; set; }
         public string VoucherId { get; set; }
         public bool Posted { get; set; }
@@ -28,7 +29,8 @@ namespace AccountingBackend.Application.Ledgers.Models {
                     Id = entry.Id,
                     VoucherId = entry.VoucherId,
                     Description = entry.Description,
-                    Date = entry.Date,
+                    DateGreg = entry.Date,
+                    Date = entry.DateEt,
                     Reference = entry.Reference,
                     Posted = (entry.IsPosted == 0) ? false : true,
                     DateAdded = entry.DateAdded,

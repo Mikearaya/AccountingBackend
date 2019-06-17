@@ -12,14 +12,17 @@ using System.Threading;
 using System.Threading.Tasks;
 using AccountingBackend.Application.Interfaces;
 using AccountingBackend.Application.Reports.Models;
+using AccountingBackend.Commons;
 using MediatR;
 
 namespace AccountingBackend.Application.Reports.Queries.GetIncomeStatement {
     public class GetIncomeStatementQueryHandler : IRequestHandler<GetIncomeStatementQuery, IncomeStatementViewModel> {
         private IAccountingDatabaseService _database;
+        private readonly CustomDateConverter dateConverter;
 
         public GetIncomeStatementQueryHandler (IAccountingDatabaseService database) {
             _database = database;
+            dateConverter = new CustomDateConverter ();
         }
 
         public Task<IncomeStatementViewModel> Handle (GetIncomeStatementQuery request, CancellationToken cancellationToken) {
@@ -36,11 +39,11 @@ namespace AccountingBackend.Application.Reports.Queries.GetIncomeStatement {
                 });
 
             if (request.StartDate != null) {
-                query = query.Where (q => q.Entry.DateAdded >= request.StartDate);
+                query = query.Where (q => q.Entry.DateAdded >= dateConverter.EthiopicToGregorian (request.StartDate));
             }
 
             if (request.EndDate != null) {
-                query = query.Where (q => q.Entry.DateAdded <= request.EndDate);
+                query = query.Where (q => q.Entry.DateAdded <= dateConverter.EthiopicToGregorian (request.EndDate));
             }
 
             var result = query.GroupBy (ef => ef.AccountType.IsSummery == 1 ? ef.AccountType.Type : ef.Category.Catagory).ToList ()

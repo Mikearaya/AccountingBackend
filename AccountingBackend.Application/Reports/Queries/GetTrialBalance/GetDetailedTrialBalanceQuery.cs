@@ -16,7 +16,7 @@ using MediatR;
 namespace AccountingBackend.Application.Reports.Queries.GetTrialBalance {
     public class GetDetailedTrialBalanceQuery : ApiQueryString, IRequest<FilterResultModel<TrialBalanceDetailModel>> {
 
-        public DateTime? StartDate { get; set; }
-        public DateTime? EndDate { get; set; }
+        public string StartDate { get; set; }
+        public string EndDate { get; set; }
     }
 }

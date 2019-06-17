@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 using AccountingBackend.Application.Interfaces;
 using AccountingBackend.Application.Models;
 using AccountingBackend.Application.Reports.Models;
+using AccountingBackend.Commons;
 using AccountingBackend.Commons.QueryHelpers;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -23,8 +24,11 @@ namespace AccountingBackend.Application.Reports.Queries {
     public class GetAccountScheduleQueryHandler : ApiQueryString, IRequestHandler<GetAccountScheduleQuery, FilterResultModel<AccountScheduleModel>> {
         private readonly IAccountingDatabaseService _database;
 
+        public CustomDateConverter dateConverter { get; }
+
         public GetAccountScheduleQueryHandler (IAccountingDatabaseService database) {
             _database = database;
+            dateConverter = new CustomDateConverter ();
         }
 
         public Task<FilterResultModel<AccountScheduleModel>> Handle (GetAccountScheduleQuery request, CancellationToken cancellationToken) {
@@ -44,10 +48,10 @@ namespace AccountingBackend.Application.Reports.Queries {
                 result = result.Where (d => d.ControlAccountId == request.ControlAccountId);
             }
             if (request.StartDate != null) {
-                result = result.Where (d => d.Date >= request.StartDate);
+                result = result.Where (d => d.Date >= dateConverter.EthiopicToGregorian (request.StartDate));
             }
             if (request.EndDate != null) {
-                result = result.Where (d => d.Date <= request.EndDate);
+                result = result.Where (d => d.Date <= dateConverter.EthiopicToGregorian (request.EndDate));
             }
 
             var filtered = result

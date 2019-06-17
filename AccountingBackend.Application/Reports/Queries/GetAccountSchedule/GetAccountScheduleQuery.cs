@@ -7,18 +7,23 @@
  * @Description: Modify Here, Please 
  */
 using System;
-using System.Collections.Generic;
 using AccountingBackend.Application.Models;
 using AccountingBackend.Application.Reports.Models;
+using AccountingBackend.Commons;
 using AccountingBackend.Commons.QueryHelpers;
 using MediatR;
 
 namespace AccountingBackend.Application.Reports.Queries {
     public class GetAccountScheduleQuery : ApiQueryString, IRequest<FilterResultModel<AccountScheduleModel>> {
+        private CustomDateConverter dateConverter;
+        public GetAccountScheduleQuery () {
+            dateConverter = new CustomDateConverter ();
+        }
 
         public string ControlAccountId { get; set; }
-        public DateTime? StartDate { get; set; }
-        public DateTime? EndDate { get; set; }
+
+        public string StartDate { get; set; }
+        public string EndDate { get; set; }
 
     }
 }
