@@ -3,7 +3,7 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: May 8, 2019 3:22 PM
+ * @Last Modified Time: Jun 17, 2019 10:51 AM
  * @Description: Modify Here, Please 
  */
 using System.Linq;
@@ -28,6 +28,9 @@ namespace AccountingBackend.Application.Ledgers.Queries.GetLedgerEntry {
                 .Include (l => l.LedgerEntry)
                 .Select (LedgerEntryViewModel.Projection)
                 .FirstOrDefaultAsync (x => x.Id == request.Id);
+
+            entry.Next = await _database.Ledger.Where (a => a.Id > request.Id).Select (e => e.Id).OrderBy (a => a).Take (1).FirstOrDefaultAsync ();
+            entry.Prev = await _database.Ledger.Where (a => a.Id < request.Id).Select (e => e.Id).OrderByDescending (a => a).Take (1).FirstOrDefaultAsync ();
 
             if (entry == null) {
                 throw new NotFoundException ("Ledger Entry", request.Id);

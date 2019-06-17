@@ -3,7 +3,7 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: May 9, 2019 8:08 AM
+ * @Last Modified Time: Jun 17, 2019 10:27 AMAM
  * @Description: Modify Here, Please 
  */
 using System;
@@ -15,6 +15,9 @@ using AccountingBackend.Domain;
 namespace AccountingBackend.Application.Ledgers.Models {
     public class LedgerEntryViewModel {
 
+        public int? Prev { get; set; }
+
+        public int? Next { get; set; }
         public int Id { get; set; }
         public string Description { get; set; }
         public DateTime Date { get; set; }

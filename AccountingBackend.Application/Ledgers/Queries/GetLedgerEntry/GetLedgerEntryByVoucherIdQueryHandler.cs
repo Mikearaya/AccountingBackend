@@ -3,7 +3,7 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: Jun 17, 2019 9:31 AM
+ * @Last Modified Time: Jun 17, 2019 10:46 AM
  * @Description: Modify Here, Please 
  */
 using System.Collections.Generic;
@@ -27,6 +27,8 @@ namespace AccountingBackend.Application.Ledgers.Queries.GetLedgerEntry {
             return await _database.Ledger
                 .Where (l => l.VoucherId.Trim ().ToUpper ().Contains (request.VoucherId.Trim ().ToUpper ()))
                 .Select (LedgerEntryIndexView.Projection)
+                .OrderBy (a => a.VoucherId)
+                .Take (20)
                 .ToListAsync ();
         }
     }
