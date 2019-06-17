@@ -17,6 +17,7 @@ namespace AccountingBackend.Application.Reports.Models {
 
         public int Id { get; set; }
         public LedgerEntry Ledger { get; set; }
+        public string Type { get; set; }
 
         public string AccountName { get; set; }
         public string AccountId { get; set; }

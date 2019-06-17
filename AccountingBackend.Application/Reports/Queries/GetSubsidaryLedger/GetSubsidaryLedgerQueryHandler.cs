@@ -28,7 +28,7 @@ namespace AccountingBackend.Application.Reports.Queries.GetSubsidaryLedger {
 
         public Task<FilterResultModel<SubsidaryLedgerModel>> Handle (GetSubsidaryLedgerQuery request, CancellationToken cancellationToken) {
 
-            var sortBy = request.SortBy.Trim () != "" ? request.SortBy : "AccountName";
+            var sortBy = request.SortBy.Trim () != "" ? request.SortBy : "ControlAccountId";
             var sortDirection = (request.SortDirection.ToUpper () == "DESCENDING") ? true : false;
 
             FilterResultModel<SubsidaryLedgerModel> finalResult = new FilterResultModel<SubsidaryLedgerModel> ();
@@ -38,25 +38,25 @@ namespace AccountingBackend.Application.Reports.Queries.GetSubsidaryLedger {
             var list = _database.Account
                 .Include (e => e.ParentAccountNavigation)
                 .Where (x => x.ParentAccountNavigation != null)
-                .Where (x => x.Year == request.Year && x.LedgerEntry.Count > 0).AsQueryable ();
+                .Where (x => x.Year == request.Year && x.LedgerEntry.Count > 0);
 
             if (request.ControlAccountId.Trim () != "") {
-                list = list.Where (l => l.ParentAccountNavigation.AccountId == request.ControlAccountId).AsQueryable ();
+                list = list.Where (l => l.ParentAccountNavigation.AccountId == request.ControlAccountId);
             }
 
             if (request.SubsidaryId.Trim () != "") {
-                list = list.Where (l => l.AccountId == request.SubsidaryId).AsQueryable ();
+                list = list.Where (l => l.AccountId == request.SubsidaryId);
             }
             if (request.StartDate != null) {
 
                 list = list.Where (a => a.LedgerEntry
-                    .Any (e => e.Ledger.Date <= request.EndDate)).AsQueryable ();
+                    .Any (e => e.Ledger.Date <= request.EndDate));
             }
 
             if (request.EndDate != null) {
 
                 list = list.Where (a => a.LedgerEntry
-                    .Any (e => e.Ledger.Date <= request.EndDate)).AsQueryable ();
+                    .Any (e => e.Ledger.Date <= request.EndDate));
             }
 
             var filtered = list.Select (SubsidaryLedgerModel.Projection)
@@ -70,6 +70,7 @@ namespace AccountingBackend.Application.Reports.Queries.GetSubsidaryLedger {
             }
 
             var fil = finalResult.Items = filtered.OrderBy (sortBy, sortDirection)
+                .OrderBy (e => e.SubAccountId)
                 .Skip (PageNumber - 1)
                 .Take (PageSize)
                 .ToList ();

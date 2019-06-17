@@ -3,7 +3,7 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: May 25, 2019 5:27 PM
+ * @Last Modified Time: Jun 15, 2019 9:22 AM
  * @Description: Modify Here, Please 
  */
 using System;
@@ -63,6 +63,17 @@ namespace AccountingBackend.Application.Reports.Queries {
             }
 
             view.UnpostedEntries = _database.Ledger.Count (l => l.IsPosted == 0);
+
+            view.SalesSummert = _database.LedgerEntry.Join (_database.Account.Where (a => a.Catagory.AccountType.TypeOfNavigation.Type.ToUpper () == "REVENUE"), c => c.AccountId, a => a.Id, (c, a) => new {
+                    Month = c.Ledger.Date.Month,
+                        sales = a.LedgerEntry.Sum (s => (decimal?) s.Credit) - a.LedgerEntry.Sum (s => (decimal?) s.Debit)
+                }).GroupBy (g => g.Month)
+                .Select (a => new SalesSummaryModel () {
+                    Month = a.Key,
+                        Sales = a.Sum (k => k.sales)
+                }).OrderBy (a => a.Month).ToList ();
+
+            System.Globalization.DateTimeFormatInfo mfi = new System.Globalization.DateTimeFormatInfo ();
 
             return view;
         }

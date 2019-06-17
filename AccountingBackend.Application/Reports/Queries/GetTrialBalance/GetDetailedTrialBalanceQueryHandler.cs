@@ -28,7 +28,7 @@ namespace AccountingBackend.Application.Reports.Queries.GetTrialBalance {
 
         public Task<FilterResultModel<TrialBalanceDetailModel>> Handle (GetDetailedTrialBalanceQuery request, CancellationToken cancellationToken) {
             var sortBy = request.SortBy.Trim () != "" ? request.SortBy : "AccountId";
-            var sortDirection = (request.SortDirection.ToUpper () == "DESCENDING") ? true : false;
+            var sortDirection = (request.SortDirection.ToUpper () == "DESCENDING") ? true : true;
 
             FilterResultModel<TrialBalanceDetailModel> finalResult = new FilterResultModel<TrialBalanceDetailModel> ();
 
@@ -40,6 +40,7 @@ namespace AccountingBackend.Application.Reports.Queries.GetTrialBalance {
 
                     Parent = a.ParentAccountNavigation,
                         Account = a,
+                        Type = a.Catagory.AccountType.TypeOfNavigation.Type,
                         Id = a.Id,
                         AccountName = a.AccountName,
                         AccountId = a.ParentAccountNavigation.AccountId,
@@ -68,13 +69,13 @@ namespace AccountingBackend.Application.Reports.Queries.GetTrialBalance {
                 .Select (d => new {
                     AccountName = d.Key.Account.AccountName,
                         AccountId = d.Key.Account.AccountId,
+                        Type = d.Select (e => e.Type).First (),
                         ControlAccountId = d.Key.Parent.AccountId,
                         ControlAccountName = d.Key.Parent.AccountName,
                         CreditSum = d.Sum (c => (decimal?) c.Credit),
                         DebitSum = d.Sum (c => (decimal?) c.Debit)
 
-                })
-                .GroupBy (s => new { s.ControlAccountId, s.ControlAccountName })
+                }).GroupBy (s => new { s.ControlAccountId, s.ControlAccountName })
                 .Skip (PageNumber)
                 .Take (PageSize)
                 .ToList ();
@@ -91,13 +92,20 @@ namespace AccountingBackend.Application.Reports.Queries.GetTrialBalance {
 
                 foreach (var sub in parent) {
 
-                    ((IList<TrialBalanceDetailListModel>) temp.Entries).Add (new TrialBalanceDetailListModel () {
+                    var det = new TrialBalanceDetailListModel () {
                         AccountName = sub.AccountName,
-                            ControlAccountId = parent.Key.ControlAccountId,
-                            Credit = sub.CreditSum,
-                            Debit = sub.DebitSum,
-                            AccountId = sub.AccountId
-                    });
+                        ControlAccountId = parent.Key.ControlAccountId,
+                        Credit = sub.CreditSum,
+                        Debit = sub.DebitSum,
+                        AccountId = sub.AccountId
+                    };
+
+                    if (sub.Type.ToUpper () == "ASSET") {
+                        Console.WriteLine ($"{sub.Type}");
+                        det.Debit = sub.DebitSum - sub.CreditSum;
+                        det.Credit = 0;
+                    }
+                    ((IList<TrialBalanceDetailListModel>) temp.Entries).Add (det);
 
                 }
 

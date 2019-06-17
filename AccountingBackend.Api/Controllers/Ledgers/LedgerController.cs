@@ -3,7 +3,7 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: Jun 7, 2019 1:09 PM
+ * @Last Modified Time: Jun 17, 2019 9:33 AM
  * @Description: Modify Here, Please 
  */
 using System.Collections.Generic;
@@ -45,6 +45,18 @@ namespace AccountingBackend.Api.Controllers.Ledgers {
         public async Task<ActionResult<LedgerEntryViewModel>> FindLedgerEntryById (int id) {
 
             var entry = await _Mediator.Send (new GetLedgerEntryByIdQuery () { Id = id });
+            return Ok (entry);
+        }
+
+        /// <summary>
+        /// used to search ledger entries based on their voucher id
+        /// </summary>
+        /// <param name="voucherId"></param>
+        /// <returns></returns>
+        [HttpGet ("voucher/{voucherId}")]
+        public async Task<ActionResult<LedgerEntryViewModel>> FindLedgerEntryByVoucherId (string voucherId) {
+
+            var entry = await _Mediator.Send (new GetLedgerEntryByVoucherIdQuery () { VoucherId = voucherId });
             return Ok (entry);
         }
 

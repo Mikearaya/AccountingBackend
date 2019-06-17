@@ -41,7 +41,7 @@ namespace AccountingBackend.Persistance {
 
         protected override void OnConfiguring (DbContextOptionsBuilder optionBuilder) {
             if (!optionBuilder.IsConfigured) {
-                optionBuilder.UseMySql ("server=localhost;user=admin;password=admin;port=3306;database=smart_accounting;");
+                optionBuilder.UseMySql ("server=localhost;user=admin;password=admin;port=3306;database=smart_accounting_ecafco;");
             }
 
         }

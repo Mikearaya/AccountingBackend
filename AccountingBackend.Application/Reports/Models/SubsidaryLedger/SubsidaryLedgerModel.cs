@@ -38,6 +38,9 @@ namespace AccountingBackend.Application.Reports.Models {
                     Entries = entry.LedgerEntry
                     .AsQueryable ()
                     .Select (SubsidaryLedgerDetailModel.Projection)
+                    .OrderByDescending (d => d.Date)
+                    .ThenBy (d => d.VoucherId)
+                    .AsQueryable ()
 
                 };
             }
