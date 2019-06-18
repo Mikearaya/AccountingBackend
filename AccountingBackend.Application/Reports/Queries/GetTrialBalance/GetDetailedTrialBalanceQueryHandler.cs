@@ -32,7 +32,7 @@ namespace AccountingBackend.Application.Reports.Queries.GetTrialBalance {
 
         public Task<FilterResultModel<TrialBalanceDetailModel>> Handle (GetDetailedTrialBalanceQuery request, CancellationToken cancellationToken) {
             var sortBy = request.SortBy.Trim () != "" ? request.SortBy : "AccountId";
-            var sortDirection = (request.SortDirection.ToUpper () == "DESCENDING") ? true : true;
+            var sortDirection = (request.SortDirection.ToUpper () == "DESCENDING") ? true : false;
 
             FilterResultModel<TrialBalanceDetailModel> finalResult = new FilterResultModel<TrialBalanceDetailModel> ();
 

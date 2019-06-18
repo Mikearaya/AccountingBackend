@@ -40,12 +40,12 @@ namespace AccountingBackend.Application.Reports.Queries.GetCostOfGoodsSold {
 
                 });
 
-            if (request.StartDate.Trim () != "") {
-                query = query.Where (q => q.Entry.DateAdded >= dateConverter.EthiopicToGregorian (request.StartDate));
+            if (request.StartDate != null) {
+                query = query.Where (q => q.Entry.DateAdded >= request.StartDate);
             }
 
-            if (request.EndDate.Trim () != "") {
-                query = query.Where (q => q.Entry.DateAdded <= dateConverter.EthiopicToGregorian (request.EndDate));
+            if (request.EndDate != null) {
+                query = query.Where (q => q.Entry.DateAdded <= request.EndDate);
             }
 
             var result = query.GroupBy (ef => ef.Category.Catagory).ToList ()
