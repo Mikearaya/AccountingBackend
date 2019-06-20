@@ -104,10 +104,14 @@ namespace AccountingBackend.Application.Reports.Queries.GetTrialBalance {
                         AccountId = sub.AccountId
                     };
 
-                    if (sub.Type.ToUpper () == "ASSET") {
-                        Console.WriteLine ($"{sub.Type}");
+                    if (sub.Type.ToUpper () == "LIABILITY" || sub.Type.ToUpper () == "CAPITAL" || sub.Type.ToUpper () == "REVENUE") {
+
+                        det.Credit = sub.CreditSum - sub.DebitSum;
+                        det.Debit = null;
+                    } else {
+
                         det.Debit = sub.DebitSum - sub.CreditSum;
-                        det.Credit = 0;
+                        det.Credit = null;
                     }
                     ((IList<TrialBalanceDetailListModel>) temp.Entries).Add (det);
 

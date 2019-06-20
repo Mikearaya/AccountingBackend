@@ -73,7 +73,6 @@ namespace AccountingBackend.Application.Reports.Queries.GetSubsidaryLedger {
             }
 
             var fil = finalResult.Items = filtered.OrderBy (sortBy, sortDirection)
-                .OrderBy (e => e.SubAccountId)
                 .Skip (PageNumber - 1)
                 .Take (PageSize)
                 .ToList ();
@@ -92,7 +91,21 @@ namespace AccountingBackend.Application.Reports.Queries.GetSubsidaryLedger {
 
                 };
                 foreach (var entry in item.Entries) {
-                    balance = balance + (entry.Debit - entry.Credit);
+
+                    if (item.AccountType.ToUpper () == "LIABILITY" || item.AccountType.ToUpper () == "REVENUE" || item.AccountType.ToUpper () == "CAPITAL") {
+                        balance = balance + (entry.Credit - entry.Debit);
+
+                    } else {
+                        balance = balance + (entry.Debit - entry.Credit);
+
+                    }
+
+                    if (entry.Credit <= 0) {
+                        entry.Credit = null;
+                    } else {
+                        entry.Debit = null;
+                    }
+
                     entry.Balance = balance;
                     ((IList<SubsidaryLedgerDetailModel>) mod.Entries).Add (entry);
                 }

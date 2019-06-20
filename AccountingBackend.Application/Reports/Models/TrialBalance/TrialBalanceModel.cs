@@ -15,6 +15,7 @@ namespace AccountingBackend.Application.Reports.Models {
         public string AccountId { get; set; }
         public decimal? Credit { get; set; }
         public decimal? Debit { get; set; }
+        public string AccountType { get; set; }
         public string AccountName { get; set; }
 
         public static Expression<Func<LedgerEntry, TrialBalanceModel>> Projection {

@@ -40,8 +40,8 @@ namespace AccountingBackend.Application.Reports.Models {
                 return entry => new LedgerCheckListDetailModel () {
                     ControlAccountId = entry.Account.ParentAccountNavigation.AccountId,
                     SubAccountId = entry.Account.AccountId,
-                    Credit = entry.Credit,
-                    Debit = entry.Debit,
+                    Credit = entry.Credit == 0 ? null : entry.Credit,
+                    Debit = entry.Debit == 0 ? null : entry.Debit,
                     LedgerId = entry.LedgerId,
                     AccountName = entry.Account.AccountName
                 };

@@ -30,6 +30,7 @@ namespace AccountingBackend.Application.Reports.Models {
             get {
                 return entry => new SubsidaryLedgerModel () {
                     Id = entry.Id,
+                    AccountId = entry.ParentAccountNavigation.AccountId,
                     ControlAccountId = entry.ParentAccountNavigation.AccountId,
                     SubAccountId = entry.AccountId,
                     AccountType = entry.Catagory.AccountType.TypeOfNavigation.Type,

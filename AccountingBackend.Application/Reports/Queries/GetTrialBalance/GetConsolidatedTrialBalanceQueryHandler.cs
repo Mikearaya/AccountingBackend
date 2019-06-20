@@ -40,6 +40,7 @@ namespace AccountingBackend.Application.Reports.Queries.GetTrialBalance {
             var entry = _database.LedgerEntry.Join (_database.Account.Where (a => a.Year == request.Year && a.ParentAccountNavigation != null), l => l.AccountId, a => a.Id, (l, a) => new {
                 AccountId = a.ParentAccountNavigation.AccountId,
                     AccountName = a.ParentAccountNavigation.AccountName,
+                    Type = a.Catagory.AccountType.TypeOfNavigation.Type,
                     Credit = l.Credit,
                     Debit = l.Debit,
                     ledger = l
@@ -53,9 +54,10 @@ namespace AccountingBackend.Application.Reports.Queries.GetTrialBalance {
                 entry = entry.Where (d => d.ledger.Ledger.Date <= dateConverter.EthiopicToGregorian (request.EndDate));
             }
 
-            var filtered = entry.GroupBy (a => a.AccountId)
+            var filtered = entry.GroupBy (a => new { a.AccountId, a.Type })
                 .Select (x => new TrialBalanceModel () {
-                    AccountId = x.Key,
+                    AccountId = x.Key.AccountId,
+                        AccountType = x.Key.Type,
                         Credit = x.Sum (c => (decimal?) c.Credit),
                         AccountName = x.Select (s => s.AccountName).First (),
                         Debit = x.Sum (c => (decimal?) c.Debit),
@@ -76,6 +78,17 @@ namespace AccountingBackend.Application.Reports.Queries.GetTrialBalance {
                 .Skip (PageNumber - 1)
                 .Take (PageSize)
                 .ToList ();
+
+            foreach (var item in result.Items) {
+
+                if (item.AccountType.ToUpper () == "LIABILITY" || item.AccountType.ToUpper () == "REVENUE" || item.AccountType.ToUpper () == "CAPITAL") {
+                    item.Credit = item.Credit - item.Debit;
+                    item.Debit = null;
+                } else {
+                    item.Debit = item.Debit - item.Credit;
+                    item.Credit = null;
+                }
+            }
 
             return Task.FromResult<FilterResultModel<TrialBalanceModel>> (result);
 
