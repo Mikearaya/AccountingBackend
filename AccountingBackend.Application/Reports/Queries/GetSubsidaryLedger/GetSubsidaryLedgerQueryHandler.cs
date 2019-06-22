@@ -90,7 +90,7 @@ namespace AccountingBackend.Application.Reports.Queries.GetSubsidaryLedger {
                     BBF = balance
 
                 };
-                foreach (var entry in item.Entries) {
+                foreach (var entry in item.Entries.OrderBy (s => s.Date).ThenBy (s => s.Id)) {
 
                     if (item.AccountType.ToUpper () == "LIABILITY" || item.AccountType.ToUpper () == "REVENUE" || item.AccountType.ToUpper () == "CAPITAL") {
                         balance = balance + (entry.Credit - entry.Debit);

@@ -86,6 +86,7 @@ namespace AccountingBackend.Application.Reports.Queries.GetTrialBalance {
 
             IList<TrialBalanceDetailModel> detail = new List<TrialBalanceDetailModel> ();
 
+            decimal? difference = 0;
             foreach (var parent in grouped) {
                 TrialBalanceDetailModel temp = new TrialBalanceDetailModel () {
 
@@ -94,24 +95,37 @@ namespace AccountingBackend.Application.Reports.Queries.GetTrialBalance {
                     ControlAccountId = parent.Key.ControlAccountId
                 };
 
-                foreach (var sub in parent) {
+                foreach (var sub in parent.OrderBy (s => s.AccountId)) {
 
                     var det = new TrialBalanceDetailListModel () {
-                        AccountName = sub.AccountName,
-                        ControlAccountId = parent.Key.ControlAccountId,
-                        Credit = sub.CreditSum,
-                        Debit = sub.DebitSum,
-                        AccountId = sub.AccountId
+                    AccountName = sub.AccountName,
+                    ControlAccountId = parent.Key.ControlAccountId,
+                    Credit = sub.CreditSum,
+                    Debit = sub.DebitSum,
+                    AccountId = sub.AccountId
                     };
 
                     if (sub.Type.ToUpper () == "LIABILITY" || sub.Type.ToUpper () == "CAPITAL" || sub.Type.ToUpper () == "REVENUE") {
+                        difference = sub.CreditSum - sub.DebitSum;
+                        if (difference < 0) {
+                            det.Debit = difference * -1;
+                            det.Credit = null;
+                        } else {
+                            det.Credit = difference;
+                            det.Debit = null;
+                        }
 
-                        det.Credit = sub.CreditSum - sub.DebitSum;
-                        det.Debit = null;
                     } else {
+                        difference = sub.DebitSum - sub.CreditSum;
 
-                        det.Debit = sub.DebitSum - sub.CreditSum;
-                        det.Credit = null;
+                        if (difference < 0) {
+                            det.Credit = difference * -1;
+                            det.Debit = null;
+                        } else {
+                            det.Debit = difference;
+                            det.Credit = null;
+                        }
+
                     }
                     ((IList<TrialBalanceDetailListModel>) temp.Entries).Add (det);
 

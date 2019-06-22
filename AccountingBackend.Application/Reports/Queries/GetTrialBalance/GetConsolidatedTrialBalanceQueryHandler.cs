@@ -79,14 +79,31 @@ namespace AccountingBackend.Application.Reports.Queries.GetTrialBalance {
                 .Take (PageSize)
                 .ToList ();
 
+            decimal? difference = 0;
+
             foreach (var item in result.Items) {
 
                 if (item.AccountType.ToUpper () == "LIABILITY" || item.AccountType.ToUpper () == "REVENUE" || item.AccountType.ToUpper () == "CAPITAL") {
-                    item.Credit = item.Credit - item.Debit;
-                    item.Debit = null;
+
+                    difference = item.Credit - item.Debit;
+                    if (difference < 0) {
+                        item.Debit = difference * -1;
+                        item.Credit = null;
+                    } else {
+                        item.Credit = difference;
+                        item.Debit = null;
+                    }
+
                 } else {
-                    item.Debit = item.Debit - item.Credit;
-                    item.Credit = null;
+
+                    difference = item.Debit - item.Credit;
+                    if (difference < 0) {
+                        item.Credit = difference * -1;
+                        item.Debit = null;
+                    } else {
+                        item.Debit = difference;
+                        item.Credit = null;
+                    }
                 }
             }
 
