@@ -48,7 +48,6 @@ namespace AccountingBackend.Application.Ledgers.Commands.CreateLedgerEntry {
                 DateAdded = DateTime.Now,
                 DateUpdated = DateTime.Now,
                 DateEt = request.Date
-
             };
 
             float? totalCredit = 0;

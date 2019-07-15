@@ -31,7 +31,9 @@ namespace AccountingBackend.Application.Ledgers.Queries.GetLedgerEntryList {
 
             FilterResultModel<JornalEntryListView> result = new FilterResultModel<JornalEntryListView> ();
             var jornalEntries = _database.Ledger
+                .Where (l => l.LedgerEntry.All (a => a.Account.Year == request.Year))
                 .Select (JornalEntryListView.Projection)
+
                 .Select (DynamicQueryHelper.GenerateSelectedColumns<JornalEntryListView> (request.SelectedColumns))
                 .AsQueryable ();
 
