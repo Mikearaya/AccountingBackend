@@ -25,12 +25,7 @@ using AccountingBackend.Application.Users.Queries.GetUserList;
 using AccountingBackend.API.Commons;
 using BackendSecurity.Domain.Identity;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
 
 namespace AccountingBackend.API.Controllers.Users {
 
