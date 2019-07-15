@@ -6,12 +6,14 @@
  * @Last Modified Time: May 4, 2019 10:24 AM
  * @Description: Modify Here, Please 
  */
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AccountingBackend.Application.Accounts.Models;
 using AccountingBackend.Application.Interfaces;
+using AccountingBackend.Commons;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -25,6 +27,10 @@ namespace AccountingBackend.Application.Accounts.Queries.GetAccountsList {
 
         public async Task<IEnumerable<AccountIndexView>> Handle (GetAccountIndexListQuery request, CancellationToken cancellationToken) {
 
+            CustomDateConverter converter = new CustomDateConverter ();
+
+            var date = converter.EthiopicToGregorian ($"1/11/2011");
+            Console.WriteLine (date);
             return await _database.Account
                 .Distinct ()
                 .Select (AccountIndexView.Projection)

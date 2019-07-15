@@ -1,3 +1,4 @@
+using System.ComponentModel;
 /*
  * @CreateTime: May 23, 2019 9:32 AM
  * @Author:  Mikael Araya
@@ -11,7 +12,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using AccountingBackend.Application.Exceptions;
 using AccountingBackend.Application.Interfaces;
+using AccountingBackend.Commons;
 using AccountingBackend.Domain;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -27,6 +30,15 @@ namespace AccountingBackend.Application.Accounts.Commands.CreateAccount {
         public async Task<Unit> Handle (CreateNewYearCommand request, CancellationToken cancellationToken) {
 
             var lastYear = _database.Account.Max (b => b.Year);
+
+            CustomDateConverter converter = new CustomDateConverter ();
+
+            var date = converter.EthiopicToGregorian ($"1/11/{lastYear}");
+
+            if (date < DateTime.Now) {
+                throw new NotFoundException ("date", lastYear);
+            }
+
             int lastYearINT = Int32.Parse (lastYear);
             var accounts = await _database.Account.Where (y => y.Year == lastYear)
                 .Include (l => l.LedgerEntry)
