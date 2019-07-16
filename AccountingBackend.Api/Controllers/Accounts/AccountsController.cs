@@ -3,7 +3,7 @@
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: May 28, 2019 2:09 PM
+ * @Last Modified Time: Jul 16, 2019 8:21 AM
  * @Description: Modify Here, Please 
  */
 using System;
@@ -123,6 +123,16 @@ namespace AccountingBackend.Api.Controllers.Accounts {
         [HttpPost ("create-new-year")]
         public async Task<ActionResult> CreateNewFiscalYear () {
             var result = await _Mediator.Send (new CreateNewYearCommand ());
+            return StatusCode (201);
+        }
+
+        /// <summary>
+        /// Creates new accounts for the next fiscal year by transfering their previous account balance
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost ("delete-year")]
+        public async Task<ActionResult> DeleteFiscalYear () {
+            var result = await _Mediator.Send (new DeleteAccoutingYearCommand ());
             return StatusCode (201);
         }
 

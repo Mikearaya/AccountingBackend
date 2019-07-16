@@ -4,7 +4,7 @@ using System.ComponentModel;
  * @Author:  Mikael Araya
  * @Contact: MikaelAraya12@gmail.com
  * @Last Modified By:  Mikael Araya
- * @Last Modified Time: May 23, 2019 2:05 PM
+ * @Last Modified Time: Jul 16, 2019 8:47 AM
  * @Description: Modify Here, Please 
  */
 using System;
@@ -35,7 +35,7 @@ namespace AccountingBackend.Application.Accounts.Commands.CreateAccount {
 
             var date = converter.EthiopicToGregorian ($"1/11/{lastYear}");
 
-            if (date < DateTime.Now) {
+            if (date > DateTime.Now) {
                 throw new NotFoundException ("date", lastYear);
             }
 
