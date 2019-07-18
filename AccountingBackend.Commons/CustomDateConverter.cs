@@ -116,9 +116,21 @@ namespace AccountingBackend.Commons {
         /// <returns>Gregorian date in a DateTime instance</returns>
         public DateTime EthiopicToGregorian (string etDate) {
             var date = etDate.Split ('/');
-            int day = Convert.ToInt32 (date[0]);
-            int month = Convert.ToInt32 (date[1]);
-            int year = Convert.ToInt32 (date[2]);
+             int day,month ,year;
+            if(date.Length == 1)
+            {
+                string myDate=date[0];
+                day= Convert.ToInt32 (myDate.Substring(0,2));
+                month=Convert.ToInt32 (myDate.Substring(2,2));
+                year= Convert.ToInt32 (myDate.Substring(4,4));
+            }
+            else
+            {
+                day = Convert.ToInt32 (date[0]);
+                month = Convert.ToInt32 (date[1]);
+                year = Convert.ToInt32 (date[2]);
+            }
+            
 
             var temp = EthiopicToGregorian (year, month, day);
 

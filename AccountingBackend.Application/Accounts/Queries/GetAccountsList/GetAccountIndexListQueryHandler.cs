@@ -29,9 +29,8 @@ namespace AccountingBackend.Application.Accounts.Queries.GetAccountsList {
 
             CustomDateConverter converter = new CustomDateConverter ();
 
-            var date = converter.EthiopicToGregorian ($"1/11/2011");
-            Console.WriteLine (date);
             return await _database.Account
+                .Where (a => a.Year == request.Year)
                 .Distinct ()
                 .Select (AccountIndexView.Projection)
                 .Where (a => a.Name.ToUpper ().Contains (request.SearchString.ToString ().ToUpper ()))

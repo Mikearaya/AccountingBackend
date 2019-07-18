@@ -8,6 +8,7 @@
  */
 using System.Collections.Generic;
 using System.Linq;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using AccountingBackend.Application.Interfaces;
@@ -15,6 +16,7 @@ using AccountingBackend.Application.Models;
 using AccountingBackend.Application.Reports.Models;
 using AccountingBackend.Commons.QueryHelpers;
 using MediatR;
+using AccountingBackend.Commons;
 using Microsoft.EntityFrameworkCore;
 
 namespace AccountingBackend.Application.Reports.Queries {
@@ -33,8 +35,12 @@ namespace AccountingBackend.Application.Reports.Queries {
 
             FilterResultModel<LedgerChecklistModel> result = new FilterResultModel<LedgerChecklistModel> ();
 
+            CustomDateConverter converter = new CustomDateConverter ();
+            var start = Convert.ToInt32(request.Year) -1;
+            var start_date = converter.EthiopicToGregorian ($"1/11/{start}");
+            var end_date = converter.EthiopicToGregorian ($"30/10/{request.Year}");
             var list = _database.Ledger
-                .Where (x => x.Date.Year.ToString () == "2019");
+                .Where (x => x.Date  >= start_date && x.Date <= end_date);
 
             if (request.FromVoucherId.Trim () != "") {
                 list = list.Where (l => l.VoucherId.CompareTo (request.FromVoucherId) > 0 || l.VoucherId.CompareTo (request.FromVoucherId) == 0);
