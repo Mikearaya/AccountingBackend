@@ -13,7 +13,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using AccountingBackend.Application.Accounts.Models;
 using AccountingBackend.Application.Interfaces;
-using AccountingBackend.Commons;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -27,13 +26,14 @@ namespace AccountingBackend.Application.Accounts.Queries.GetAccountsList {
 
         public async Task<IEnumerable<AccountIndexView>> Handle (GetAccountIndexListQuery request, CancellationToken cancellationToken) {
 
-            CustomDateConverter converter = new CustomDateConverter ();
+            var accounts = _database.Account
+                .Where (a => a.Year == request.Year);
 
-            var date = converter.EthiopicToGregorian ($"1/11/2011");
-            Console.WriteLine (date);
-            return await _database.Account
-                .Distinct ()
-                .Select (AccountIndexView.Projection)
+            if (request.Type.ToUpper () == "CONTROL") {
+                accounts = accounts.Where (a => a.ParentAccountNavigation == null);
+            }
+
+            return await accounts.Select (AccountIndexView.Projection)
                 .Where (a => a.Name.ToUpper ().Contains (request.SearchString.ToString ().ToUpper ()))
                 .ToListAsync ();
         }

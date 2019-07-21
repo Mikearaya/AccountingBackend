@@ -32,10 +32,10 @@ namespace AccountingBackend.Application.Reports.Queries.GetBalanceSheet {
                 )) join account_category in _database.AccountCatagory on account_type.Id equals account_category.AccountTypeId join account in _database.Account.Where (a => a.Year == request.Year) on account_category.Id equals account.CatagoryId join ledger_entry in _database.LedgerEntry on account.Id equals ledger_entry.AccountId select new {
                     AccountType = account_type,
                         Category = account_category,
-                        Credit = ledger_entry.Credit + ledger_entry.Account.OpeningBalance,
+                        Credit = ledger_entry.Credit,
                         Entry = ledger_entry,
-                        Balance = account.OpeningBalance,
                         Debit = ledger_entry.Debit,
+                        Balance = account.OpeningBalance,
                         type = account_type.TypeOfNavigation.Type
                 });
 
@@ -51,7 +51,7 @@ namespace AccountingBackend.Application.Reports.Queries.GetBalanceSheet {
                 .Select (g => new {
                     CreditSum = g.Sum (t => t.Credit),
                         DebitSum = g.Sum (t => t.Debit),
-                        Balance = g.Sum (t => t.Balance),
+                        Balance = g.Sum (b => b.Balance),
                         AccountCategory = g.Key,
                         Type = g.Select (d => d.type)
                 });
@@ -68,7 +68,7 @@ namespace AccountingBackend.Application.Reports.Queries.GetBalanceSheet {
             foreach (var item in result) {
                 Console.WriteLine (item.Balance);
                 if (item.Type.FirstOrDefault ().ToString ().ToUpper () == "ASSET") {
-                    asset = (item.DebitSum - item.CreditSum) + item.Balance;
+                    asset = (item.DebitSum - item.CreditSum);
 
                     totalAsset = asset;
                     balanceSheet.Assets.Add (new BalanceSheetItemModel () {
@@ -76,7 +76,7 @@ namespace AccountingBackend.Application.Reports.Queries.GetBalanceSheet {
                             Amount = asset
                     });
                 } else if (item.Type.FirstOrDefault ().ToString ().ToUpper () == "LIABILITY") {
-                    liability = (item.CreditSum - item.DebitSum) + item.Balance;
+                    liability = (item.CreditSum - item.DebitSum);
                     totalLiability = liability;
                     balanceSheet.Liabilities.Add (new BalanceSheetItemModel () {
                         AccountCategory = item.AccountCategory,
@@ -84,7 +84,7 @@ namespace AccountingBackend.Application.Reports.Queries.GetBalanceSheet {
                     });
 
                 } else if (item.Type.FirstOrDefault ().ToString ().ToUpper () == "CAPITAL") {
-                    capital = (item.CreditSum - item.DebitSum) + item.Balance;
+                    capital = (item.CreditSum - item.DebitSum);
                     totalCapital = capital;
                     balanceSheet.Capitals.Add (new BalanceSheetItemModel () {
                         AccountCategory = item.AccountCategory,

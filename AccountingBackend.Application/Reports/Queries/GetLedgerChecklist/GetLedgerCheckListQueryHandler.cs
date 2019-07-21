@@ -34,7 +34,7 @@ namespace AccountingBackend.Application.Reports.Queries {
             FilterResultModel<LedgerChecklistModel> result = new FilterResultModel<LedgerChecklistModel> ();
 
             var list = _database.Ledger
-                .Where (x => x.Date.Year.ToString () == "2019");
+                .Where (x => x.Date.Year.ToString () == request.Year);
 
             if (request.FromVoucherId.Trim () != "") {
                 list = list.Where (l => l.VoucherId.CompareTo (request.FromVoucherId) > 0 || l.VoucherId.CompareTo (request.FromVoucherId) == 0);

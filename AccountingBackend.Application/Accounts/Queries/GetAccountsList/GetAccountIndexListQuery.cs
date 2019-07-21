@@ -12,5 +12,17 @@ using AccountingBackend.Commons.QueryHelpers;
 using MediatR;
 
 namespace AccountingBackend.Application.Accounts.Queries.GetAccountsList {
-    public class GetAccountIndexListQuery : ApiQueryString, IRequest<IEnumerable<AccountIndexView>> { }
+    public class GetAccountIndexListQuery : ApiQueryString, IRequest<IEnumerable<AccountIndexView>> {
+
+        private string AccountType { get; set; } = "All";
+
+        public string Type {
+            get {
+                return AccountType;
+            }
+            set {
+                AccountType = (value == null) ? "All" : value;
+            }
+        }
+    }
 }
