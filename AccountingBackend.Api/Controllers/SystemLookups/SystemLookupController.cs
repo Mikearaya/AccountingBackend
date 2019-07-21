@@ -59,6 +59,17 @@ namespace AccountingBackend.Api.Controllers.SystemLookups {
         }
 
         /// <summary>
+        /// return list of lookup belonging to the same type specified in the url
+        /// </summary>
+        /// <param name="query"></param>
+        /// <returns></returns>
+        [HttpGet ("index")]
+        public async Task<ActionResult<IEnumerable<SystemLookupViewModel>>> GetSystemLookupIndex ([FromQuery] GetSystemLookupByTypeQuery query) {
+            var lookup = await _Mediator.Send (query);
+            return Ok (lookup);
+        }
+
+        /// <summary>
         /// return all the list of system lookups available in the system
         /// </summary>
         /// <returns></returns>

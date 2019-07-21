@@ -25,14 +25,18 @@ namespace AccountingBackend.Application.SystemLookups.Queries.GetSystemLookupLis
 
         public Task<IEnumerable<SystemLookUpIndexModel>> Handle (GetSystemLookupByTypeQuery request, CancellationToken cancellationToken) {
             var lookup = _database.SystemLookup
-                .Where (c => c.Type.ToLower () == request.Type.ToLower ())
-                .Select (SystemLookUpIndexModel.Projection)
+                .Where (c => c.Value.ToUpper ().Contains (request.SearchString.ToUpper ()));
+
+            if (request.Type != null) {
+                lookup = lookup.Where (c => c.Type.ToLower () == request.Type.ToLower ());
+            }
+            var lookups = lookup.Select (SystemLookUpIndexModel.Projection)
                 .Select (DynamicQueryHelper.GenerateSelectedColumns<SystemLookUpIndexModel> (request.SelectedColumns))
                 .Skip (request.PageNumber * request.PageSize)
                 .Take (request.PageSize)
                 .ToList ();
 
-            return Task.FromResult<IEnumerable<SystemLookUpIndexModel>> (lookup);
+            return Task.FromResult<IEnumerable<SystemLookUpIndexModel>> (lookups);
         }
     }
 }
