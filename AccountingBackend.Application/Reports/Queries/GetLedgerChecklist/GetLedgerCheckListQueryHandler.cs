@@ -30,8 +30,8 @@ namespace AccountingBackend.Application.Reports.Queries {
 
         public Task<FilterResultModel<LedgerChecklistModel>> Handle (GetLedgerCheckListQuery request, CancellationToken cancellationToken) {
 
-            var sortBy = request.SortBy.Trim () != "" ? request.SortBy : "LedgerId";
-            var sortDirection = (request.SortDirection.ToUpper () == "DESCENDING") ? true : false;
+            var sortBy = request.SortBy.Trim () != "" ? request.SortBy : "Date";
+            var sortDirection = (request.SortDirection.ToUpper () != "DESCENDING") ? true : false;
 
             FilterResultModel<LedgerChecklistModel> result = new FilterResultModel<LedgerChecklistModel> ();
 

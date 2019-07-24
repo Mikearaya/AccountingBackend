@@ -8,16 +8,18 @@
  */
 using System;
 using System.Linq.Expressions;
+using AccountingBackend.Commons;
 using AccountingBackend.Domain;
 namespace AccountingBackend.Application.Reports.Models {
     public class LedgerCheckListDetailModel {
 
         private string ControlAccount;
         private string SubAccount;
+
         public int LedgerId { get; set; }
         public string ControlAccountId {
             get {
-                return ControlAccount == "" ? SubAccount : ControlAccount;
+                return $"{ControlAccount} {SubAccount}";
             }
             set {
                 ControlAccount = value == null ? "" : value;

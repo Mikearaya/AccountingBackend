@@ -31,6 +31,8 @@ namespace AccountingBackend.Application.Accounts.Queries.GetAccountsList {
 
             if (request.Type.ToUpper () == "CONTROL") {
                 accounts = accounts.Where (a => a.ParentAccountNavigation == null);
+            } else {
+                accounts = accounts.Where (a => a.ParentAccountNavigation != null);
             }
 
             return await accounts.Select (AccountIndexView.Projection)

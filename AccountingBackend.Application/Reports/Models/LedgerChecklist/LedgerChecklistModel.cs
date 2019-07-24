@@ -10,12 +10,26 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using AccountingBackend.Commons;
 using AccountingBackend.Domain;
 
 namespace AccountingBackend.Application.Reports.Models {
     public class LedgerChecklistModel {
+        CustomDateConverter converter;
+
+        private DateTime _date;
+        public LedgerChecklistModel () {
+            converter = new CustomDateConverter ();
+        }
+
         public string ReferenceNumber { get; set; }
         public int LedgerId { get; set; }
+
+        public string EtDate {
+            get;
+            set;
+
+        }
         public DateTime Date { get; set; }
         public string Description { get; set; }
         public IEnumerable<LedgerCheckListDetailModel> Entries { get; set; } = new List<LedgerCheckListDetailModel> ();
@@ -26,6 +40,7 @@ namespace AccountingBackend.Application.Reports.Models {
                     LedgerId = entry.Id,
                     ReferenceNumber = entry.VoucherId,
                     Date = entry.Date,
+                    EtDate = entry.DateEt,
                     Description = entry.Description,
                     Entries = entry.LedgerEntry
                     .AsQueryable ()

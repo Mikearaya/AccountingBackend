@@ -71,11 +71,12 @@ namespace AccountingBackend.Application.Ledgers.Commands.CreateLedgerEntry {
 
             }
 
-            if (totalCredit != totalDebit) {
+            Console.WriteLine ($" {Math.Round ((decimal) totalCredit, 2)} {Math.Round ((decimal) totalDebit, 2)} ");
+
+            if (Math.Round ((decimal) totalCredit, 2) != Math.Round ((decimal) totalDebit, 2)) {
                 error = true;
                 validationFailures.Add (new ValidationFailure ("Balance", "Credit and debit amount for this are not balanced"));
             }
-
             if (error) {
                 throw new ValidationException (validationFailures);
             }
