@@ -6,6 +6,7 @@
  * @Last Modified Time: May 8, 2019 5:32 PM
  * @Description: Modify Here, Please 
  */
+ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -14,6 +15,7 @@ using AccountingBackend.Application.Interfaces;
 using AccountingBackend.Application.Ledgers.Models;
 using AccountingBackend.Application.Models;
 using AccountingBackend.Commons.QueryHelpers;
+using AccountingBackend.Commons;
 using MediatR;
 
 namespace AccountingBackend.Application.Ledgers.Queries.GetLedgerEntryList {
@@ -30,8 +32,14 @@ namespace AccountingBackend.Application.Ledgers.Queries.GetLedgerEntryList {
             var sortDirection = (request.SortDirection.ToUpper () == "DESCENDING") ? true : false;
 
             FilterResultModel<JornalEntryListView> result = new FilterResultModel<JornalEntryListView> ();
+
+            CustomDateConverter converter = new CustomDateConverter ();
+            var start = Convert.ToInt32(request.Year) -1;
+            var start_date = converter.EthiopicToGregorian ($"1/11/{start}");
+            var end_date = converter.EthiopicToGregorian ($"30/10/{request.Year}");
+
             var jornalEntries = _database.Ledger
-                .Where (l => l.LedgerEntry.All (a => a.Account.Year == request.Year))
+                .Where (l => l.Date >= start_date && l.Date<=end_date)
                 .Select (JornalEntryListView.Projection)
 
                 .Select (DynamicQueryHelper.GenerateSelectedColumns<JornalEntryListView> (request.SelectedColumns))

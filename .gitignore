@@ -34,3 +34,4 @@
 **/BackendSecurity.Domain.Test/bin/
 .vscode/
 
+.vs
