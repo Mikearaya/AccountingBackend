@@ -37,14 +37,15 @@ namespace AccountingBackend.Application.Ledgers.Commands.UpdateLedgerEntry {
                 .Include (x => x.LedgerEntry)
                 .FirstOrDefaultAsync (i => i.Id == request.Id);
 
+            CustomDateConverter c = new CustomDateConverter ();
+
             if (entry == null) {
                 throw new NotFoundException ("Ledger", request.Id);
             }
 
-
-
             entry.IsPosted = request.Posted;
-
+            entry.Date = c.EthiopicToGregorian (request.Date);
+            entry.DateEt = request.Date;
             float? totalCredit = 0;
             float? totalDebit = 0;
 

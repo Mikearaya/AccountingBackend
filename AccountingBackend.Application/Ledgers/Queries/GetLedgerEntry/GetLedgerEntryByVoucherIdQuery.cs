@@ -12,6 +12,14 @@ using MediatR;
 
 namespace AccountingBackend.Application.Ledgers.Queries.GetLedgerEntry {
     public class GetLedgerEntryByVoucherIdQuery : IRequest<IEnumerable<LedgerEntryIndexView>> {
-        public string VoucherId { get; set; }
+        private string id { get; set; } = "";
+        public string VoucherId {
+            get {
+                return id;
+            }
+            set {
+                id = (value == null) ? "" : value;
+            }
+        }
     }
 }

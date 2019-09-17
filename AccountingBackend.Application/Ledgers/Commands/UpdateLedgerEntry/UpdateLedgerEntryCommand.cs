@@ -23,7 +23,7 @@ namespace AccountingBackend.Application.Ledgers.Commands.UpdateLedgerEntry {
         public string VoucherId { get; set; }
         public string Description { get; set; }
 
-        public DateTime Date { get; set; }
+        public string Date { get; set; }
         public string Reference { get; set; }
         public sbyte? Posted { get; set; }
 
